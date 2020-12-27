@@ -1,7 +1,15 @@
+out
+target
+*.iml
+.idea
+.git
+.git*
+
 # Compiled class file
 *.class
 
 # Log file
+log
 *.log
 
 # BlueJ files
