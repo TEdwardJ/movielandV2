@@ -16,4 +16,8 @@ public class JdbcMovieService {
         List<Movie> moviesList = dao.getAllMovies();
         return moviesList;
     }
+
+    public List<Movie> getNRandomMovies(int number) {
+        return dao.getNRandomMovies(number);
+    }
 }

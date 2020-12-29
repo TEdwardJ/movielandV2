@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,12 @@ public class JdbcMovieDao implements MovieDao {
     @Value("${allMoviesSelect}")
     private String allMoviesSelect;
 
-    @Override
-    public List<Movie> getAllMovies() {
-        List<Movie> moviesList = new ArrayList<>();
-        jdbc.query(allMoviesSelect, (rs) -> {
+    @Value("${randomMoviesSelect}")
+    private String randomMoviesSelect;
 
+
+    private void map(ResultSet rs, List<Movie> moviesList) {
+        try {
             Movie movieFromDb = new Movie();
             movieFromDb.setId(rs.getInt(rs.findColumn("M_ID")));
             movieFromDb.setTitle(rs.getString(rs.findColumn("M_TITLE")));
@@ -32,7 +35,18 @@ public class JdbcMovieDao implements MovieDao {
             movieFromDb.setPictureUrl(rs.getString(rs.findColumn("PICTURE_URL")));
             movieFromDb.setReleaseYear(rs.getString(rs.findColumn("M_RELEASE_YEAR")));
             moviesList.add(movieFromDb);
-            if(!rs.next()){
+        } catch (SQLException throwables) {
+            //TODO: when logging is connected, then put exception into log
+            //throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Movie> getAllMovies() {
+        List<Movie> moviesList = new ArrayList<>();
+        jdbc.query(allMoviesSelect, (rs) -> {
+            map(rs, moviesList);
+            if (!rs.next()) {
                 return;
             }
         });
@@ -42,6 +56,14 @@ public class JdbcMovieDao implements MovieDao {
     @Override
     public List<Movie> getNRandomMovies(int number) {
         List<Movie> moviesList = new ArrayList<>();
+        jdbc.query(randomMoviesSelect, (rs) -> {
+            while (number > moviesList.size()) {
+                map(rs, moviesList);
+                if (!rs.next()) {
+                    return;
+                }
+            }
+        });
         return moviesList;
     }
 }

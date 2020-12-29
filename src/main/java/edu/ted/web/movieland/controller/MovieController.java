@@ -30,4 +30,11 @@ public class MovieController {
         List<MovieDTO> moviesList = mapper.movieListToMovieDTOList(allMovies);
         return ResponseEntity.of(Optional.ofNullable(moviesList));
     }
+
+    @GetMapping(value = "/movie/random", produces = "application/json")
+    public ResponseEntity<List<MovieDTO>> get3RandomMovies(){
+        List<Movie> allMovies = service.getNRandomMovies(3);
+        List<MovieDTO> moviesList = mapper.movieListToMovieDTOList(allMovies);
+        return ResponseEntity.of(Optional.ofNullable(moviesList));
+    }
 }
