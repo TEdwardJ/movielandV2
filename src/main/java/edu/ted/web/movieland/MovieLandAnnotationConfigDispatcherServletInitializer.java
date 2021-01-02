@@ -17,4 +17,7 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
     protected String[] getServletMappings() {
         return new String[] { "/*" };
     }
+
+
+
 }

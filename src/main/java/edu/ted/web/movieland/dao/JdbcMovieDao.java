@@ -1,9 +1,11 @@
 package edu.ted.web.movieland.dao;
 
+import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -22,18 +24,31 @@ public class JdbcMovieDao implements MovieDao {
     @Value("${randomMoviesSelect}")
     private String randomMoviesSelect;
 
+    @Value("${allGenresSelect}")
+    private String allGenresSelect;
 
-    private void map(ResultSet rs, List<Movie> moviesList) {
+    @Autowired
+    private RowMapper<Movie> movieMapper;
+
+    @Autowired
+    private RowMapper<Genre> genreMapper;
+
+
+    private void mapMovie(ResultSet rs, List<Movie> moviesList) {
         try {
-            Movie movieFromDb = new Movie();
-            movieFromDb.setId(rs.getInt(rs.findColumn("M_ID")));
-            movieFromDb.setTitle(rs.getString(rs.findColumn("M_TITLE")));
-            movieFromDb.setTitleEng(rs.getString(rs.findColumn("M_TITLE_EN")));
-            movieFromDb.setDescription(rs.getString(rs.findColumn("M_DESCRIPTION")));
-            movieFromDb.setPrice(rs.getDouble(rs.findColumn("M_PRICE")));
-            movieFromDb.setRating(rs.getDouble(rs.findColumn("M_RATING")));
-            movieFromDb.setPictureUrl(rs.getString(rs.findColumn("PICTURE_URL")));
-            movieFromDb.setReleaseYear(rs.getString(rs.findColumn("M_RELEASE_YEAR")));
+            int number = moviesList.size();
+            Movie movieFromDb = movieMapper.mapRow(rs, number + 1);
+            moviesList.add(movieFromDb);
+        } catch (SQLException throwables) {
+            //TODO: when logging is connected, then put exception into log
+            //throwables.printStackTrace();
+        }
+    }
+
+    private void mapGenre(ResultSet rs, List<Movie> moviesList) {
+        try {
+            int number = moviesList.size();
+            Movie movieFromDb = movieMapper.mapRow(rs, number + 1);
             moviesList.add(movieFromDb);
         } catch (SQLException throwables) {
             //TODO: when logging is connected, then put exception into log
@@ -43,14 +58,14 @@ public class JdbcMovieDao implements MovieDao {
 
     @Override
     public List<Movie> getAllMovies() {
-        List<Movie> moviesList = new ArrayList<>();
-        jdbc.query(allMoviesSelect, (rs) -> {
-            map(rs, moviesList);
-            if (!rs.next()) {
-                return;
-            }
-        });
+        List<Movie> moviesList = jdbc.query(allMoviesSelect, movieMapper);
         return moviesList;
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        List<Genre> genresList = jdbc.query(allGenresSelect, genreMapper);
+        return genresList;
     }
 
     @Override
@@ -58,7 +73,7 @@ public class JdbcMovieDao implements MovieDao {
         List<Movie> moviesList = new ArrayList<>();
         jdbc.query(randomMoviesSelect, (rs) -> {
             while (number > moviesList.size()) {
-                map(rs, moviesList);
+                mapMovie(rs, moviesList);
                 if (!rs.next()) {
                     return;
                 }

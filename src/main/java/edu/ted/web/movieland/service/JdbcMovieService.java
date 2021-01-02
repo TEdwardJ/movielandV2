@@ -1,6 +1,7 @@
 package edu.ted.web.movieland.service;
 
 import edu.ted.web.movieland.dao.MovieDao;
+import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,9 @@ public class JdbcMovieService {
 
     public List<Movie> getNRandomMovies(int number) {
         return dao.getNRandomMovies(number);
+    }
+
+    public List<Genre> getAllGenres() {
+        return dao.getAllGenres();
     }
 }
