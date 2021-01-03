@@ -35,9 +35,6 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
         }
         OrderDirection direction = scanEnumForValue(OrderDirection.class, order);
 
-        if (Objects.isNull(column) || Objects.isNull(direction)) {
-            return null;
-        }
         return new MovieRequest(column, direction);
     }
 

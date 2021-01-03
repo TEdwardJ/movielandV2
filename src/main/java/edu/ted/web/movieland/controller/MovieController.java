@@ -27,12 +27,8 @@ public class MovieController {
     @GetMapping(value = "/movie", produces = "application/json")
     public @ResponseBody
     List<MovieDTO> getAllMovies(@MovieRequestParameter MovieRequest request) {
-        List<Movie> allMovies;
-        if (request == null) {
-            allMovies = service.getAllMovies();
-        } else{
-            allMovies = service.getAllMovies(request);
-        }
+        List<Movie> allMovies = service.getAllMovies(request);
+
         List<MovieDTO> moviesList = mapper.movieListToMovieDTOList(allMovies);
         return moviesList;
     }

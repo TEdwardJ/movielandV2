@@ -36,7 +36,7 @@ public class JdbcMovieService {
         return moviesList;
     }
 
-    public List<Movie> getAllMovies() {
+    List<Movie> getAllMovies() {
         List<Movie> moviesList = dao.getAllMovies();
         return moviesList;
     }
@@ -52,7 +52,7 @@ public class JdbcMovieService {
     private Comparator<Movie> getMovieComparator(MovieRequest request) {
         Comparator<Movie> movieComparator = comparators.get(request.getOrderedColumn());
         if (request.getOrderDirection() == OrderDirection.DESC){
-            movieComparator = movieComparator.reversed();
+            return movieComparator.reversed();
         }
         return movieComparator;
     }
