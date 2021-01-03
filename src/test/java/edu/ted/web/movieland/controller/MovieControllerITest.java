@@ -49,6 +49,20 @@ public class MovieControllerITest {
                 .andExpect(jsonPath("$", hasSize(greaterThan(10))));
     }
 
+    @Test
+    public void givenAllMoviesRequestedWithSorting_whenSorted_thenCorrect() throws Exception {
+        ResultActions performedAction = mockMvc.perform(get("/v1/movie?rating=desc"));
+        performedAction
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(greaterThan(5))));
+        String resultContent = performedAction.andReturn().getResponse().getContentAsString();
+        List<MovieDTO> moviesList = mapResponseMoviesList(resultContent);
+        double rating = moviesList.get(0).getRating();
+        for (MovieDTO movieDTO : moviesList) {
+            assertTrue(rating>=movieDTO.getRating());
+        }
+    }
 
     @Test
     public void when3RandomMoviesRequestAndReturns3RandomMovies_thenCorrect() throws Exception {
@@ -61,7 +75,6 @@ public class MovieControllerITest {
             matchesCount += Objects.equals(randomMoviesList.get(i), randomMoviesListNext.get(i)) ? 1 : 0;
         }
         assertTrue(matchesCount < 3);
-
     }
 
     private List<MovieDTO> mapResponseMoviesList(String resultContent) throws com.fasterxml.jackson.core.JsonProcessingException {
