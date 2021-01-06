@@ -7,6 +7,9 @@ public class MovieRequest {
     private OrderByColumn orderedColumn;
     private OrderDirection orderDirection;
 
+    public MovieRequest() {
+    }
+
     public MovieRequest(OrderByColumn orderedColumn, OrderDirection orderDirection) {
         this.orderedColumn = orderedColumn;
         this.orderDirection = orderDirection;

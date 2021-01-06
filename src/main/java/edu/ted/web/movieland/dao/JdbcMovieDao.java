@@ -27,6 +27,9 @@ public class JdbcMovieDao implements MovieDao {
     @Value("${allGenresSelect}")
     private String allGenresSelect;
 
+    @Value("${moviesByGenreSelect}")
+    private String moviesByGenreSelect;
+
     @Autowired
     private RowMapper<Movie> movieMapper;
 
@@ -66,6 +69,12 @@ public class JdbcMovieDao implements MovieDao {
     public List<Genre> getAllGenres() {
         List<Genre> genresList = jdbc.query(allGenresSelect, genreMapper);
         return genresList;
+    }
+
+    @Override
+    public List<Movie> getMoviesByGenre(int genreId) {
+        List<Movie> moviesList = jdbc.query(moviesByGenreSelect,movieMapper,genreId);
+        return moviesList;
     }
 
     @Override

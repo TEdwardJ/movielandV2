@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class JdbcMovieService {
@@ -25,15 +26,7 @@ public class JdbcMovieService {
     };
 
     public List<Movie> getAllMovies(MovieRequest request) {
-        if (Objects.isNull(request.getOrderedColumn())){
-            return getAllMovies();
-        }
-        List<Movie> moviesList = dao
-                .getAllMovies()
-                .stream()
-                .sorted(getMovieComparator(request))
-                .collect(Collectors.toList());
-        return moviesList;
+        return getListSorted(dao.getAllMovies().stream(), getMovieComparator(request));
     }
 
     List<Movie> getAllMovies() {
@@ -49,12 +42,23 @@ public class JdbcMovieService {
         return dao.getAllGenres();
     }
 
+
+    public List<Movie> getMoviesByGenre(int genreId, MovieRequest request) {
+        return getListSorted(dao.getMoviesByGenre(genreId).stream(), getMovieComparator(request));
+    }
+
+
     private Comparator<Movie> getMovieComparator(MovieRequest request) {
         Comparator<Movie> movieComparator = comparators.get(request.getOrderedColumn());
         if (request.getOrderDirection() == OrderDirection.DESC){
             return movieComparator.reversed();
         }
-        return movieComparator;
+        return Optional.ofNullable(movieComparator).orElse(Comparator.comparing(o->0));
     }
 
+    private List<Movie> getListSorted(Stream<Movie> movieStream, Comparator<Movie> comparator){
+        return movieStream
+                .sorted(comparator)
+                .collect(Collectors.toList());
+    }
 }

@@ -50,6 +50,14 @@ public class MovieControllerITest {
     }
 
     @Test
+    public void whenMoviesByGenreRequestAndReturnsMovies_thenCorrect() throws Exception {
+        mockMvc.perform(get("/v1/movie/genre/63"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(greaterThan(0))));
+    }
+
+    @Test
     public void givenAllMoviesRequestedWithSorting_whenSorted_thenCorrect() throws Exception {
         ResultActions performedAction = mockMvc.perform(get("/v1/movie?rating=desc"));
         performedAction

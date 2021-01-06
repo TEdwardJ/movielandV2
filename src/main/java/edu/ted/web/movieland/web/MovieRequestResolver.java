@@ -24,18 +24,18 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
     }
 
     private MovieRequest createMovieRequestWithSorting(Map<String, String[]> parameterMap) {
-        OrderByColumn column = null;
-        String order = "";
         for (String key : parameterMap.keySet()) {
-            column = scanEnumForValue(OrderByColumn.class, key);
+            OrderByColumn column = scanEnumForValue(OrderByColumn.class, key);
             if (!Objects.isNull(column)) {
-                order = parameterMap.get(key)[0];
-                break;
+                OrderDirection direction = scanEnumForValue(OrderDirection.class, parameterMap.get(key)[0]);
+                if (column == OrderByColumn.RATING && direction == null) {
+                    direction = OrderDirection.DESC;
+                }
+                return new MovieRequest(column, direction);
             }
         }
-        OrderDirection direction = scanEnumForValue(OrderDirection.class, order);
+        return new MovieRequest();
 
-        return new MovieRequest(column, direction);
     }
 
 
