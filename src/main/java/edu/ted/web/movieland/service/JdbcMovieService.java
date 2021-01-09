@@ -1,5 +1,6 @@
 package edu.ted.web.movieland.service;
 
+import edu.ted.web.movieland.cache.GenreCache;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.Movie;
@@ -15,23 +16,27 @@ import java.util.stream.Stream;
 
 @Service
 public class JdbcMovieService {
-    @Autowired
     private MovieDao dao;
+    private Map<OrderByColumn, Comparator<Movie>> comparators;
+    private GenreCache genresCache;
 
-    private Map<OrderByColumn, Comparator<Movie>> comparators = new HashMap<OrderByColumn, Comparator<Movie>>(){
-        {
-            put(OrderByColumn.PRICE, Comparator.comparing(Movie::getPrice));
-            put(OrderByColumn.RATING, Comparator.comparing(Movie::getRating));
-        }
-    };
+    @Autowired
+    public void setGenresCache(GenreCache genresCache) {
+        this.genresCache = genresCache;
+    }
+
+    @Autowired
+    public void setDao(MovieDao dao) {
+        this.dao = dao;
+    }
+
+    @Autowired
+    public void setComparators(Map<OrderByColumn, Comparator<Movie>> comparators) {
+        this.comparators = comparators;
+    }
 
     public List<Movie> getAllMovies(MovieRequest request) {
         return getListSorted(dao.getAllMovies().stream(), getMovieComparator(request));
-    }
-
-    List<Movie> getAllMovies() {
-        List<Movie> moviesList = dao.getAllMovies();
-        return moviesList;
     }
 
     public List<Movie> getNRandomMovies(int number) {
@@ -39,7 +44,7 @@ public class JdbcMovieService {
     }
 
     public List<Genre> getAllGenres() {
-        return dao.getAllGenres();
+        return genresCache.get();
     }
 
 
@@ -61,4 +66,6 @@ public class JdbcMovieService {
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
+
+
 }

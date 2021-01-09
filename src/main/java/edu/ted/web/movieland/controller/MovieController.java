@@ -14,11 +14,18 @@ import java.util.List;
 @RestController
 @RequestMapping("v1")
 public class MovieController {
-    @Autowired
     private JdbcMovieService service;
+    private MovieMapper mapper;
 
     @Autowired
-    private MovieMapper mapper;
+    public void setService(JdbcMovieService service) {
+        this.service = service;
+    }
+
+    @Autowired
+    public void setMapper(MovieMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @GetMapping(value = "/movie", produces = "application/json")
     public @ResponseBody
@@ -42,7 +49,5 @@ public class MovieController {
     List<Genre> getAllGenres() {
         return service.getAllGenres();
     }
-
-
 
 }

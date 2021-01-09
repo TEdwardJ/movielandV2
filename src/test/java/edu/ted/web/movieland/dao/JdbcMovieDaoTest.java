@@ -1,8 +1,7 @@
 package edu.ted.web.movieland.dao;
 
-import edu.ted.web.movieland.MovieLandJavaConfiguration;
+import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
 import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.service.JdbcMovieService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

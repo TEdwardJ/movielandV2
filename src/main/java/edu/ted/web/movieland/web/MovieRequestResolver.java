@@ -35,7 +35,6 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
             }
         }
         return new MovieRequest();
-
     }
 
 

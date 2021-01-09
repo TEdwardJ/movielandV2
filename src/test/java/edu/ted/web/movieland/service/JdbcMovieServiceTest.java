@@ -1,7 +1,6 @@
 package edu.ted.web.movieland.service;
 
-import edu.ted.web.movieland.MovieLandJavaConfiguration;
-import edu.ted.web.movieland.WebMovieLandJavaConfiguration;
+import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.web.MovieRequest;
 import edu.ted.web.movieland.web.OrderByColumn;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ class JdbcMovieServiceTest {
 
     @Test
     void getAllMoviesNoSort() {
-        List<Movie> allMovies = service.getAllMovies();
+        List<Movie> allMovies = service.getAllMovies(new MovieRequest());
         assertNotNull(allMovies);
     }
 

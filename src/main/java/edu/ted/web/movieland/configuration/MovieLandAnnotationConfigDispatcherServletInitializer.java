@@ -1,4 +1,4 @@
-package edu.ted.web.movieland;
+package edu.ted.web.movieland.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
