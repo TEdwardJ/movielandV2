@@ -6,6 +6,7 @@ import edu.ted.web.movieland.entity.MovieDTO;
 import edu.ted.web.movieland.service.JdbcMovieService;
 import edu.ted.web.movieland.utils.MovieMapper;
 import edu.ted.web.movieland.web.MovieRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
