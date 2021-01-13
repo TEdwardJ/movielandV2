@@ -16,13 +16,12 @@ import java.util.List;
 @RequestMapping("v1")
 public class MovieController {
     private JdbcMovieService movieService;
-    private JdbcGenreService genreService;
+
     private MovieMapper mapper;
 
     @Autowired
-    public void setService(JdbcMovieService movieService, JdbcGenreService genreService) {
+    public void setService(JdbcMovieService movieService) {
         this.movieService = movieService;
-        this.genreService = genreService;
     }
 
     @Autowired
@@ -47,10 +46,6 @@ public class MovieController {
         return mapper.movieListToMovieDTOList(movieService.getMoviesByGenre(genreId, request));
     }
 
-    @GetMapping(value = "/movie/genre", produces = "application/json")
-    public @ResponseBody
-    List<Genre> getAllGenres() {
-        return genreService.getAllGenres();
-    }
+
 
 }
