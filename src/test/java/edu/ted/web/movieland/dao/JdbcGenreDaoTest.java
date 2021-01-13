@@ -11,27 +11,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes={MovieLandJavaConfiguration.class})
-class JdbcMovieDaoTest {
+class JdbcGenreDaoTest {
 
     @Autowired
-    private MovieDao dao;
+    private GenreDao dao;
 
     @Test
-    void getAllMovies() {
-        List<Movie> allMovies = dao.getAllMovies();
-        assertNotNull(allMovies);
-        assertFalse(allMovies.isEmpty());
+    void getAllGenres() {
+        List<Genre> allGenres = dao.getAllGenres();
+        assertNotNull(allGenres);
+        assertFalse(allGenres.isEmpty());
     }
-
-    @Test
-    void getNRandomMovies() {
-        List<Movie> allMovies = dao.getNRandomMovies(3);
-        assertNotNull(allMovies);
-        assertFalse(allMovies.isEmpty());
-    }
-
 }

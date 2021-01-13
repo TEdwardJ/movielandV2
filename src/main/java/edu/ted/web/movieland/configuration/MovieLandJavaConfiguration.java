@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import edu.ted.web.movieland.cache.CaffeineGenreCache;
 import edu.ted.web.movieland.cache.SpringScheduledCustomGenreCache;
+import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.Movie;
@@ -70,7 +71,7 @@ public class MovieLandJavaConfiguration {
     }
 
     @Bean
-    public LoadingCache<String, List<Genre>> getGenreCache(MovieDao dao){
+    public LoadingCache<String, List<Genre>> getGenreCache(GenreDao dao){
         return Caffeine.newBuilder()
                 .expireAfterWrite(4, TimeUnit.HOURS)
                 .maximumSize(1)
@@ -86,7 +87,7 @@ public class MovieLandJavaConfiguration {
     @Bean
     @Primary
     @Conditional(CacheTypePropertyCondition.class)
-    public SpringScheduledCustomGenreCache getSpringScheduledCustomGenreCache(MovieDao dao){
+    public SpringScheduledCustomGenreCache getSpringScheduledCustomGenreCache(GenreDao dao){
         return new SpringScheduledCustomGenreCache(()->dao.getAllGenres());
     }
 }

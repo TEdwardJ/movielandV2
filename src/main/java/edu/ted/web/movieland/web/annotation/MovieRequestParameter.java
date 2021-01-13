@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.annotation;
+package edu.ted.web.movieland.web.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
