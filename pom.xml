@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.ted.web</groupId>
-    <artifactId>MovieLandV2</artifactId>
+    <artifactId>movie-land-v2</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
