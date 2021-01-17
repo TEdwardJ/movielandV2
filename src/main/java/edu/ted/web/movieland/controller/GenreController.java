@@ -1,7 +1,8 @@
 package edu.ted.web.movieland.controller;
 
 import edu.ted.web.movieland.entity.Genre;
-import edu.ted.web.movieland.service.JdbcGenreService;
+import edu.ted.web.movieland.service.DefaultGenreService;
+import edu.ted.web.movieland.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,10 @@ import java.util.List;
 @RequestMapping("v1")
 public class GenreController {
 
-    private JdbcGenreService genreService;
+    private GenreService genreService;
 
     @Autowired
-    public GenreController(JdbcGenreService genreService) {
+    public GenreController(DefaultGenreService genreService) {
         this.genreService = genreService;
     }
 

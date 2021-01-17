@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -20,12 +19,5 @@ public interface MovieMapper {
     })
     MovieDTO mapToDTO(Movie movie);
 
-    default List<MovieDTO> movieListToMovieDTOList(List<Movie> movies){
-        List<MovieDTO> list = new ArrayList<>();
-        for (Movie movie : movies) {
-            list.add(mapToDTO(movie));
-
-        }
-        return list;
-    }
+    List<MovieDTO> mapToDTOs(List<Movie> movie);
 }

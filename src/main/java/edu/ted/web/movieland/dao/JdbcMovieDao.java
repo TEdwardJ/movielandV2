@@ -28,13 +28,18 @@ public class JdbcMovieDao implements MovieDao {
     private RowMapper<Movie> movieMapper;
 
     @Override
-    public List<Movie> getAllMovies() {
-        return jdbc.query(allMoviesSelect, movieMapper);
+    public List<Movie> getAllMovies(Sorting sorting) {
+        return jdbc.query(applySorting(allMoviesSelect, sorting), movieMapper);
     }
 
     @Override
-    public List<Movie> getAllMovies(Sorting sorting) {
-        return jdbc.query(applySorting(allMoviesSelect, sorting), movieMapper);
+    public List<Movie> getMoviesByGenre(int genreId, Sorting sorting) {
+        return jdbc.query(applySorting(moviesByGenreSelect, sorting), movieMapper, genreId);
+    }
+
+    @Override
+    public List<Movie> getNRandomMovies(int count) {
+        return jdbc.query(randomMoviesSelect, movieMapper, count);
     }
 
     private String applySorting(String query, Sorting sorting) {
@@ -51,15 +56,5 @@ public class JdbcMovieDao implements MovieDao {
                 .append(" ")
                 .append(sorting.getDirection())
                 .toString();
-    }
-
-    @Override
-    public List<Movie> getMoviesByGenre(int genreId, Sorting sorting) {
-        return jdbc.query(applySorting(moviesByGenreSelect, sorting), movieMapper, genreId);
-    }
-
-    @Override
-    public List<Movie> getNRandomMovies(int number) {
-        return jdbc.query(randomMoviesSelect, movieMapper, number);
     }
 }

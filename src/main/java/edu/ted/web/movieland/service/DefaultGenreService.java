@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class JdbcGenreService {
+public class DefaultGenreService implements GenreService{
 
     private GenreCache genresCache;
 
     @Autowired
-    public void setGenresCache(GenreCache genresCache) {
+    public DefaultGenreService(GenreCache genresCache) {
         this.genresCache = genresCache;
     }
 

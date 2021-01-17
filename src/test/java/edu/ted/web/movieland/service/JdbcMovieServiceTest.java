@@ -1,48 +1,33 @@
 package edu.ted.web.movieland.service;
 
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
-import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.web.MovieRequest;
 import edu.ted.web.movieland.web.OrderByColumn;
 import edu.ted.web.movieland.web.OrderDirection;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {MovieLandJavaConfiguration.class})
 class JdbcMovieServiceTest {
 
-    @Mock
-    private MovieDao movieDao;
-
     @Autowired
-    @InjectMocks
-    private JdbcMovieService service;
-
-    @BeforeEach
-    public void init(){
-        MockitoAnnotations.openMocks(this);
-        when(movieDao.getAllMovies()).thenReturn(prepareMovieList());
-    }
+    private MovieService service;
 
     @Test
     void getAllMoviesNoSort() {
-        when(movieDao.getAllMovies()).thenReturn(prepareMovieList());
+        //when(movieDao.getAllMovies()).thenReturn(prepareMovieList());
         List<Movie> allMovies = service.getAllMovies(new MovieRequest());
         assertNotNull(allMovies);
     }
@@ -54,6 +39,8 @@ class JdbcMovieServiceTest {
         double price = 0;
         for (Movie movie : allMovies) {
             assertTrue(movie.getPrice() >= price);
+            assertThat(movie.getPrice(), anyOf(greaterThan(price), closeTo(price, 0.001)));
+            price = movie.getPrice();
         }
         assertFalse(allMovies.isEmpty());
     }
@@ -64,12 +51,13 @@ class JdbcMovieServiceTest {
         assertNotNull(allMovies);
         double rating = allMovies.get(0).getRating();
         for (Movie movie : allMovies) {
-            assertTrue(movie.getRating() <= rating);
+            assertThat(movie.getRating(), anyOf(lessThan(rating), closeTo(rating, 0.001)));
+            rating = movie.getRating();
         }
         assertFalse(allMovies.isEmpty());
     }
 
-    private List<Movie> prepareMovieList() {
+/*    private List<Movie> prepareMovieList() {
         List<Movie> list = new ArrayList<>();
         Random ratingGenerator = new Random();
         for (int i = 0; i < 5; i++) {
@@ -80,5 +68,5 @@ class JdbcMovieServiceTest {
             list.add(movie);
         }
         return list;
-    }
+    }*/
 }

@@ -2,11 +2,7 @@ package edu.ted.web.movieland.service;
 
 import edu.ted.web.movieland.cache.GenreCache;
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
-import edu.ted.web.movieland.dao.GenreDao;
-import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Genre;
-import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.web.MovieRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +28,7 @@ class JdbcGenreServiceTest {
 
     @Autowired
     @InjectMocks
-    private JdbcGenreService service;
+    private DefaultGenreService service;
 
     @BeforeEach
     public void init(){
