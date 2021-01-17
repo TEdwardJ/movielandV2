@@ -1,6 +1,16 @@
 package edu.ted.web.movieland.web;
 
 public enum OrderByColumn {
-    RATING,
-    PRICE
+    RATING("M_RATING"),
+    PRICE("M_PRICE");
+
+    private String dbColumnName;
+
+    OrderByColumn(String dbColumnName) {
+        this.dbColumnName = dbColumnName;
+    }
+
+    public String getDbColumnName() {
+        return dbColumnName;
+    }
 }

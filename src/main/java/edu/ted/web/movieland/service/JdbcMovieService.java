@@ -6,13 +6,11 @@ import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.web.MovieRequest;
 import edu.ted.web.movieland.web.OrderByColumn;
-import edu.ted.web.movieland.web.OrderDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class JdbcMovieService {
@@ -36,7 +34,7 @@ public class JdbcMovieService {
     }
 
     public List<Movie> getAllMovies(MovieRequest request) {
-        return getListSorted(dao.getAllMovies().stream(), getMovieComparator(request));
+        return dao.getAllMovies(request.getSorting());
     }
 
     public List<Movie> getNRandomMovies(int number) {
@@ -49,22 +47,7 @@ public class JdbcMovieService {
 
 
     public List<Movie> getMoviesByGenre(int genreId, MovieRequest request) {
-        return getListSorted(dao.getMoviesByGenre(genreId).stream(), getMovieComparator(request));
-    }
-
-
-    private Comparator<Movie> getMovieComparator(MovieRequest request) {
-        Comparator<Movie> movieComparator = comparators.get(request.getOrderedColumn());
-        if (request.getOrderDirection() == OrderDirection.DESC){
-            return movieComparator.reversed();
-        }
-        return Optional.ofNullable(movieComparator).orElse(Comparator.comparing(o->0));
-    }
-
-    private List<Movie> getListSorted(Stream<Movie> movieStream, Comparator<Movie> comparator){
-        return movieStream
-                .sorted(comparator)
-                .collect(Collectors.toList());
+        return dao.getMoviesByGenre(genreId, request.getSorting());
     }
 
 

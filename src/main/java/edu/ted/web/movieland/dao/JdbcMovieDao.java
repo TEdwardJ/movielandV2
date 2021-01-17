@@ -1,6 +1,7 @@
 package edu.ted.web.movieland.dao;
 
 import edu.ted.web.movieland.entity.Movie;
+import edu.ted.web.movieland.entity.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,19 +29,37 @@ public class JdbcMovieDao implements MovieDao {
 
     @Override
     public List<Movie> getAllMovies() {
-        List<Movie> moviesList = jdbc.query(allMoviesSelect, movieMapper);
-        return moviesList;
+        return jdbc.query(allMoviesSelect, movieMapper);
     }
 
     @Override
-    public List<Movie> getMoviesByGenre(int genreId) {
-        List<Movie> moviesList = jdbc.query(moviesByGenreSelect, movieMapper, genreId);
-        return moviesList;
+    public List<Movie> getAllMovies(Sorting sorting) {
+        return jdbc.query(applySorting(allMoviesSelect, sorting), movieMapper);
+    }
+
+    private String applySorting(String query, Sorting sorting) {
+        if (sorting == null || query == null){
+            return query;
+        }
+        return new StringBuilder()
+                .append("SELECT subQuery.* ")
+                .append("  FROM (")
+                .append(query)
+                .append(") as subQuery ")
+                .append("ORDER BY ")
+                .append(sorting.getColumn().getDbColumnName())
+                .append(" ")
+                .append(sorting.getDirection())
+                .toString();
+    }
+
+    @Override
+    public List<Movie> getMoviesByGenre(int genreId, Sorting sorting) {
+        return jdbc.query(applySorting(moviesByGenreSelect, sorting), movieMapper, genreId);
     }
 
     @Override
     public List<Movie> getNRandomMovies(int number) {
-        List<Movie> moviesList = jdbc.query(randomMoviesSelect, movieMapper, number);
-        return moviesList;
+        return jdbc.query(randomMoviesSelect, movieMapper, number);
     }
 }
