@@ -8,7 +8,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MovieRequestResolver implements HandlerMethodArgumentResolver {
     @Override
@@ -26,11 +25,7 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
         for (String key : parameterMap.keySet()) {
             OrderByColumn column = scanEnumForValue(OrderByColumn.class, key);
             if (!Objects.isNull(column)) {
-                OrderDirection direction = scanEnumForValue(OrderDirection.class, parameterMap.get(key)[0]);
-                if (column == OrderByColumn.RATING && direction == null) {
-                    direction = OrderDirection.DESC;
-                }
-                return new MovieRequest(column, direction);
+                return new MovieRequest(column, scanEnumForValue(OrderDirection.class, parameterMap.get(key)[0]));
             }
         }
         return new MovieRequest();

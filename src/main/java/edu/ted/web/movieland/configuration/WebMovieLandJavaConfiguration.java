@@ -18,7 +18,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"edu.ted.web.movieland.controller"})
+@ComponentScan(basePackages = {"edu.ted.web.movieland.web.controller"})
 public class WebMovieLandJavaConfiguration  implements WebMvcConfigurer {
     @Bean
     public MovieMapper getMovieMapper() {

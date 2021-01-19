@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.controller;
+package edu.ted.web.movieland.web.controller;
 
 import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.service.DefaultGenreService;

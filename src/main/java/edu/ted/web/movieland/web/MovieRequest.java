@@ -20,6 +20,9 @@ public class MovieRequest {
 
     public Sorting getSorting() {
         if (orderedColumn != null && orderDirection != null) {
+            if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
+                return new Sorting(orderedColumn, OrderDirection.DESC);
+            }
             return new Sorting(orderedColumn, orderDirection);
         }
         return null;

@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.controller;
+package edu.ted.web.movieland.web.controller;
 
 import edu.ted.web.movieland.service.MovieService;
 import edu.ted.web.movieland.web.annotation.MovieRequestParameter;
