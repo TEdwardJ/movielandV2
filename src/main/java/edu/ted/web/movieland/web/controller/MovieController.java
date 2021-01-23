@@ -19,16 +19,12 @@ public class MovieController {
     private MovieMapper mapper;
 
     @Autowired
-    public void setService(DefaultMovieService movieService) {
+    public MovieController(MovieService movieService, MovieMapper mapper) {
         this.movieService = movieService;
-    }
-
-    @Autowired
-    public void setMapper(MovieMapper mapper) {
         this.mapper = mapper;
     }
 
-    @GetMapping(value = "/movie", produces = "application/json")
+   @GetMapping(value = "/movie", produces = "application/json")
     public @ResponseBody
     List<MovieDTO> getAllMovies(@MovieRequestParameter MovieRequest request) {
         return mapper.mapToDTOs(movieService.getAllMovies(request));

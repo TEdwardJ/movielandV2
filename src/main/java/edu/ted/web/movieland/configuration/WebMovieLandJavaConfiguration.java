@@ -1,10 +1,7 @@
 package edu.ted.web.movieland.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.ted.web.movieland.utils.MovieMapper;
-import edu.ted.web.movieland.utils.MovieMapperImpl;
 import edu.ted.web.movieland.web.MovieRequestResolver;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,10 +17,6 @@ import java.util.List;
 @EnableWebMvc
 @ComponentScan(basePackages = {"edu.ted.web.movieland.web.controller"})
 public class WebMovieLandJavaConfiguration  implements WebMvcConfigurer {
-    @Bean
-    public MovieMapper getMovieMapper() {
-        return new MovieMapperImpl();
-    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

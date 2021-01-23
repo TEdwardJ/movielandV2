@@ -2,6 +2,7 @@ package edu.ted.web.movieland.utils;
 
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.entity.MovieDTO;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 @Component
 public interface MovieMapper {
     @Mappings({
