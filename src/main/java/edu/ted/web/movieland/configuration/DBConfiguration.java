@@ -19,18 +19,13 @@ public class DBConfiguration {
     @Value("${dataSource.password}")
     private String password;
 
-    @Bean("dataSourceConfig")
-    public HikariConfig getHikariConfig() {
+    @Bean("dataSource")
+    public DataSource getDataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(url);
         hikariConfig.setUsername(userName);
         hikariConfig.setPassword(password);
-        return hikariConfig;
-    }
-
-    @Bean("dataSource")
-    public DataSource getDataSource(HikariConfig config) {
-        HikariDataSource hikariDataSource = new HikariDataSource(config);
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
         return hikariDataSource;
     }
 }

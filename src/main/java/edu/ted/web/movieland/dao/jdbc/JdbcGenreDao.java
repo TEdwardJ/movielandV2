@@ -1,5 +1,6 @@
-package edu.ted.web.movieland.dao;
+package edu.ted.web.movieland.dao.jdbc;
 
+import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

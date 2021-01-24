@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.utils;
+package edu.ted.web.movieland.dao.jdbc.mapper;
 
 import edu.ted.web.movieland.entity.Genre;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class GenreMapper implements RowMapper<Genre> {
+public class GenreRowMapper implements RowMapper<Genre> {
     @Override
     public Genre mapRow(ResultSet resultSet, int i) throws SQLException {
 

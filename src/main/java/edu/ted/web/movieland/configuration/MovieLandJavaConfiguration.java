@@ -1,18 +1,13 @@
 package edu.ted.web.movieland.configuration;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.LoadingCache;
 import edu.ted.web.movieland.cache.CaffeineGenreCache;
-import edu.ted.web.movieland.cache.SpringScheduledCustomGenreCache;
+import edu.ted.web.movieland.cache.SpringScheduledGenreCache;
 import edu.ted.web.movieland.dao.GenreDao;
-import edu.ted.web.movieland.entity.Genre;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.sql.DataSource;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Configuration()
 @ComponentScan(basePackages = {
@@ -31,23 +26,15 @@ public class MovieLandJavaConfiguration {
     }
 
     @Bean
-    public LoadingCache<String, List<Genre>> getGenreCache(GenreDao dao){
-        return Caffeine.newBuilder()
-                .expireAfterWrite(4, TimeUnit.HOURS)
-                .maximumSize(1)
-                .build(key -> dao.getAllGenres());
-    }
-
-    @Bean
     @Conditional(CacheTypePropertyCondition.class)
-    public CaffeineGenreCache getCaffeineGenreCache(){
-        return new CaffeineGenreCache();
+    public CaffeineGenreCache getCaffeineGenreCache(GenreDao dao){
+        return new CaffeineGenreCache(dao);
     }
 
     @Bean
     @Primary
     @Conditional(CacheTypePropertyCondition.class)
-    public SpringScheduledCustomGenreCache getSpringScheduledCustomGenreCache(GenreDao dao){
-        return new SpringScheduledCustomGenreCache(()->dao.getAllGenres());
+    public SpringScheduledGenreCache getSpringScheduledGenreCache(GenreDao dao){
+        return new SpringScheduledGenreCache(dao);
     }
 }

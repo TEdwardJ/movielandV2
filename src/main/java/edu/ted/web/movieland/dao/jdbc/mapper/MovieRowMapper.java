@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.utils;
+package edu.ted.web.movieland.dao.jdbc.mapper;
 
 import edu.ted.web.movieland.entity.Movie;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class JdbcMovieMapper implements RowMapper<Movie> {
+public class MovieRowMapper implements RowMapper<Movie> {
     @Override
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         Movie movieFromDb = new Movie();

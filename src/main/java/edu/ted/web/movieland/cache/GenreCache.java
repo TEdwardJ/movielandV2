@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GenreCache {
     List<Genre> get();
-    void reset();
+    void refresh();
 }

@@ -1,5 +1,6 @@
-package edu.ted.web.movieland.dao;
+package edu.ted.web.movieland.dao.jdbc;
 
+import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.entity.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class JdbcMovieDao implements MovieDao {
         }
         return new StringBuilder()
                 .append("SELECT subQuery.* ")
-                .append("  FROM (")
+                .append(" FROM (")
                 .append(query)
                 .append(") as subQuery ")
                 .append("ORDER BY ")
