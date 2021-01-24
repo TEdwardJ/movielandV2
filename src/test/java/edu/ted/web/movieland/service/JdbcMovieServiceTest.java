@@ -33,7 +33,7 @@ class JdbcMovieServiceTest {
     }
 
     @Test
-    void givenAllMoviesRequestedWithSortByPriceAsc_whenSorted_thenCorrect() {
+    void givenAllMoviesRequestedWithSruortByPriceAsc_whenSorted_thenCorrect() {
         List<Movie> allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.PRICE, OrderDirection.ASC));
         assertNotNull(allMovies);
         double price = 0;

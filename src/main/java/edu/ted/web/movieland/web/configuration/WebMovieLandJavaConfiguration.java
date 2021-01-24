@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.configuration;
+package edu.ted.web.movieland.web.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.ted.web.movieland.web.MovieRequestResolver;

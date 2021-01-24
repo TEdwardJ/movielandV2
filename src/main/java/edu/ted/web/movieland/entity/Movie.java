@@ -6,8 +6,8 @@ import lombok.Data;
 public class Movie {
 
     private int id;
-    private String title;
-    private String titleEng;
+    private String russianName;
+    private String nativeName;
     private String description;
     private String releaseYear;
     private Double rating;

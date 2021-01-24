@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, implementationName = "DefaultMovieMapper")
 @Component
 public interface MovieMapper {
     @Mappings({
-            @Mapping(target="nameRussian", source="title"),
-            @Mapping(target="nameNative", source="titleEng"),
+            @Mapping(target="nameRussian", source="russianName"),
+            @Mapping(target="nameNative", source="nativeName"),
             @Mapping(target="picturePath", source="pictureUrl")
     })
     MovieDTO mapToDTO(Movie movie);
