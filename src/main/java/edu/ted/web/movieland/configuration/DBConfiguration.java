@@ -13,10 +13,6 @@ import javax.sql.DataSource;
 @Configuration
 public class DBConfiguration {
 
-    @Autowired
-    private Environment env;
-    @Value("${hikaricp.configurationFile}")
-    private String dsConfigFile;
     @Value("${dataSource.Url}")
     private String url;
     @Value("${dataSource.dataSourceClassName}")
@@ -28,12 +24,12 @@ public class DBConfiguration {
 
     @Bean("dataSource")
     public DataSource getDataSource() {
-        HikariConfig hikariConfig = new HikariConfig(dsConfigFile);
+        HikariConfig hikariConfig = new HikariConfig();
 
-/*        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setJdbcUrl(url);
         hikariConfig.setUsername(userName);
         hikariConfig.setPassword(password);
-        hikariConfig.setDataSourceClassName(dataSourceClassName);*/
+        hikariConfig.setDataSourceClassName(dataSourceClassName);
         HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
         return hikariDataSource;
     }
