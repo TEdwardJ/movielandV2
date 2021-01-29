@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.dao;
 
 import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.entity.Sorting;
+import edu.ted.web.movieland.web.entity.Sorting;
 
 import java.util.List;
 

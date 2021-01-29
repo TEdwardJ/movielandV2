@@ -1,7 +1,5 @@
-package edu.ted.web.movieland.entity;
+package edu.ted.web.movieland.web.entity;
 
-import edu.ted.web.movieland.web.OrderByColumn;
-import edu.ted.web.movieland.web.OrderDirection;
 import lombok.Getter;
 
 public class Sorting {

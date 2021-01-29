@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.utils;
 
 import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.entity.MovieDTO;
+import edu.ted.web.movieland.web.entity.MovieDTO;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

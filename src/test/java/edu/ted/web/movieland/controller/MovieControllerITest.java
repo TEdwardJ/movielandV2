@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
 import edu.ted.web.movieland.web.configuration.WebMovieLandJavaConfiguration;
-import edu.ted.web.movieland.entity.MovieDTO;
+import edu.ted.web.movieland.web.entity.MovieDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

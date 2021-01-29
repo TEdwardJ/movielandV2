@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.entity;
+package edu.ted.web.movieland.web.entity;
 
 import lombok.Data;
 
