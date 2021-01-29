@@ -17,20 +17,19 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public MovieRequest resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) {
-        Map<String, String[]> parameterMap = nativeWebRequest.getParameterMap();
+        var parameterMap = nativeWebRequest.getParameterMap();
         return createMovieRequestWithSorting(parameterMap);
     }
 
     private MovieRequest createMovieRequestWithSorting(Map<String, String[]> parameterMap) {
-        for (String key : parameterMap.keySet()) {
-            OrderByColumn column = scanEnumForValue(OrderByColumn.class, key);
+        for (var key : parameterMap.keySet()) {
+            var column = scanEnumForValue(OrderByColumn.class, key);
             if (!Objects.isNull(column)) {
                 return new MovieRequest(column, scanEnumForValue(OrderDirection.class, parameterMap.get(key)[0]));
             }
         }
         return new MovieRequest();
     }
-
 
     private <E extends Enum<E>> E scanEnumForValue(Class<E> enumList, String value) {
         for (E e : EnumSet.allOf(enumList)) {

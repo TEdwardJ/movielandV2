@@ -3,16 +3,17 @@ package edu.ted.web.movieland.web.controller;
 import edu.ted.web.movieland.service.MovieService;
 import edu.ted.web.movieland.web.annotation.MovieRequestParameter;
 import edu.ted.web.movieland.entity.MovieDTO;
-import edu.ted.web.movieland.service.DefaultMovieService;
 import edu.ted.web.movieland.utils.MovieMapper;
 import edu.ted.web.movieland.web.MovieRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("v1")
+@RequestMapping
 public class MovieController {
     private MovieService movieService;
 

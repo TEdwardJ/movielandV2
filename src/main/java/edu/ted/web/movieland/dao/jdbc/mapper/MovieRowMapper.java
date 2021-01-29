@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class MovieRowMapper implements RowMapper<Movie> {
     @Override
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
-        Movie movieFromDb = new Movie();
+        var movieFromDb = new Movie();
         movieFromDb.setId(resultSet.getInt(resultSet.findColumn("M_ID")));
         movieFromDb.setRussianName(resultSet.getString(resultSet.findColumn("M_RUSSIAN_NAME")));
         movieFromDb.setNativeName(resultSet.getString(resultSet.findColumn("M_NATIVE_NAME")));
