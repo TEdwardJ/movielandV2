@@ -22,12 +22,14 @@ public class MovieRequest {
     }
 
     public Sorting getSorting() {
-        if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
-            return new Sorting(orderedColumn, OrderDirection.DESC);
+        if (sorting == null){
+            if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
+                orderDirection = OrderDirection.DESC;
+            }
+            if (orderedColumn != null && orderDirection != null) {
+                sorting = new Sorting(orderedColumn, orderDirection);
+            }
         }
-        if (orderedColumn != null && orderDirection != null) {
-            return new Sorting(orderedColumn, orderDirection);
-        }
-        return null;
+        return sorting;
     }
 }
