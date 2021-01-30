@@ -23,13 +23,17 @@ public class MovieRequest {
 
     public Sorting getSorting() {
         if (sorting == null){
-            if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
-                orderDirection = OrderDirection.DESC;
-            }
+            setDefaults();
             if (orderedColumn != null && orderDirection != null) {
                 sorting = new Sorting(orderedColumn, orderDirection);
             }
         }
         return sorting;
+    }
+
+    private void setDefaults() {
+        if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
+            orderDirection = OrderDirection.DESC;
+        }
     }
 }
