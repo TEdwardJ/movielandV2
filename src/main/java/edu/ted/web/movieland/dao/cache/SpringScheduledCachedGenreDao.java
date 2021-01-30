@@ -5,6 +5,7 @@ import edu.ted.web.movieland.entity.Genre;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
@@ -17,14 +18,13 @@ public class SpringScheduledCachedGenreDao implements GenreDao {
         this.dao = dao;
     }
 
-    private void checkIfEmpty() {
-        if (genres == null) {
-            refresh();
-        }
+    @PostConstruct
+    private void init(){
+        refresh();
     }
 
-    @Scheduled(initialDelay = 0, fixedRate=14400000)
-    private void refresh() {
+    @Scheduled(initialDelay = 0, fixedRate = 14400000)
+    void refresh() {
         log.info("Cache is to be refreshed");
         genres = dao.getAllGenres();
         log.info("Cache refreshed successfully");
@@ -33,7 +33,6 @@ public class SpringScheduledCachedGenreDao implements GenreDao {
     @Override
     public List<Genre> getAllGenres() {
         log.debug("Genres cache is to be used");
-        checkIfEmpty();
         return genres;
     }
 }
