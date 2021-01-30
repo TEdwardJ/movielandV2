@@ -33,7 +33,7 @@ class JdbcMovieServiceTest {
 
     @Test
     void givenAllMoviesRequestedWithSruortByPriceAsc_whenSorted_thenCorrect() {
-        var allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.PRICE, OrderDirection.ASC));
+        var allMovies = service.getAllMovies(new MovieRequest("price", "asc"));
         assertNotNull(allMovies);
         double price = 0;
         for (var movie : allMovies) {
@@ -46,7 +46,7 @@ class JdbcMovieServiceTest {
 
     @Test
     void givenAllMoviesRequestedWithSortByRatingDesc_whenSorted_thenCorrect() {
-        var allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.RATING, OrderDirection.DESC));
+        var allMovies = service.getAllMovies(new MovieRequest("rating", "desc"));
         assertNotNull(allMovies);
         double rating = allMovies.get(0).getRating();
         for (var movie : allMovies) {

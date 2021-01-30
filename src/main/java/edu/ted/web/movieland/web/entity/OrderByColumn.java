@@ -13,4 +13,13 @@ public enum OrderByColumn {
     public String getDbColumnName() {
         return dbColumnName;
     }
+
+    public static OrderByColumn validateEnumAndReturn(String value){
+        for (var item : values()) {
+            if (item.toString().equalsIgnoreCase(value)){
+                return item;
+            }
+        }
+        return null;
+    }
 }

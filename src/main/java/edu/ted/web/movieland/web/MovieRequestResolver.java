@@ -23,19 +23,12 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
     }
 
     MovieRequest createMovieRequestWithSorting(Map<String, String[]> parameterMap) {
-        return parameterMap.keySet()
+        return parameterMap
+                .entrySet()
                 .stream()
-                .filter(key -> getValueFromEnum(OrderByColumn.class, key) != null)
+                .filter(entry -> OrderByColumn.validateEnumAndReturn(entry.getKey()) != null)
+                .map(entry -> new MovieRequest(entry.getKey(), entry.getValue()[0]))
                 .findFirst()
-                .map(key -> new MovieRequest(getValueFromEnum(OrderByColumn.class, key), getValueFromEnum(OrderDirection.class, parameterMap.get(key)[0])))
                 .orElse(new MovieRequest());
-    }
-
-    private <E extends Enum<E>> E getValueFromEnum(Class<E> enumList, String value) {
-        try {
-            return Enum.valueOf(enumList, value.toUpperCase());
-        } catch (Exception e) {
-            return null;
-        }
     }
 }

@@ -15,9 +15,9 @@ public class MovieRequest {
     public MovieRequest() {
     }
 
-    public MovieRequest(OrderByColumn orderedColumn, OrderDirection orderDirection) {
-        this.orderedColumn = orderedColumn;
-        this.orderDirection = orderDirection;
+    public MovieRequest(String orderedColumn, String orderDirection) {
+        this.orderedColumn = OrderByColumn.validateEnumAndReturn(orderedColumn);
+        this.orderDirection = OrderDirection.validateEnumAndReturn(orderDirection);
 
     }
 
