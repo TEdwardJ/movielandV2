@@ -53,9 +53,9 @@ public class JdbcMovieDao implements MovieDao {
                 .append(query)
                 .append(") as subQuery ")
                 .append("ORDER BY ")
-                .append(sorting.getColumn().getDbColumnName())
+                .append(sorting.getOrderedColumn().getDbColumnName())
                 .append(" ")
-                .append(sorting.getDirection())
+                .append(sorting.getOrderDirection())
                 .toString();
     }
 }

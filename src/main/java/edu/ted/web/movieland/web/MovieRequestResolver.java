@@ -19,27 +19,23 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public MovieRequest resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) {
-        var parameterMap = nativeWebRequest.getParameterMap();
-        return createMovieRequestWithSorting(parameterMap);
+        return createMovieRequestWithSorting(nativeWebRequest.getParameterMap());
     }
 
-    private MovieRequest createMovieRequestWithSorting(Map<String, String[]> parameterMap) {
-        for (var key : parameterMap.keySet()) {
-            var column = scanEnumForValue(OrderByColumn.class, key);
-            if (!Objects.isNull(column)) {
-                return new MovieRequest(column, scanEnumForValue(OrderDirection.class, parameterMap.get(key)[0]));
-            }
-        }
-        return new MovieRequest();
+    MovieRequest createMovieRequestWithSorting(Map<String, String[]> parameterMap) {
+        return parameterMap.keySet()
+                .stream()
+                .filter(key -> getValueFromEnum(OrderByColumn.class, key) != null)
+                .findFirst()
+                .map(key -> new MovieRequest(getValueFromEnum(OrderByColumn.class, key), getValueFromEnum(OrderDirection.class, parameterMap.get(key)[0])))
+                .orElse(new MovieRequest());
     }
 
-    private <E extends Enum<E>> E scanEnumForValue(Class<E> enumList, String value) {
-        for (E e : EnumSet.allOf(enumList)) {
-            if (e.toString().equalsIgnoreCase(value)) {
-                return e;
-            }
+    private <E extends Enum<E>> E getValueFromEnum(Class<E> enumList, String value) {
+        try {
+            return Enum.valueOf(enumList, value.toUpperCase());
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 }
-

@@ -4,12 +4,12 @@ import lombok.Getter;
 
 public class Sorting {
     @Getter
-    private OrderByColumn column;
+    private OrderByColumn orderedColumn;
     @Getter
-    private OrderDirection direction;
+    private OrderDirection orderDirection;
 
-    public Sorting(OrderByColumn column, OrderDirection direction) {
-        this.column = column;
-        this.direction = direction;
+    public Sorting(OrderByColumn orderedColumn, OrderDirection orderDirection) {
+        this.orderedColumn = orderedColumn;
+        this.orderDirection = orderDirection;
     }
 }

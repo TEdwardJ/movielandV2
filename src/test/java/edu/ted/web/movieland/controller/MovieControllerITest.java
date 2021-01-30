@@ -73,6 +73,21 @@ public class MovieControllerITest {
     }
 
     @Test
+    public void givenAllMoviesRequestedWithSortingButWithNoOrder_whenSorted_thenCorrect() throws Exception {
+        ResultActions performedAction = mockMvc.perform(get("/movie?rating2=desc"));
+        performedAction
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(greaterThan(5))));
+        String resultContent = performedAction.andReturn().getResponse().getContentAsString();
+        List<MovieDTO> moviesList = mapResponseMoviesList(resultContent);
+        double rating = moviesList.get(0).getRating();
+        for (MovieDTO movieDTO : moviesList) {
+            assertTrue(rating>=movieDTO.getRating());
+        }
+    }
+
+    @Test
     public void when3RandomMoviesRequestAndReturns3RandomMovies_thenCorrect() throws Exception {
         String resultContent = getControllerResponse();
         String resultContentNext = getControllerResponse();

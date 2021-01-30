@@ -3,11 +3,12 @@ package edu.ted.web.movieland.web;
 import edu.ted.web.movieland.web.entity.OrderByColumn;
 import edu.ted.web.movieland.web.entity.OrderDirection;
 import edu.ted.web.movieland.web.entity.Sorting;
-import lombok.Data;
+import lombok.Setter;
 
-@Data
 public class MovieRequest {
+    @Setter
     private OrderByColumn orderedColumn;
+    @Setter
     private OrderDirection orderDirection;
     private Sorting sorting;
 
@@ -21,10 +22,10 @@ public class MovieRequest {
     }
 
     public Sorting getSorting() {
+        if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
+            return new Sorting(orderedColumn, OrderDirection.DESC);
+        }
         if (orderedColumn != null && orderDirection != null) {
-            if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
-                return new Sorting(orderedColumn, OrderDirection.DESC);
-            }
             return new Sorting(orderedColumn, orderDirection);
         }
         return null;
