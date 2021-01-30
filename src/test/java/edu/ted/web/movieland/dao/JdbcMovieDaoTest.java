@@ -26,10 +26,10 @@ class JdbcMovieDaoTest {
 
     @Test
     void givenAllMoviesRequestedWithSortByPriceAsc_whenSorted_thenCorrect() {
-        List<Movie> allMovies = dao.getAllMovies(new Sorting(OrderByColumn.PRICE, OrderDirection.ASC));
+        var allMovies = dao.getAllMovies(new Sorting(OrderByColumn.PRICE, OrderDirection.ASC));
         assertNotNull(allMovies);
         double price = 0;
-        for (Movie movie : allMovies) {
+        for (var movie : allMovies) {
             assertThat(movie.getPrice(), anyOf(greaterThan(price), closeTo(price, 0.001)));
             price = movie.getPrice();
         }

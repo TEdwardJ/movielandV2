@@ -27,17 +27,16 @@ class JdbcMovieServiceTest {
 
     @Test
     void getAllMoviesNoSort() {
-        //when(movieDao.getAllMovies()).thenReturn(prepareMovieList());
-        List<Movie> allMovies = service.getAllMovies(new MovieRequest());
+        var allMovies = service.getAllMovies(new MovieRequest());
         assertNotNull(allMovies);
     }
 
     @Test
     void givenAllMoviesRequestedWithSruortByPriceAsc_whenSorted_thenCorrect() {
-        List<Movie> allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.PRICE, OrderDirection.ASC));
+        var allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.PRICE, OrderDirection.ASC));
         assertNotNull(allMovies);
         double price = 0;
-        for (Movie movie : allMovies) {
+        for (var movie : allMovies) {
             assertTrue(movie.getPrice() >= price);
             assertThat(movie.getPrice(), anyOf(greaterThan(price), closeTo(price, 0.001)));
             price = movie.getPrice();
@@ -47,26 +46,14 @@ class JdbcMovieServiceTest {
 
     @Test
     void givenAllMoviesRequestedWithSortByRatingDesc_whenSorted_thenCorrect() {
-        List<Movie> allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.RATING, OrderDirection.DESC));
+        var allMovies = service.getAllMovies(new MovieRequest(OrderByColumn.RATING, OrderDirection.DESC));
         assertNotNull(allMovies);
         double rating = allMovies.get(0).getRating();
-        for (Movie movie : allMovies) {
+        for (var movie : allMovies) {
             assertThat(movie.getRating(), anyOf(lessThan(rating), closeTo(rating, 0.001)));
             rating = movie.getRating();
         }
         assertFalse(allMovies.isEmpty());
     }
 
-/*    private List<Movie> prepareMovieList() {
-        List<Movie> list = new ArrayList<>();
-        Random ratingGenerator = new Random();
-        for (int i = 0; i < 5; i++) {
-            Movie movie = new Movie();
-            movie.setTitle("Movie " + i);
-            movie.setRating(ratingGenerator.nextDouble() * 10);
-            movie.setPrice(ratingGenerator.nextDouble() * 100);
-            list.add(movie);
-        }
-        return list;
-    }*/
 }

@@ -43,7 +43,7 @@ class GenreControllerITest {
 
     @Test
     void getAllGenres() throws Exception {
-        final ResultActions performedAction = mockMvc.perform(get("/movie/genre"));
+        var performedAction = mockMvc.perform(get("/movie/genre"));
         performedAction
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -51,9 +51,9 @@ class GenreControllerITest {
                 .andExpect(jsonPath("$[0].id", not(empty())))
                 .andExpect(jsonPath("$[0].name", not(empty())));
 
-        String resultContent = performedAction.andReturn().getResponse().getContentAsString();
-        List<Genre> genreList = mapResponseGenreList(resultContent);
-        for (Genre genre : genreList) {
+        var resultContent = performedAction.andReturn().getResponse().getContentAsString();
+        var genreList = mapResponseGenreList(resultContent);
+        for (var genre : genreList) {
             assertNotNull(genre.getId());
             assertNotNull(genre.getName());
             assertFalse(genre.getName().isEmpty());
@@ -61,7 +61,7 @@ class GenreControllerITest {
     }
 
     private List<Genre> mapResponseGenreList(String resultContent) throws JsonProcessingException {
-        return new ObjectMapper().readValue(resultContent, new TypeReference<List<Genre>>() {
+        return new ObjectMapper().readValue(resultContent, new TypeReference<>() {
         });
     }
 }

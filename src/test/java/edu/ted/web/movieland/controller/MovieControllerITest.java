@@ -64,10 +64,10 @@ public class MovieControllerITest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(greaterThan(5))));
-        String resultContent = performedAction.andReturn().getResponse().getContentAsString();
-        List<MovieDTO> moviesList = mapResponseMoviesList(resultContent);
-        double rating = moviesList.get(0).getRating();
-        for (MovieDTO movieDTO : moviesList) {
+        var resultContent = performedAction.andReturn().getResponse().getContentAsString();
+        var moviesList = mapResponseMoviesList(resultContent);
+        var rating = moviesList.get(0).getRating();
+        for (var movieDTO : moviesList) {
             assertTrue(rating>=movieDTO.getRating());
         }
     }
@@ -81,27 +81,27 @@ public class MovieControllerITest {
                 .andExpect(jsonPath("$", hasSize(greaterThan(5))));
         String resultContent = performedAction.andReturn().getResponse().getContentAsString();
         List<MovieDTO> moviesList = mapResponseMoviesList(resultContent);
-        double rating = moviesList.get(0).getRating();
-        for (MovieDTO movieDTO : moviesList) {
+        var rating = moviesList.get(0).getRating();
+        for (var movieDTO : moviesList) {
             assertTrue(rating>=movieDTO.getRating());
         }
     }
 
     @Test
     public void when3RandomMoviesRequestAndReturns3RandomMovies_thenCorrect() throws Exception {
-        String resultContent = getControllerResponse();
-        String resultContentNext = getControllerResponse();
-        List<MovieDTO> randomMoviesList = mapResponseMoviesList(resultContent);
-        List<MovieDTO> randomMoviesListNext = mapResponseMoviesList(resultContentNext);
-        int matchesCount = 0;
-        for (int i = 0; i < randomMoviesList.size(); i++) {
+        var resultContent = getControllerResponse();
+        var resultContentNext = getControllerResponse();
+        var randomMoviesList = mapResponseMoviesList(resultContent);
+        var randomMoviesListNext = mapResponseMoviesList(resultContentNext);
+        var matchesCount = 0;
+        for (var i = 0; i < randomMoviesList.size(); i++) {
             matchesCount += Objects.equals(randomMoviesList.get(i), randomMoviesListNext.get(i)) ? 1 : 0;
         }
         assertTrue(matchesCount < 3);
     }
 
     private List<MovieDTO> mapResponseMoviesList(String resultContent) throws com.fasterxml.jackson.core.JsonProcessingException {
-        return new ObjectMapper().readValue(resultContent, new TypeReference<List<MovieDTO>>() {
+        return new ObjectMapper().readValue(resultContent, new TypeReference<>() {
         });
     }
 
@@ -111,7 +111,7 @@ public class MovieControllerITest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(equalTo(3))));
-        String resultContent = performedAction.andReturn().getResponse().getContentAsString();
+        var resultContent = performedAction.andReturn().getResponse().getContentAsString();
         return resultContent;
     }
 }

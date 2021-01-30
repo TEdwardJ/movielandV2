@@ -22,7 +22,7 @@ class JdbcGenreDaoTest {
 
     @Test
     void getAllGenres() {
-        List<Genre> allGenres = dao.getAllGenres();
+        var allGenres = dao.getAllGenres();
         assertNotNull(allGenres);
         assertFalse(allGenres.isEmpty());
     }

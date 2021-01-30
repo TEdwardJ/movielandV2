@@ -31,14 +31,14 @@ class JdbcGenreServiceTest {
     private DefaultGenreService service;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         MockitoAnnotations.openMocks(this);
         when(genresCache.get()).thenReturn(prepareGenreList());
     }
 
     @Test
     void getAllGenres() {
-        List<Genre> allGenres = service.getAllGenres();
+        var allGenres = service.getAllGenres();
         assertNotNull(allGenres);
         assertFalse(allGenres.isEmpty());
     }
@@ -46,8 +46,8 @@ class JdbcGenreServiceTest {
     private List<Genre> prepareGenreList() {
         List<Genre> genreList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            final Genre genre = new Genre();
-            genre.setName("Genre "+i);
+            var genre = new Genre();
+            genre.setName("Genre " + i);
             genre.setId(i);
             genreList.add(genre);
         }
