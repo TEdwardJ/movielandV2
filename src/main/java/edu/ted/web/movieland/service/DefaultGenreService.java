@@ -1,8 +1,9 @@
 package edu.ted.web.movieland.service;
 
-import edu.ted.web.movieland.cache.GenreCache;
+import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,14 +11,14 @@ import java.util.List;
 @Service
 public class DefaultGenreService implements GenreService{
 
-    private GenreCache genresCache;
+    private GenreDao dao;
 
     @Autowired
-    public DefaultGenreService(GenreCache genresCache) {
-        this.genresCache = genresCache;
+    public DefaultGenreService(@Qualifier("cached") GenreDao dao) {
+        this.dao = dao;
     }
 
     public List<Genre> getAllGenres() {
-        return genresCache.get();
+        return dao.getAllGenres();
     }
 }

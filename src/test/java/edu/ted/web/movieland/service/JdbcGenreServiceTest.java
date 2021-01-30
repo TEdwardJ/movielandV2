@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.service;
 
-import edu.ted.web.movieland.cache.GenreCache;
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
+import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 class JdbcGenreServiceTest {
 
     @Mock
-    private GenreCache genresCache;
+    private GenreDao dao;
 
     @Autowired
     @InjectMocks
@@ -33,7 +33,7 @@ class JdbcGenreServiceTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        when(genresCache.get()).thenReturn(prepareGenreList());
+        when(dao.getAllGenres()).thenReturn(prepareGenreList());
     }
 
     @Test

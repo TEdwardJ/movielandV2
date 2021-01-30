@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.cache;
+package edu.ted.web.movieland.dao.cache;
 
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
@@ -8,21 +8,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.List;
 
 @Slf4j
-public class SpringScheduledGenreCache implements GenreCache {
-
-    private volatile List<Genre> genres;
+public class SpringScheduledCachedGenreDao implements GenreDao {
 
     private GenreDao dao;
+    private volatile List<Genre> genres;
 
-    public SpringScheduledGenreCache(GenreDao dao) {
+    public SpringScheduledCachedGenreDao(GenreDao dao) {
         this.dao = dao;
-    }
-
-    @Override
-    public List<Genre> get() {
-        log.debug("Genres cache is to be used");
-        checkIfEmpty();
-        return genres;
     }
 
     private void checkIfEmpty() {
@@ -31,11 +23,17 @@ public class SpringScheduledGenreCache implements GenreCache {
         }
     }
 
-    @Override
     @Scheduled(initialDelay = 0, fixedRate=14400000)
-    public synchronized void refresh() {
+    private void refresh() {
         log.info("Cache is to be refreshed");
         genres = dao.getAllGenres();
         log.info("Cache refreshed successfully");
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        log.debug("Genres cache is to be used");
+        checkIfEmpty();
+        return genres;
     }
 }

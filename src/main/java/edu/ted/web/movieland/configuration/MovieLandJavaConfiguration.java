@@ -1,8 +1,9 @@
 package edu.ted.web.movieland.configuration;
 
-import edu.ted.web.movieland.cache.CaffeineGenreCache;
-import edu.ted.web.movieland.cache.SpringScheduledGenreCache;
 import edu.ted.web.movieland.dao.GenreDao;
+import edu.ted.web.movieland.dao.cache.CaffeineCachedGenreDao;
+import edu.ted.web.movieland.dao.cache.SpringScheduledCachedGenreDao;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -27,14 +28,16 @@ public class MovieLandJavaConfiguration {
 
     @Bean
     @Conditional(CacheTypePropertyCondition.class)
-    public CaffeineGenreCache getCaffeineGenreCache(GenreDao dao){
-        return new CaffeineGenreCache(dao);
+    @Qualifier("cached")
+    public CaffeineCachedGenreDao getCaffeineGenreCache(GenreDao dao){
+        return new CaffeineCachedGenreDao(dao);
     }
 
     @Bean
     @Primary
     @Conditional(CacheTypePropertyCondition.class)
-    public SpringScheduledGenreCache getSpringScheduledGenreCache(GenreDao dao){
-        return new SpringScheduledGenreCache(dao);
+    @Qualifier("cached")
+    public SpringScheduledCachedGenreDao getSpringScheduledGenreCache(GenreDao dao){
+        return new SpringScheduledCachedGenreDao(dao);
     }
 }
