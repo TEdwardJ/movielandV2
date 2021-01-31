@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, implementationName = "DefaultMovieMapper")
-@Component
 public interface MovieMapper {
     @Mappings({
             @Mapping(target="nameRussian", source="russianName"),

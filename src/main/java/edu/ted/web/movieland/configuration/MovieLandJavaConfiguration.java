@@ -5,26 +5,19 @@ import edu.ted.web.movieland.dao.cache.CaffeineCachedGenreDao;
 import edu.ted.web.movieland.dao.cache.SpringScheduledCachedGenreDao;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import javax.sql.DataSource;
 
 @Configuration()
 @ComponentScan(basePackages = {
         "edu.ted.web.movieland.service",
         "edu.ted.web.movieland.utils",
         "edu.ted.web.movieland.dao"})
-@PropertySource("classpath:queries.properties")
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:queries.properties")
 @EnableScheduling
 @Import(DBConfiguration.class)
 public class MovieLandJavaConfiguration {
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
 
     @Bean
     @Conditional(CacheTypePropertyCondition.class)
