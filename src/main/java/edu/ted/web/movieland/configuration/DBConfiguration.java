@@ -14,7 +14,7 @@ public class DBConfiguration {
 
     @Value("${dataSource.Url}")
     private String url;
-    @Value("${dataSource.dataSourceClassName}")
+    @Value("${dataSource.dataSourceClassName:}")
     private String dataSourceClassName;
     @Value("${dataSource.username}")
     private String userName;
