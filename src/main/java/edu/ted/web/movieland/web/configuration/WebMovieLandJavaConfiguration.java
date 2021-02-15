@@ -19,22 +19,9 @@ import java.util.List;
 public class WebMovieLandJavaConfiguration  implements WebMvcConfigurer {
 
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(getConverter());
-    }
-
-    @Override
     public void addArgumentResolvers(
             List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new MovieRequestResolver());
     }
 
-    public MappingJackson2HttpMessageConverter getConverter(){
-        return new MappingJackson2HttpMessageConverter(
-                new Jackson2ObjectMapperBuilder()
-                        .indentOutput(true)
-                        .serializationInclusion(JsonInclude.Include.NON_NULL)
-                        .build()
-        );
-    }
 }

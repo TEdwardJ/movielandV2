@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration()
 @ComponentScan(basePackages = {
         "edu.ted.web.movieland.service",
-        "edu.ted.web.movieland.utils",
+        "edu.ted.web.movieland.util",
         "edu.ted.web.movieland.dao"})
 @PropertySource("classpath:application.properties")
 @EnableScheduling
