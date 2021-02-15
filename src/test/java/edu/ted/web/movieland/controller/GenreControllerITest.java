@@ -55,7 +55,7 @@ class GenreControllerITest {
 
     @Test
     void getAllGenres() throws Exception {
-        var performedAction = mockMvc.perform(get("/movie/genre"));
+        var performedAction = mockMvc.perform(get("/genres"));
         performedAction
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

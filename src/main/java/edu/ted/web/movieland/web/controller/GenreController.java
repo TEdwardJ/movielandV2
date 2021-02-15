@@ -22,7 +22,7 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    @GetMapping(value = "/movie/genre", produces = "application/json")
+    @GetMapping(value = "/genres", produces = "application/json")
     public @ResponseBody
     List<Genre> getAllGenres() {
         return genreService.findAll();

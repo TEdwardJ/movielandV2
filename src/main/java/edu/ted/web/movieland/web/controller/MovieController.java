@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("movies")
 public class MovieController {
     private MovieService movieService;
 
@@ -23,23 +23,20 @@ public class MovieController {
         this.mapper = mapper;
     }
 
-   @GetMapping(value = "/movie", produces = "application/json")
+   @GetMapping(value = "", produces = "application/json")
     public @ResponseBody
     List<MovieDTO> getAllMovies(@MovieRequestParameter MovieRequest request) {
         return mapper.mapToDTOs(movieService.findAll(request));
     }
 
-    @GetMapping(value = "/movie/random", produces = "application/json")
+    @GetMapping(value = "/random", produces = "application/json")
     public @ResponseBody List<MovieDTO> get3RandomMovies() {
         return mapper.mapToDTOs(movieService.getNRandomMovies(3));
     }
 
-    @GetMapping(value = "/movie/genre/{genreId}", produces = "application/json")
+    @GetMapping(value = "/genre/{genreId}", produces = "application/json")
     public @ResponseBody
     List<MovieDTO> getMoviesByGenre(@PathVariable int genreId, @MovieRequestParameter MovieRequest request) {
         return mapper.mapToDTOs(movieService.getMoviesByGenre(genreId, request));
     }
-
-
-
 }

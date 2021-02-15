@@ -43,7 +43,7 @@ public class MovieControllerITest {
 
     @Test
     public void whenAllMoviesRequestAndReturnsAllMovies_thenCorrect() throws Exception {
-        mockMvc.perform(get("/movie"))
+        mockMvc.perform(get("/movies"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(greaterThan(10))));
@@ -51,7 +51,7 @@ public class MovieControllerITest {
 
     @Test
     public void whenMoviesByGenreRequestAndReturnsMovies_thenCorrect() throws Exception {
-        mockMvc.perform(get("/movie/genre/63"))
+        mockMvc.perform(get("/movies/genre/63"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(greaterThan(0))));
@@ -59,7 +59,7 @@ public class MovieControllerITest {
 
     @Test
     public void givenAllMoviesRequestedWithSorting_whenSorted_thenCorrect() throws Exception {
-        ResultActions performedAction = mockMvc.perform(get("/movie?rating=desc"));
+        ResultActions performedAction = mockMvc.perform(get("/movies?rating=desc"));
         performedAction
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -74,7 +74,7 @@ public class MovieControllerITest {
 
     @Test
     public void givenAllMoviesRequestedWithSortingButWithNoOrder_whenSorted_thenCorrect() throws Exception {
-        ResultActions performedAction = mockMvc.perform(get("/movie?rating2=desc"));
+        ResultActions performedAction = mockMvc.perform(get("/movies?rating2=desc"));
         performedAction
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -106,7 +106,7 @@ public class MovieControllerITest {
     }
 
     private String getControllerResponse() throws Exception {
-        ResultActions performedAction = mockMvc.perform(get("/movie/random"));
+        ResultActions performedAction = mockMvc.perform(get("/movies/random"));
         performedAction
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
