@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
 import edu.ted.web.movieland.web.configuration.WebMovieLandJavaConfiguration;
-import edu.ted.web.movieland.web.entity.MovieDTO;
+import edu.ted.web.movieland.web.dto.MovieDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -80,7 +80,7 @@ public class MovieControllerITest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(greaterThan(5))));
         String resultContent = performedAction.andReturn().getResponse().getContentAsString();
-        List<MovieDTO> moviesList = mapResponseMoviesList(resultContent);
+        List<MovieDto> moviesList = mapResponseMoviesList(resultContent);
         var rating = moviesList.get(0).getRating();
         for (var movieDTO : moviesList) {
             assertTrue(rating>=movieDTO.getRating());
@@ -100,7 +100,7 @@ public class MovieControllerITest {
         assertTrue(matchesCount < 3);
     }
 
-    private List<MovieDTO> mapResponseMoviesList(String resultContent) throws com.fasterxml.jackson.core.JsonProcessingException {
+    private List<MovieDto> mapResponseMoviesList(String resultContent) throws com.fasterxml.jackson.core.JsonProcessingException {
         return new ObjectMapper().readValue(resultContent, new TypeReference<>() {
         });
     }

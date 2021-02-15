@@ -3,7 +3,7 @@ package edu.ted.web.movieland.dao.jdbc;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.dao.jdbc.mapper.MovieRowMapper;
 import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.web.entity.Sorting;
+import edu.ted.web.movieland.common.Sorting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;

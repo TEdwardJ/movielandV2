@@ -1,9 +1,9 @@
-package edu.ted.web.movieland.web.entity;
+package edu.ted.web.movieland.web.dto;
 
 import lombok.Data;
 
 @Data
-public class MovieDTO {
+public class MovieDto {
 
     private int id;
     private String nameRussian;

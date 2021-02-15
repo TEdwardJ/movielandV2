@@ -1,10 +1,9 @@
 package edu.ted.web.movieland.web;
 
-import edu.ted.web.movieland.web.entity.OrderByColumn;
-import edu.ted.web.movieland.web.entity.OrderDirection;
+import edu.ted.web.movieland.common.OrderByColumn;
+import edu.ted.web.movieland.common.OrderDirection;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;

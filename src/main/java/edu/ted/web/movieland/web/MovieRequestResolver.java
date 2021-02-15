@@ -1,6 +1,6 @@
 package edu.ted.web.movieland.web;
 
-import edu.ted.web.movieland.web.entity.OrderByColumn;
+import edu.ted.web.movieland.common.OrderByColumn;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

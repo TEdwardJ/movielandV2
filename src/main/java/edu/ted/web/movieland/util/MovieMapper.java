@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.util;
 
 import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.web.entity.MovieDTO;
+import edu.ted.web.movieland.web.dto.MovieDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +16,7 @@ public interface MovieMapper {
             @Mapping(target="nameNative", source="nativeName"),
             @Mapping(target="picturePath", source="pictureUrl")
     })
-    MovieDTO mapToDTO(Movie movie);
+    MovieDto mapToDTO(Movie movie);
 
-    List<MovieDTO> mapToDTOs(List<Movie> movie);
+    List<MovieDto> mapToDTOs(List<Movie> movie);
 }

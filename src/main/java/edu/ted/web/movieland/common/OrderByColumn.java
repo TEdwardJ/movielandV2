@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.web.entity;
+package edu.ted.web.movieland.common;
 
 public enum OrderByColumn {
     RATING("RATING", "M_RATING"),

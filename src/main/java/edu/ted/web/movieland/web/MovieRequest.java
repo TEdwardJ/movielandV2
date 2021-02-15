@@ -1,8 +1,8 @@
 package edu.ted.web.movieland.web;
 
-import edu.ted.web.movieland.web.entity.OrderByColumn;
-import edu.ted.web.movieland.web.entity.OrderDirection;
-import edu.ted.web.movieland.web.entity.Sorting;
+import edu.ted.web.movieland.common.OrderByColumn;
+import edu.ted.web.movieland.common.OrderDirection;
+import edu.ted.web.movieland.common.Sorting;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
