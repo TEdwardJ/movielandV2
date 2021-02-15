@@ -10,8 +10,15 @@ public class Sorting {
     @Getter
     private OrderDirection orderDirection;
 
-    public Sorting(OrderByColumn orderedColumn, OrderDirection orderDirection) {
-        this.orderedColumn = orderedColumn;
-        this.orderDirection = orderDirection;
+    public Sorting(String orderedColumn, String orderDirection) {
+        this.orderedColumn = OrderByColumn.validateEnumAndReturn(orderedColumn);
+        this.orderDirection = OrderDirection.validateEnumAndReturn(orderDirection);
+        setDefaults();
+    }
+
+    private void setDefaults() {
+        if (orderedColumn == OrderByColumn.RATING && orderDirection == null) {
+            orderDirection = OrderDirection.DESC;
+        }
     }
 }

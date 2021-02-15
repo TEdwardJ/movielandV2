@@ -3,7 +3,7 @@ package edu.ted.web.movieland.web.controller;
 import edu.ted.web.movieland.service.MovieService;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import edu.ted.web.movieland.util.MovieMapper;
-import edu.ted.web.movieland.web.MovieRequest;
+import edu.ted.web.movieland.request.MovieRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;

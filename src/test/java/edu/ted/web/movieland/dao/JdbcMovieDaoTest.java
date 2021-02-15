@@ -26,7 +26,7 @@ class JdbcMovieDaoTest {
 
     @Test
     void givenAllMoviesRequestedWithSortByPriceAsc_whenSorted_thenCorrect() {
-        var allMovies = dao.findAll(new Sorting(OrderByColumn.PRICE, OrderDirection.ASC));
+        var allMovies = dao.findAll(new Sorting("price", "asc"));
         assertNotNull(allMovies);
         double price = 0;
         for (var movie : allMovies) {
@@ -38,7 +38,7 @@ class JdbcMovieDaoTest {
 
     @Test
     void givenAllMoviesRequestedWithSortByRatingDesc_whenSorted_thenCorrect() {
-        List<Movie> allMovies = dao.findAll(new Sorting(OrderByColumn.RATING, OrderDirection.DESC));
+        List<Movie> allMovies = dao.findAll(new Sorting("rating", "desc"));
         assertNotNull(allMovies);
         double rating = allMovies.get(0).getRating();
         for (Movie movie : allMovies) {
