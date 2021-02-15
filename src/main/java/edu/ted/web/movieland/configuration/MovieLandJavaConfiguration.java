@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class MovieLandJavaConfiguration {
 
     @Bean
+    @Primary
     public GenreDao genreDao(GenreDao dao, @Value("${cacheType:SpringScheduledCachedGenreDao}") String cacheType){
         if(cacheType.endsWith("CaffeineCachedGenreDao")) {
             return new CaffeineCachedGenreDao(dao);

@@ -14,7 +14,7 @@ public class DefaultGenreService implements GenreService{
     private GenreDao dao;
 
     @Autowired
-    public DefaultGenreService(@Qualifier("cached") GenreDao dao) {
+    public DefaultGenreService(GenreDao dao) {
         this.dao = dao;
     }
 
