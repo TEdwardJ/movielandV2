@@ -1,6 +1,5 @@
 package edu.ted.web.movieland.web;
 
-import edu.ted.web.movieland.web.annotation.MovieRequestParameter;
 import edu.ted.web.movieland.web.entity.OrderByColumn;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -13,7 +12,7 @@ import java.util.*;
 public class MovieRequestResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return methodParameter.hasParameterAnnotation(MovieRequestParameter.class);
+        return methodParameter.getParameterType().equals(MovieRequest.class);
     }
 
     @Override

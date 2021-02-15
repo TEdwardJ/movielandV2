@@ -4,6 +4,7 @@ import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.service.impl.DefaultGenreService;
 import edu.ted.web.movieland.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class GenreController {
 
     private GenreService genreService;
@@ -22,9 +23,8 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    @GetMapping(value = "/genres", produces = "application/json")
-    public @ResponseBody
-    List<Genre> getAllGenres() {
+    @GetMapping(value = "/genres")
+    public List<Genre> getAllGenres() {
         return genreService.findAll();
     }
 }

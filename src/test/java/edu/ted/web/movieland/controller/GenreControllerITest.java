@@ -38,16 +38,6 @@ class GenreControllerITest {
 
     private MockMvc mockMvc;
 
-    public static PostgreSQLContainer postgreSQLContainer;
-
-    @BeforeClass
-    public void commonInit(){
-        postgreSQLContainer = new PostgreSQLContainer("postgres:11.1")
-                .withDatabaseName("postgres")
-                .withUsername("sa")
-                .withPassword("sa");
-    }
-
     @BeforeEach
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
