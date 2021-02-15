@@ -26,7 +26,7 @@ public class MovieController {
    @GetMapping(value = "/movie", produces = "application/json")
     public @ResponseBody
     List<MovieDTO> getAllMovies(@MovieRequestParameter MovieRequest request) {
-        return mapper.mapToDTOs(movieService.getAllMovies(request));
+        return mapper.mapToDTOs(movieService.findAll(request));
     }
 
     @GetMapping(value = "/movie/random", produces = "application/json")

@@ -26,10 +26,10 @@ public class JdbcMovieDao implements MovieDao {
     @Value("${moviesByGenreSelect}")
     private String moviesByGenreSelect;
 
-    private RowMapper<Movie> movieMapper = new MovieRowMapper();
+    private final RowMapper<Movie> movieMapper = new MovieRowMapper();
 
     @Override
-    public List<Movie> getAllMovies(Sorting sorting) {
+    public List<Movie> findAll(Sorting sorting) {
         return jdbcTemplate.query(applySorting(allMoviesSelect, sorting), movieMapper);
     }
 

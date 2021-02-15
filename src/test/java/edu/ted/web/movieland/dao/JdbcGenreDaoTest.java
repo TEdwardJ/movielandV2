@@ -21,7 +21,7 @@ class JdbcGenreDaoTest {
 
     @Test
     void getAllGenres() {
-        var allGenres = dao.getAllGenres();
+        var allGenres = dao.findAll();
         assertNotNull(allGenres);
         assertFalse(allGenres.isEmpty());
     }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MovieDao {
 
-    List<Movie> getAllMovies(Sorting sorting);
+    List<Movie> findAll(Sorting sorting);
     List<Movie> getNRandomMovies(int count);
     List<Movie> getMoviesByGenre(int genreId, Sorting sorting);
 }

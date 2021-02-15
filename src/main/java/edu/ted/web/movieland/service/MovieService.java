@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MovieService {
 
-    public List<Movie> getAllMovies(MovieRequest request);
+    public List<Movie> findAll(MovieRequest request);
 
     public List<Movie> getNRandomMovies(int count);
 

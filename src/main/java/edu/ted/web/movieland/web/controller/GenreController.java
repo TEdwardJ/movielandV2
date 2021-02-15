@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.web.controller;
 
 import edu.ted.web.movieland.entity.Genre;
-import edu.ted.web.movieland.service.DefaultGenreService;
+import edu.ted.web.movieland.service.impl.DefaultGenreService;
 import edu.ted.web.movieland.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +25,6 @@ public class GenreController {
     @GetMapping(value = "/movie/genre", produces = "application/json")
     public @ResponseBody
     List<Genre> getAllGenres() {
-        return genreService.getAllGenres();
+        return genreService.findAll();
     }
 }

@@ -23,12 +23,12 @@ public class CaffeineCachedGenreDao implements GenreDao {
                 Caffeine.newBuilder()
                         .expireAfterWrite(4, TimeUnit.HOURS)
                         .maximumSize(1)
-                        .build(key -> dao.getAllGenres());
+                        .build(key -> dao.findAll());
         this.genresCache = genresCache;
     }
 
     @Override
-    public List<Genre> getAllGenres() {
+    public List<Genre> findAll() {
         log.debug("Genres cache is to be used");
         return genresCache.get("genres");
     }

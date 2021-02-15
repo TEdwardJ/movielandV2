@@ -26,12 +26,12 @@ public class SpringScheduledCachedGenreDao implements GenreDao {
     @Scheduled(initialDelay = 0, fixedRate = 14400000)
     void refresh() {
         log.info("Cache is to be refreshed");
-        genres = dao.getAllGenres();
+        genres = dao.findAll();
         log.info("Cache refreshed successfully");
     }
 
     @Override
-    public List<Genre> getAllGenres() {
+    public List<Genre> findAll() {
         log.debug("Genres cache is to be used");
         return genres;
     }

@@ -13,21 +13,20 @@ import java.util.List;
 
 @Repository
 public class JdbcGenreDao implements GenreDao {
-    private JdbcTemplate jdbc;
+    private final JdbcTemplate jdbcTemplate;
     private String allGenresSelect;
 
-    private RowMapper<Genre> genreMapper = new GenreRowMapper();
+    private final RowMapper<Genre> genreMapper = new GenreRowMapper();
 
     @Autowired
-    public JdbcGenreDao(JdbcTemplate jdbc, RowMapper<Genre> mapper, @Value("${allGenresSelect}")String allGenresSelect) {
-        this.jdbc = jdbc;
-        this.genreMapper = mapper;
+    public JdbcGenreDao(JdbcTemplate jdbcTemplate, @Value("${allGenresSelect}")String allGenresSelect) {
+        this.jdbcTemplate = jdbcTemplate;
         this.allGenresSelect = allGenresSelect;
     }
 
     @Override
-    public List<Genre> getAllGenres() {
-        List<Genre> genresList = jdbc.query(allGenresSelect, genreMapper);
+    public List<Genre> findAll() {
+        List<Genre> genresList = jdbcTemplate.query(allGenresSelect, genreMapper);
         return genresList;
     }
 }
