@@ -25,7 +25,7 @@ public class MovieRequestResolver implements HandlerMethodArgumentResolver {
         return parameterMap
                 .entrySet()
                 .stream()
-                .filter(entry -> OrderByColumn.validateEnumAndReturn(entry.getKey()) != null)
+                .filter(entry -> OrderByColumn.isValid(entry.getKey()))
                 .map(entry -> new MovieRequest(entry.getKey(), entry.getValue()[0]))
                 .findFirst()
                 .orElse(new MovieRequest());

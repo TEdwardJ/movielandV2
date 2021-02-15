@@ -1,22 +1,33 @@
 package edu.ted.web.movieland.web.entity;
 
 public enum OrderByColumn {
-    RATING("M_RATING"),
-    PRICE("M_PRICE");
+    RATING("RATING", "M_RATING"),
+    PRICE("PRICE", "M_PRICE");
 
     private String dbColumnName;
+    private String name;
 
-    OrderByColumn(String dbColumnName) {
+    OrderByColumn(String name,String dbColumnName) {
         this.dbColumnName = dbColumnName;
+        this.name = name;
     }
 
     public String getDbColumnName() {
         return dbColumnName;
     }
 
+    public String getName() {
+        return name;
+    }
+
+
+    public static boolean isValid(String value){
+        return validateEnumAndReturn(value) != null;
+    }
+
     public static OrderByColumn validateEnumAndReturn(String value){
         for (var item : values()) {
-            if (item.toString().equalsIgnoreCase(value)){
+            if (item.getName().equalsIgnoreCase(value)){
                 return item;
             }
         }
