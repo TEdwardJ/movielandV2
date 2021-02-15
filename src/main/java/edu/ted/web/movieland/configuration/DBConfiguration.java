@@ -24,7 +24,7 @@ public class DBConfiguration {
     private String password;
 
     @Bean("dataSource")
-    public DataSource getDataSource() {
+    public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
 
         hikariConfig.setJdbcUrl(url);
