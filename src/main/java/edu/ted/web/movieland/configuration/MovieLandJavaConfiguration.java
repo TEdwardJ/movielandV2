@@ -14,7 +14,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "edu.ted.web.movieland.utils",
         "edu.ted.web.movieland.dao"})
 @PropertySource("classpath:application.properties")
-@PropertySource("classpath:queries.properties")
 @EnableScheduling
 @Import(DBConfiguration.class)
 public class MovieLandJavaConfiguration {
