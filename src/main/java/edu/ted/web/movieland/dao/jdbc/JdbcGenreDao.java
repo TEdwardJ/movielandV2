@@ -1,6 +1,7 @@
 package edu.ted.web.movieland.dao.jdbc;
 
 import edu.ted.web.movieland.dao.GenreDao;
+import edu.ted.web.movieland.dao.jdbc.mapper.GenreRowMapper;
 import edu.ted.web.movieland.entity.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +16,7 @@ public class JdbcGenreDao implements GenreDao {
     private JdbcTemplate jdbc;
     private String allGenresSelect;
 
-    @Autowired
-    private RowMapper<Genre> genreMapper;
+    private RowMapper<Genre> genreMapper = new GenreRowMapper();
 
     @Autowired
     public JdbcGenreDao(JdbcTemplate jdbc, RowMapper<Genre> mapper, @Value("${allGenresSelect}")String allGenresSelect) {
