@@ -5,6 +5,7 @@ import edu.ted.web.movieland.entity.Genre;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -17,10 +18,10 @@ public class SpringScheduledCachedGenreDao implements GenreDao {
         this.dao = dao;
     }
 
-    @Scheduled(fixedRate = 14400000)
+    @Scheduled(fixedRateString = "${genre.cache.lifeInMilliSeconds:14400000}")
     void refresh() {
         log.info("Cache is to be refreshed");
-        genres = dao.findAll();
+        genres = Collections.unmodifiableList(dao.findAll());
         log.info("Cache refreshed successfully");
     }
 

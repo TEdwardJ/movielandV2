@@ -47,9 +47,7 @@ class JdbcGenreServiceTest {
     private List<Genre> prepareGenreList() {
         List<Genre> genreList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            var genre = new Genre();
-            genre.setName("Genre " + i);
-            genre.setId(i);
+            var genre = new Genre(i, "Genre " + i);
             genreList.add(genre);
         }
         return genreList;
