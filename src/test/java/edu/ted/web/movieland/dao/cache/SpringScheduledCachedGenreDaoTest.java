@@ -39,6 +39,6 @@ class SpringScheduledCachedGenreDaoTest {
         assertNotNull(genre.getName());
         assertNotNull(genre.getId());
         var allGenresOneMore = cachedDao.findAll();
-        assertTrue(allGenres == allGenresOneMore);
+        assertSame(allGenres, allGenresOneMore);
     }
 }
