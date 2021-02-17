@@ -1,5 +1,6 @@
 package edu.ted.web.movieland.service;
 
+import edu.ted.web.movieland.NoWebSpringTestConfiguration;
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
 import edu.ted.web.movieland.request.MovieRequest;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {MovieLandJavaConfiguration.class})
+@ContextConfiguration(classes = {NoWebSpringTestConfiguration.class})
 class JdbcMovieServiceTest {
 
     @Autowired

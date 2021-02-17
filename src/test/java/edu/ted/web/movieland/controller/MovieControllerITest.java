@@ -3,8 +3,7 @@ package edu.ted.web.movieland.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
-import edu.ted.web.movieland.web.configuration.WebMovieLandJavaConfiguration;
+import edu.ted.web.movieland.FullSpringTestConfiguration;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith({SpringExtension.class})
 @WebAppConfiguration("")
-@ContextConfiguration(classes = {MovieLandJavaConfiguration.class, WebMovieLandJavaConfiguration.class})
+@ContextConfiguration(classes = {FullSpringTestConfiguration.class})
 public class MovieControllerITest {
     @Autowired
     private WebApplicationContext wac;

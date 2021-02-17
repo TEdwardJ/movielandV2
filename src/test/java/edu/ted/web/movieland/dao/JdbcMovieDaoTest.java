@@ -1,10 +1,8 @@
 package edu.ted.web.movieland.dao;
 
-import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
+import edu.ted.web.movieland.NoWebSpringTestConfiguration;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.common.Sorting;
-import edu.ted.web.movieland.common.OrderByColumn;
-import edu.ted.web.movieland.common.OrderDirection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes={MovieLandJavaConfiguration.class})
+@ContextConfiguration(classes={NoWebSpringTestConfiguration.class})
 class JdbcMovieDaoTest {
 
     @Autowired

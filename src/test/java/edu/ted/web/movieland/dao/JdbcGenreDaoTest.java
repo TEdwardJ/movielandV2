@@ -1,6 +1,6 @@
 package edu.ted.web.movieland.dao;
 
-import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
+import edu.ted.web.movieland.NoWebSpringTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes={MovieLandJavaConfiguration.class})
+@ContextConfiguration(classes={NoWebSpringTestConfiguration.class})
 class JdbcGenreDaoTest {
 
     @Autowired
