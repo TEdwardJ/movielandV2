@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MovieRequestResolverTest {
 
-    private MovieRequestResolver requestResolver = new MovieRequestResolver();
+    private final MovieRequestResolver requestResolver = new MovieRequestResolver();
 
     @Test
     void givenRequestParameters_withRatingEqualsDesc_whenRequestCreated_thenCorrect() {

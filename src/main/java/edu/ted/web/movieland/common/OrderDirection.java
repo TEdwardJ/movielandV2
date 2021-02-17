@@ -5,7 +5,7 @@ public enum OrderDirection {
     DESC("DESC");
 
 
-    private String order;
+    private final String order;
 
     OrderDirection(String order) {
         this.order = order;

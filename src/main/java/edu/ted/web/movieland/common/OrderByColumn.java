@@ -4,8 +4,8 @@ public enum OrderByColumn {
     RATING("RATING", "M_RATING"),
     PRICE("PRICE", "M_PRICE");
 
-    private String dbColumnName;
-    private String name;
+    private final String dbColumnName;
+    private final String name;
 
     OrderByColumn(String name,String dbColumnName) {
         this.dbColumnName = dbColumnName;

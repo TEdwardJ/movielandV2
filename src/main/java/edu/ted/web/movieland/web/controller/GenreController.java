@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class GenreController {
 
-    private GenreService genreService;
+    private final GenreService genreService;
 
     @Autowired
     public GenreController(DefaultGenreService genreService) {

@@ -14,9 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "movies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
-    private MovieService movieService;
+    private final MovieService movieService;
 
-    private MovieMapper mapper;
+    private final MovieMapper mapper;
 
     @Value("${movies.random.count:3}")
     private int randomMoviesCount;

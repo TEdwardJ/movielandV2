@@ -13,7 +13,6 @@ public class FlywayTestConfiguration {
 
     @Bean(initMethod = "migrate")
     public Flyway flyway(DataSource dataSource){
-        logTestBoundary("migrateWithNoCallbacks");
         Flyway flyway = Flyway.configure(this.getClass().getClassLoader())
                 .baselineOnMigrate(false)
                 .baselineVersion("0.0.0")
@@ -26,8 +25,4 @@ public class FlywayTestConfiguration {
         return flyway;
     }
 
-    private void logTestBoundary(String testName) {
-        System.out.println("\n");
-        log.info("> " + testName);
-    }
 }

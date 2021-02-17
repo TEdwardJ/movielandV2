@@ -6,7 +6,7 @@ import lombok.Getter;
 
 public class Sorting {
     @Getter
-    private OrderByColumn orderedColumn;
+    private final OrderByColumn orderedColumn;
     @Getter
     private OrderDirection orderDirection;
 

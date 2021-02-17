@@ -13,7 +13,7 @@ import java.util.List;
 public class SpringScheduledCachedGenreDao implements GenreDao {
 
     private final Object monitor = new Object();
-    private GenreDao dao;
+    private final GenreDao dao;
     private volatile List<Genre> genres;
 
     public SpringScheduledCachedGenreDao(GenreDao dao) {

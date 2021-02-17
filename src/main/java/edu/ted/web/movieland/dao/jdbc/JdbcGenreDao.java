@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class JdbcGenreDao implements GenreDao {
     private final JdbcTemplate jdbcTemplate;
-    private String allGenresSelect;
+    private final String allGenresSelect;
 
     private final RowMapper<Genre> genreMapper = new GenreRowMapper();
 
