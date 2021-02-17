@@ -18,7 +18,7 @@ public class CaffeineCachedGenreDao implements GenreDao {
     @Value("${genre.cache.lifeInMilliSeconds:14400000}")
     private long fixedRateValue;
     private LoadingCache<String, List<Genre>> genresCache;
-    private GenreDao dao;
+    private final GenreDao dao;
 
     @Autowired
     public CaffeineCachedGenreDao(GenreDao dao) {
@@ -27,12 +27,10 @@ public class CaffeineCachedGenreDao implements GenreDao {
 
     @PostConstruct
     public void init(){
-        LoadingCache<String, List<Genre>> genresCache =
-                Caffeine.newBuilder()
-                        .expireAfterWrite(fixedRateValue, TimeUnit.MILLISECONDS)
-                        .maximumSize(1)
-                        .build(key -> Collections.unmodifiableList(dao.findAll()));
-        this.genresCache = genresCache;
+        this.genresCache = Caffeine.newBuilder()
+                .expireAfterWrite(fixedRateValue, TimeUnit.MILLISECONDS)
+                .maximumSize(1)
+                .build(key -> Collections.unmodifiableList(dao.findAll()));
     }
 
     @Override
