@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GenreService {
 
-    public List<Genre> findAll();
+    List<Genre> findAll();
 }

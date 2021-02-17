@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface MovieService {
 
-    public List<Movie> findAll(MovieRequest request);
+    List<Movie> findAll(MovieRequest request);
 
-    public List<Movie> getNRandomMovies(int count);
+    List<Movie> getNRandomMovies(int count);
 
-    public List<Movie> getMoviesByGenre(int genreId, MovieRequest request);
+    List<Movie> getMoviesByGenre(int genreId, MovieRequest request);
 }
