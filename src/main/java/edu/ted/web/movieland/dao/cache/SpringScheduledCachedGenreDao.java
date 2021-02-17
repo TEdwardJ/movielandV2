@@ -3,7 +3,6 @@ package edu.ted.web.movieland.dao.cache;
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Collections;

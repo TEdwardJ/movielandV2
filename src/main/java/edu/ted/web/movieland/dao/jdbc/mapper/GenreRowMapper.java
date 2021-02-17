@@ -2,7 +2,6 @@ package edu.ted.web.movieland.dao.jdbc.mapper;
 
 import edu.ted.web.movieland.entity.Genre;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

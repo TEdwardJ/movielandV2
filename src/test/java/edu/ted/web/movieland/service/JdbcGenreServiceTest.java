@@ -1,7 +1,6 @@
 package edu.ted.web.movieland.service;
 
 import edu.ted.web.movieland.NoWebSpringTestConfiguration;
-import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.service.impl.DefaultGenreService;

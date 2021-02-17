@@ -1,14 +1,12 @@
 package edu.ted.web.movieland.dao.cache;
 
 import edu.ted.web.movieland.NoWebSpringTestConfiguration;
-import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.dao.jdbc.JdbcGenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
