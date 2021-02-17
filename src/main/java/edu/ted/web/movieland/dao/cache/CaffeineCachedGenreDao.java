@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,12 +17,16 @@ import java.util.concurrent.TimeUnit;
 public class CaffeineCachedGenreDao implements GenreDao {
     @Value("${genre.cache.lifeInMilliSeconds:14400000}")
     private long fixedRateValue;
-    private final LoadingCache<String, List<Genre>> genresCache;
+    private LoadingCache<String, List<Genre>> genresCache;
     private GenreDao dao;
 
     @Autowired
     public CaffeineCachedGenreDao(GenreDao dao) {
         this.dao = dao;
+    }
+
+    @PostConstruct
+    public void init(){
         LoadingCache<String, List<Genre>> genresCache =
                 Caffeine.newBuilder()
                         .expireAfterWrite(fixedRateValue, TimeUnit.MILLISECONDS)

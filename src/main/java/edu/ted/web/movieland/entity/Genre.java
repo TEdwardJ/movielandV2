@@ -1,14 +1,8 @@
 package edu.ted.web.movieland.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.With;
+import lombok.Value;
 
-@Data
-@With
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 public class Genre {
     private int id;
     private String name;
