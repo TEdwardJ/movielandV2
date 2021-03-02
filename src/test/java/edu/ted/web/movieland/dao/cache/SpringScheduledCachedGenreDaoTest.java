@@ -33,7 +33,7 @@ class SpringScheduledCachedGenreDaoTest {
     void findAll() {
         var allGenres = cachedDao.findAll();
         assertFalse(allGenres.isEmpty());
-        assertThrows(UnsupportedOperationException.class, () -> allGenres.clear());
+        assertThrows(UnsupportedOperationException.class, allGenres::clear);
         assertThrows(UnsupportedOperationException.class, () -> allGenres.set(0, new Genre(1111,"1111")));
         var genre = allGenres.get(0);
         assertNotNull(genre.getName());
