@@ -12,4 +12,8 @@ public interface MovieService {
     List<Movie> getNRandomMovies(int count);
 
     List<Movie> getMoviesByGenre(int genreId, MovieRequest request);
+
+    List<Movie> getMovieById(int movieId);
+
+
 }

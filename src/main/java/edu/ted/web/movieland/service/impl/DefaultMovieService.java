@@ -27,5 +27,10 @@ public class DefaultMovieService implements MovieService {
         return dao.getMoviesByGenre(genreId, request.getSorting());
     }
 
+    @Override
+    public List<Movie> getMovieById(int movieId) {
+        return dao.getMovieById(movieId);
+    }
+
 
 }

@@ -26,6 +26,9 @@ public class JdbcMovieDao implements MovieDao {
     @Value("${moviesByGenreSelect}")
     private String moviesByGenreSelect;
 
+    @Value("${movieByIdQuery}")
+    private String movieByIdQuery;
+
     private final RowMapper<Movie> movieMapper = new MovieRowMapper();
 
     @Override
@@ -36,6 +39,11 @@ public class JdbcMovieDao implements MovieDao {
     @Override
     public List<Movie> getMoviesByGenre(int genreId, Sorting sorting) {
         return jdbcTemplate.query(applySorting(moviesByGenreSelect, sorting), movieMapper, genreId);
+    }
+
+    @Override
+    public List<Movie> getMovieById(int movieId) {
+        return jdbcTemplate.query(movieByIdQuery, movieMapper, movieId);
     }
 
     @Override

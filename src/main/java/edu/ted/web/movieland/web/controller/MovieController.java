@@ -27,7 +27,12 @@ public class MovieController {
         this.mapper = mapper;
     }
 
-   @GetMapping
+    @GetMapping(path = "/{movieId}")
+    public List<MovieDto> getMoviesById(@PathVariable int movieId) {
+        return mapper.mapToDTOs(movieService.getMovieById(movieId));
+    }
+
+   @GetMapping()
     public List<MovieDto> getAllMovies(MovieRequest request) {
         return mapper.mapToDTOs(movieService.findAll(request));
     }
@@ -41,4 +46,6 @@ public class MovieController {
     public List<MovieDto> getMoviesByGenre(@PathVariable int genreId, MovieRequest request) {
         return mapper.mapToDTOs(movieService.getMoviesByGenre(genreId, request));
     }
+
+
 }

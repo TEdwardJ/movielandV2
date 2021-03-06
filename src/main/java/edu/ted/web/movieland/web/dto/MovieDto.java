@@ -12,4 +12,5 @@ public class MovieDto {
     private Double rating;
     private Double price;
     private String picturePath;
+    private String description;
 }
