@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.service;
+package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.NoWebSpringTestConfiguration;
 import edu.ted.web.movieland.dao.GenreDao;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {NoWebSpringTestConfiguration.class})
-class JdbcGenreServiceTest {
+class DefaultGenreServiceTest {
 
     @Mock
     private GenreDao dao;

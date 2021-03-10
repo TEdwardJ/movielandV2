@@ -11,7 +11,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"edu.ted.web.movieland.web.controller"})
+@ComponentScan(basePackages = {"edu.ted.web.movieland.web"})
 public class WebMovieLandJavaConfiguration  implements WebMvcConfigurer {
 
     @Override
