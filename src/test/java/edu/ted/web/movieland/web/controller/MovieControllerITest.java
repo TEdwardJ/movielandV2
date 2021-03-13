@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.controller;
+package edu.ted.web.movieland.web.controller;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;

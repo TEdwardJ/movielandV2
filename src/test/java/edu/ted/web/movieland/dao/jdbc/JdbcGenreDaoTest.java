@@ -1,6 +1,7 @@
-package edu.ted.web.movieland.dao;
+package edu.ted.web.movieland.dao.jdbc;
 
 import edu.ted.web.movieland.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.dao.GenreDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

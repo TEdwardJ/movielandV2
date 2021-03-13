@@ -13,17 +13,25 @@ import org.springframework.stereotype.Repository;
 public class JdbcUserDao implements UserDao {
 
     private final String findUserQuery;
+    private final String checkPasswordQuery;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private RowMapper<User> userMapper = new UserRowMapper();
 
-    public JdbcUserDao(@Value("${findUserByEmailQuery}") String findUserQuery){
+    public JdbcUserDao(@Value("${findUserByEmailQuery}") String findUserQuery,
+                       @Value("${checkPasswordQuery}") String checkPasswordQuery){
         this.findUserQuery = findUserQuery;
+        this.checkPasswordQuery = checkPasswordQuery;
     }
 
     @Override
     public User findUserByEmail(String email) {
         return jdbcTemplate.queryForObject(findUserQuery, userMapper, email);
+    }
+
+    @Override
+    public boolean isPasswordValid(String email, String encryptedPassword) {
+        return jdbcTemplate.queryForObject(checkPasswordQuery, Integer.class, new Object[]{email, encryptedPassword}) == 1;
     }
 }

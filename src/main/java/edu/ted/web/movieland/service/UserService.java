@@ -18,5 +18,6 @@ public interface UserService {
 
     public UserToken logout(String uuid);
 
+    public Optional<UserToken> findUserToken(String uuid);
 
 }

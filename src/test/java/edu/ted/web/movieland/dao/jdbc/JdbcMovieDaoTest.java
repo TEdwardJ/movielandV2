@@ -1,6 +1,7 @@
-package edu.ted.web.movieland.dao;
+package edu.ted.web.movieland.dao.jdbc;
 
 import edu.ted.web.movieland.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.common.Sorting;
 import org.junit.jupiter.api.Test;

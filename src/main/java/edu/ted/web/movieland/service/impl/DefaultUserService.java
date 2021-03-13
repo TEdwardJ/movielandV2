@@ -3,6 +3,7 @@ package edu.ted.web.movieland.service.impl;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import edu.ted.web.movieland.dao.UserDao;
+import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.entity.UserToken;
 import edu.ted.web.movieland.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -31,19 +32,21 @@ public class DefaultUserService implements UserService {
         var user = userDao.findUserByEmail(email);
         if (user != null) {
             var inputEncPassword = getEncrypted(password, user.getSole());
-            if (inputEncPassword.equals(user.getPassword())) {
-                return register(user.getNickname());
+            //if (inputEncPassword.equals(user.getPassword())) {
+            if (userDao.isPasswordValid(user.getEmail(), inputEncPassword)) {
+                return register(user);
             }
         }
         return null;
     }
 
-    private UserToken register(String nickName) {
-        var userTokenToBeReturned = getUserTokenIfExists(nickName).orElseGet(()->new UserToken(nickName));
+    private UserToken register(User user) {
+        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(()->new UserToken(user.getNickname()));
         var keyUUID = userTokenToBeReturned.getUuid().toString();
         if(!userSessionCache.asMap().containsKey(keyUUID)) {
             userSessionCache.put(keyUUID, userTokenToBeReturned);
         }
+        userTokenToBeReturned.setUser(user);
         return userTokenToBeReturned;
     }
 
@@ -56,7 +59,8 @@ public class DefaultUserService implements UserService {
                 .findFirst();
     }
 
-    private Optional<UserToken> findUserToken(String uuid) {
+    @Override
+    public Optional<UserToken> findUserToken(String uuid) {
         return Optional.ofNullable(userSessionCache.get(uuid, k -> null));
     }
 

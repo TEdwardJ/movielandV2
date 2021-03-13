@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.controller;
+package edu.ted.web.movieland.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,7 +36,7 @@ class GenreControllerITest {
 
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test

@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +34,7 @@ class DefaultUserServiceTest {
         user.setNickname("TomCat");
 
         when(dao.findUserByEmail(email)).thenReturn(user);
+        when(dao.isPasswordValid(any(), any())).thenReturn(true);
     }
 
     @Test
