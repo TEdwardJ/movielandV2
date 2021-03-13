@@ -240,7 +240,7 @@ CREATE TABLE movie."user" (
     usr_id numeric DEFAULT nextval('movie.user_usr_id_seq'::regclass) NOT NULL,
     usr_name character varying(32) NOT NULL,
     usr_email character varying(32),
-    usr_password character varying(128) NOT NULL,
+    usr_password character varying(128),
     usr_sole character varying(32),
     usr_password_enc character varying(128)
 );
@@ -615,16 +615,16 @@ INSERT INTO movie.movie_review VALUES (32, 20, 'Скажу только одно
 -- Data for Name: user; Type: TABLE DATA; Schema: movie; Owner: postgres
 --
 
-INSERT INTO movie."user" VALUES (17, 'Амелия Кэннеди', 'amelia.kennedy58@example.com', 'beaker', 'zlodyjvocg', 'ca431020cc78b5cc285066dcb4d8973a');
-INSERT INTO movie."user" VALUES (18, 'Айда Дэвис', 'ida.davis80@example.com', 'pepsi1', 'vinqxbqbqt', '53f91d99b9c789e0f02d192e4f61430d');
-INSERT INTO movie."user" VALUES (19, 'Джесси Паттерсон', 'jessie.patterson68@example.com', 'tommy', 'fckvqaijwu', 'c4985368f98fd58cd71e22eb21aa1599');
-INSERT INTO movie."user" VALUES (20, 'Деннис Крейг', 'dennis.craig82@example.com', 'coldbeer', 'qpvjnzlwgq', 'f71282eaedba8502f6ebe4bedac556ac');
-INSERT INTO movie."user" VALUES (12, 'Дарлин Эдвардс', 'darlene.edwards15@example.com', 'bricks', 'yehseqhlrq', '8d75c25144926618cd7a015e63b84d8b');
-INSERT INTO movie."user" VALUES (11, 'Рональд Рейнольдс', 'ronald.reynolds66@example.com', 'paco', 'zciteqsyva', '578f6be7aa55d65e7f9c5a6693b6ae73');
-INSERT INTO movie."user" VALUES (13, 'Габриэль Джексон', 'gabriel.jackson91@example.com', 'hjkl', 'nldpvccbgu', '37896688177098b567344aa40eec353f');
-INSERT INTO movie."user" VALUES (14, 'Дэрил Брайант', 'daryl.bryant94@example.com', 'exodus', 'nyyiztkvzs', '3e87a86bc16cd934c2ea692f6f98ccd1');
-INSERT INTO movie."user" VALUES (15, 'Нил Паркер', 'neil.parker43@example.com', '878787', 'xhymxmctxi', '9e59ea75b4efba8933a3ee255f235b60');
-INSERT INTO movie."user" VALUES (16, 'Трэвис Райт', 'travis.wright36@example.com', 'smart', 'lhijuithxz', 'b69d60a59739635fd8b271a702b3833f');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (17, 'Амелия Кэннеди', 'amelia.kennedy58@example.com', 'zlodyjvocg', 'ca431020cc78b5cc285066dcb4d8973a');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (18, 'Айда Дэвис', 'ida.davis80@example.com', 'vinqxbqbqt', '53f91d99b9c789e0f02d192e4f61430d');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (19, 'Джесси Паттерсон', 'jessie.patterson68@example.com', 'fckvqaijwu', 'c4985368f98fd58cd71e22eb21aa1599');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (20, 'Деннис Крейг', 'dennis.craig82@example.com', 'qpvjnzlwgq', 'f71282eaedba8502f6ebe4bedac556ac');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (12, 'Дарлин Эдвардс', 'darlene.edwards15@example.com', 'yehseqhlrq', '8d75c25144926618cd7a015e63b84d8b');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (11, 'Рональд Рейнольдс', 'ronald.reynolds66@example.com', 'zciteqsyva', '578f6be7aa55d65e7f9c5a6693b6ae73');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (13, 'Габриэль Джексон', 'gabriel.jackson91@example.com', 'nldpvccbgu', '37896688177098b567344aa40eec353f');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (14, 'Дэрил Брайант', 'daryl.bryant94@example.com', 'nyyiztkvzs', '3e87a86bc16cd934c2ea692f6f98ccd1');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (15, 'Нил Паркер', 'neil.parker43@example.com', 'xhymxmctxi', '9e59ea75b4efba8933a3ee255f235b60');
+INSERT INTO movie."user"(usr_id, usr_name, usr_email, usr_sole, usr_password_enc) VALUES (16, 'Трэвис Райт', 'travis.wright36@example.com', 'lhijuithxz', 'b69d60a59739635fd8b271a702b3833f');
 
 
 --

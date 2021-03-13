@@ -3,6 +3,7 @@ package edu.ted.web.movieland.web.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.ted.web.movieland.FullSpringMvcTest;
 import edu.ted.web.movieland.FullSpringTestConfiguration;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith({SpringExtension.class})
-@WebAppConfiguration("")
-@ContextConfiguration(classes = {FullSpringTestConfiguration.class})
+@FullSpringMvcTest
 public class MovieControllerITest {
     @Autowired
     private WebApplicationContext wac;
@@ -37,7 +36,7 @@ public class MovieControllerITest {
 
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
     @Test
@@ -110,7 +109,6 @@ public class MovieControllerITest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(equalTo(3))));
-        var resultContent = performedAction.andReturn().getResponse().getContentAsString();
-        return resultContent;
+        return performedAction.andReturn().getResponse().getContentAsString();
     }
 }

@@ -3,6 +3,7 @@ package edu.ted.web.movieland.service;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import edu.ted.web.movieland.dao.UserDao;
+import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.entity.UserToken;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +15,12 @@ import java.util.concurrent.TimeUnit;
 
 public interface UserService {
 
-    public UserToken authorize(String email, String password);
+    UserToken authorize(String email, String password);
 
-    public UserToken logout(String uuid);
+    UserToken logout(String uuid);
 
-    public Optional<UserToken> findUserToken(String uuid);
+    Optional<UserToken> findUserToken(String uuid);
+
+    int addUser(User user);
 
 }

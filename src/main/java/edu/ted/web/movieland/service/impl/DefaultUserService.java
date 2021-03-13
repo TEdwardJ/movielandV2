@@ -6,6 +6,7 @@ import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.entity.UserToken;
 import edu.ted.web.movieland.service.UserService;
+import edu.ted.web.movieland.util.GeneralUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,9 @@ public class DefaultUserService implements UserService {
     }
 
     private UserToken register(User user) {
-        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(()->new UserToken(user.getNickname()));
+        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname()));
         var keyUUID = userTokenToBeReturned.getUuid().toString();
-        if(!userSessionCache.asMap().containsKey(keyUUID)) {
+        if (!userSessionCache.asMap().containsKey(keyUUID)) {
             userSessionCache.put(keyUUID, userTokenToBeReturned);
         }
         userTokenToBeReturned.setUser(user);
@@ -55,13 +56,25 @@ public class DefaultUserService implements UserService {
                 .asMap()
                 .values()
                 .stream()
-                .filter(t->t.getNickname().equals(nickName))
+                .filter(t -> t.getNickname().equals(nickName))
                 .findFirst();
     }
 
     @Override
     public Optional<UserToken> findUserToken(String uuid) {
         return Optional.ofNullable(userSessionCache.get(uuid, k -> null));
+    }
+
+    @Override
+    public int addUser(User user) {
+        if (!Optional.ofNullable(user.getPassword()).orElse("").isEmpty()) {
+            if (Optional.ofNullable(user.getSole()).orElse("").isEmpty()) {
+                user.setSole(GeneralUtils.generateString(10));
+            }
+            user.setPassword(getEncrypted(user.getPassword(), user.getSole()));
+            return userDao.addUser(user);
+        }
+        return 0;
     }
 
     public UserToken logout(String uuid) {
