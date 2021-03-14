@@ -13,24 +13,24 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultUserServiceTest {
+class DefaultSecurityServiceTest {
     private final String email = "xxx@gmail.com";
     private final String password = "password";
 
     @Mock
     private UserDao dao;
 
-    private DefaultUserService service;
+    private DefaultSecurityService service;
 
     @BeforeEach
     public void init() {
-        service = new DefaultUserService(dao, 7200000);
+        service = new DefaultSecurityService(dao, 7200000);
         service.cacheInit();
         User user = new User();
         user.setEmail(email);
         user.setSole("justSole");
         user.setId(12);
-        user.setPassword(service.getEncrypted(password, user.getSole()));
+        user.setPassword(service.getEncrypted(password + user.getSole()));
         user.setNickname("TomCat");
 
         when(dao.findUserByEmail(email)).thenReturn(user);

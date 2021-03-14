@@ -1,5 +1,6 @@
 package edu.ted.web.movieland.dao.jdbc;
 
+import edu.ted.web.movieland.FullSpringNoMvcTest;
 import edu.ted.web.movieland.NoWebSpringTestConfiguration;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Movie;
@@ -16,8 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes={NoWebSpringTestConfiguration.class})
+@FullSpringNoMvcTest
 class JdbcMovieDaoTest {
 
     @Autowired

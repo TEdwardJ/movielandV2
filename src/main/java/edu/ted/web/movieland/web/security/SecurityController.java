@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.web.security;
 
 import edu.ted.web.movieland.entity.UserToken;
-import edu.ted.web.movieland.service.UserService;
+import edu.ted.web.movieland.service.SecurityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SecurityController {
 
-    private final UserService userService;
+    private final SecurityService securityService;
 
-    public SecurityController(UserService userService) {
-        this.userService = userService;
+    public SecurityController(SecurityService securityService) {
+        this.securityService = securityService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserToken> login(@RequestParam String email, @RequestParam String password) {
-        var userToken = userService.authorize(email, password);
+        var userToken = securityService.authorize(email, password);
         HttpStatus status;
         if (userToken != null) {
             status = HttpStatus.CREATED;
@@ -33,7 +33,7 @@ public class SecurityController {
     @DeleteMapping("/logout")
     public ResponseEntity<?> logout(String uuid) {
         HttpStatus status;
-        if (userService.logout(uuid) != null){
+        if (securityService.logout(uuid) != null){
             status = HttpStatus.OK;
         } else{
             status = HttpStatus.BAD_REQUEST;

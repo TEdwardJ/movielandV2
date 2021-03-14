@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-public interface UserService {
+public interface SecurityService {
 
     UserToken authorize(String email, String password);
 

@@ -3,7 +3,7 @@ package edu.ted.web.movieland.web.controller;
 import edu.ted.web.movieland.entity.Review;
 import edu.ted.web.movieland.entity.UserToken;
 import edu.ted.web.movieland.service.ReviewService;
-import edu.ted.web.movieland.service.UserService;
+import edu.ted.web.movieland.service.SecurityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ReviewController {
 
-    private final UserService userService;
+    private final SecurityService securityService;
     private final ReviewService reviewService;
 
     @PostMapping("/review")
     public ResponseEntity<?> addReview(Review review, @RequestParam(required = false) String uuid){
         Optional<UserToken> userToken;
-        if (uuid == null || (userToken = userService.findUserToken(uuid)).isEmpty()){
+        if (uuid == null || (userToken = securityService.findUserToken(uuid)).isEmpty()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         review.setUser(userToken.get().getUser());

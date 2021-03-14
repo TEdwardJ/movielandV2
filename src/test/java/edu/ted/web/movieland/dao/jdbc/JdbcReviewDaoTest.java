@@ -3,14 +3,8 @@ package edu.ted.web.movieland.dao.jdbc;
 import edu.ted.web.movieland.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.Review;
-import edu.ted.web.movieland.entity.User;
-import edu.ted.web.movieland.service.UserService;
-import edu.ted.web.movieland.service.impl.DefaultReviewService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.comparator.Comparators;
 
 import java.util.Comparator;
 

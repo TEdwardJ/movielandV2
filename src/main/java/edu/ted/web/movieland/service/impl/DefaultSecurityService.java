@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.entity.UserToken;
-import edu.ted.web.movieland.service.UserService;
+import edu.ted.web.movieland.service.SecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class DefaultUserService implements UserService {
+public class DefaultSecurityService implements SecurityService {
 
     private final long userSessionLifeTime;
 
@@ -24,7 +24,7 @@ public class DefaultUserService implements UserService {
 
     private final UserDao userDao;
 
-    public DefaultUserService(UserDao userDao, @Value("${user.session.cache.lifeInMilliSeconds:7200000}") long userSessionLifeTime) {
+    public DefaultSecurityService(UserDao userDao, @Value("${user.session.cache.lifeInMilliSeconds:7200000}") long userSessionLifeTime) {
         this.userDao = userDao;
         this.userSessionLifeTime = userSessionLifeTime;
     }
@@ -32,7 +32,7 @@ public class DefaultUserService implements UserService {
     public UserToken authorize(String email, String password) {
         var user = userDao.findUserByEmail(email);
         if (user != null) {
-            var inputEncPassword = getEncrypted(password, user.getSole());
+            var inputEncPassword = getEncrypted(password + user.getSole());
             //if (inputEncPassword.equals(user.getPassword())) {
             if (userDao.isPasswordValid(user.getEmail(), inputEncPassword)) {
                 return register(user);
@@ -71,7 +71,7 @@ public class DefaultUserService implements UserService {
             if (Optional.ofNullable(user.getSole()).orElse("").isEmpty()) {
                 user.setSole(GeneralUtils.generateString(10));
             }
-            user.setPassword(getEncrypted(user.getPassword(), user.getSole()));
+            user.setPassword(getEncrypted(user.getPassword() + user.getSole()));
             return userDao.addUser(user);
         }
         return 0;
@@ -82,8 +82,8 @@ public class DefaultUserService implements UserService {
         return userTokenEntry.orElse(null);
     }
 
-    String getEncrypted(String password, String sole) {
-        return DigestUtils.md5Hex(password + sole);
+    public static String getEncrypted(String text) {
+        return DigestUtils.md5Hex(text);
     }
 
     @PostConstruct
