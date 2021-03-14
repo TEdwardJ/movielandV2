@@ -27,7 +27,7 @@ public class ReviewController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         review.setUser(userToken.get().getUser());
-        var addedReview = reviewService.addNewReview(review);
+        //var addedReview = reviewService.addNewReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

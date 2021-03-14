@@ -32,7 +32,7 @@ public class DefaultSecurityService implements SecurityService {
     public UserToken authorize(String email, String password) {
         var user = userDao.findUserByEmail(email);
         if (user != null) {
-            var inputEncPassword = getEncrypted(password + user.getSole());
+            var inputEncPassword = GeneralUtils.getEncrypted(password + user.getSole());
             //if (inputEncPassword.equals(user.getPassword())) {
             if (userDao.isPasswordValid(user.getEmail(), inputEncPassword)) {
                 return register(user);
@@ -71,7 +71,7 @@ public class DefaultSecurityService implements SecurityService {
             if (Optional.ofNullable(user.getSole()).orElse("").isEmpty()) {
                 user.setSole(GeneralUtils.generateString(10));
             }
-            user.setPassword(getEncrypted(user.getPassword() + user.getSole()));
+            user.setPassword(GeneralUtils.getEncrypted(user.getPassword() + user.getSole()));
             return userDao.addUser(user);
         }
         return 0;
@@ -82,9 +82,7 @@ public class DefaultSecurityService implements SecurityService {
         return userTokenEntry.orElse(null);
     }
 
-    public static String getEncrypted(String text) {
-        return DigestUtils.md5Hex(text);
-    }
+
 
     @PostConstruct
     public void cacheInit() {

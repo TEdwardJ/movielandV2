@@ -18,7 +18,7 @@ public class TestDbConfiguration {
     public Flyway flyway(DataSource dataSource, String testUserPassword, String testUserEmail) {
 
         String sole = GeneralUtils.generateString(10);
-        var encryptedPassword = DefaultSecurityService.getEncrypted(testUserPassword + sole);
+        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword + sole);
 
         Flyway flyway = Flyway.configure(this.getClass().getClassLoader())
                 .baselineOnMigrate(false)

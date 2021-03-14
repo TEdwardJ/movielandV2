@@ -37,7 +37,7 @@ public class SecurityController {
             status = HttpStatus.OK;
         } else{
             status = HttpStatus.BAD_REQUEST;
-        };
+        }
         return new ResponseEntity<>(null, status);
     }
 }
