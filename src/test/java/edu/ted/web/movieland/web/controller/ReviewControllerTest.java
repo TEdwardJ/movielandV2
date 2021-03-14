@@ -51,7 +51,10 @@ class ReviewControllerTest {
 
     private String sendAuthorizeRequest() throws Exception {
         var contentAsString = mockMvc.perform(post("/login").param("email", testUserEmail).param("password", testUserPassword))
-                .andReturn().getResponse().getContentAsString();
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         UserToken responseObject = new ObjectMapper().readValue(contentAsString, new TypeReference<UserToken>() {
         });
         return responseObject.getUuid().toString();
