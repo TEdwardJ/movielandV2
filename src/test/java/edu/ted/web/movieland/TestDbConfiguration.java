@@ -3,6 +3,7 @@ package edu.ted.web.movieland;
 import edu.ted.web.movieland.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,10 +14,13 @@ import java.util.Map;
 @Slf4j
 public class TestDbConfiguration {
 
-    @Bean(initMethod = "migrate")
-    public Flyway flyway(DataSource dataSource, String testUserPassword, String testUserEmail) {
+    @Value("${testUser.email}")
+    private String testUserEmail;
 
-        String sole = GeneralUtils.generateString(10);
+    @Bean(initMethod = "migrate")
+    public Flyway flyway(DataSource dataSource, String testUserPassword) {
+
+        var sole = GeneralUtils.generateString(10);
         var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword + sole);
 
         Flyway flyway = Flyway.configure(this.getClass().getClassLoader())
@@ -39,12 +43,7 @@ public class TestDbConfiguration {
 
     @Bean("testUserPassword")
     public String testUserPassword() {
-        return GeneralUtils.generateString(15);//"testUserPassword";
-    }
-
-    @Bean("testUserEmail")
-    public String testUserEmail() {
-        return "test_user@gmail.com";
+        return GeneralUtils.generateString(15);
     }
 
 }

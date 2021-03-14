@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @FullSpringMvcTest
 class ReviewControllerTest {
-    @Autowired
+    @Value("${testUser.email}")
     private String testUserEmail;
 
     @Autowired

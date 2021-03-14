@@ -4,7 +4,6 @@ import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.dao.jdbc.mapper.MovieRowMapper;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.common.Sorting;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,30 +14,39 @@ import java.util.List;
 @Repository
 public class JdbcMovieDao implements MovieDao {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    @Value("${getAllMoviesQuery}")
-    private String allMoviesSelect;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Value("${getRandomMoviesQuery}")
-    private String randomMoviesSelect;
-
-    @Value("${getMoviesByGenreQuery}")
-    private String moviesByGenreSelect;
-
-    @Value("${getMovieByIdQuery}")
-    private String movieByIdQuery;
+    private final String getAllMoviesQuery;
+    private final String getRandomMoviesQuery;
+    private final String getMoviesByGenreQuery;
+    private final String movieByIdQuery;
 
     private final RowMapper<Movie> movieMapper = new MovieRowMapper();
 
+    public JdbcMovieDao(JdbcTemplate jdbcTemplate,
+                        @Value("${getAllMoviesQuery}")
+                                String getAllMoviesQuery,
+                        @Value("${getRandomMoviesQuery}")
+                                String getRandomMoviesQuery,
+                        @Value("${getMoviesByGenreQuery}")
+                                String getMoviesByGenreQuery,
+                        @Value("${getMovieByIdQuery}")
+                                String movieByIdQuery) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.getAllMoviesQuery = getAllMoviesQuery;
+        this.getRandomMoviesQuery = getRandomMoviesQuery;
+        this.getMoviesByGenreQuery = getMoviesByGenreQuery;
+        this.movieByIdQuery = movieByIdQuery;
+    }
+
     @Override
     public List<Movie> findAll(Sorting sorting) {
-        return jdbcTemplate.query(applySorting(allMoviesSelect, sorting), movieMapper);
+        return jdbcTemplate.query(applySorting(getAllMoviesQuery, sorting), movieMapper);
     }
 
     @Override
     public List<Movie> getMoviesByGenre(int genreId, Sorting sorting) {
-        return jdbcTemplate.query(applySorting(moviesByGenreSelect, sorting), movieMapper, genreId);
+        return jdbcTemplate.query(applySorting(getMoviesByGenreQuery, sorting), movieMapper, genreId);
     }
 
     @Override
@@ -48,11 +56,11 @@ public class JdbcMovieDao implements MovieDao {
 
     @Override
     public List<Movie> getNRandomMovies(int count) {
-        return jdbcTemplate.query(randomMoviesSelect, movieMapper, count);
+        return jdbcTemplate.query(getRandomMoviesQuery, movieMapper, count);
     }
 
     private String applySorting(String query, Sorting sorting) {
-        if (sorting == null || query == null){
+        if (sorting == null || query == null) {
             return query;
         }
         return new StringBuilder()
