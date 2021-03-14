@@ -14,17 +14,15 @@ import javax.sql.DataSource;
 @PropertySource("classpath:queries.properties")
 public class DBConfiguration {
 
-    @Value("${dataSource.Url}")
-    private String url;
-    @Value("${dataSource.dataSourceClassName:}")
-    private String dataSourceClassName;
-    @Value("${dataSource.username}")
-    private String userName;
-    @Value("${dataSource.password}")
-    private String password;
-
-    @Bean("dataSource")
-    public DataSource dataSource() {
+    @Bean
+    public DataSource dataSource(@Value("${dataSource.Url}")
+                                         String url,
+                                 @Value("${dataSource.dataSourceClassName:}")
+                                         String dataSourceClassName,
+                                 @Value("${dataSource.username}")
+                                         String userName,
+                                 @Value("${dataSource.password}")
+                                         String password) {
         HikariConfig hikariConfig = new HikariConfig();
 
         hikariConfig.setJdbcUrl(url);

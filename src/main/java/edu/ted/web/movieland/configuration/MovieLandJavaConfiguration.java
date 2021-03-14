@@ -2,7 +2,7 @@ package edu.ted.web.movieland.configuration;
 
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.dao.cache.CaffeineCachedGenreDao;
-import edu.ted.web.movieland.dao.cache.SpringScheduledCachedGenreDao;
+import edu.ted.web.movieland.dao.cache.CustomCachedGenreDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,6 +24,6 @@ public class MovieLandJavaConfiguration {
         if(cacheType.endsWith("CaffeineCachedGenreDao")) {
             return new CaffeineCachedGenreDao(dao);
         }
-        return new SpringScheduledCachedGenreDao(dao);
+        return new CustomCachedGenreDao(dao);
     }
 }

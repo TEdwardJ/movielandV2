@@ -15,18 +15,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {NoWebSpringTestConfiguration.class})
-class SpringScheduledCachedGenreDaoTest {
+class CustomCachedGenreDaoTest {
 
     @Autowired
     private GenericApplicationContext context;
     @Autowired
     private JdbcGenreDao jdbcGenreDao;
-    private SpringScheduledCachedGenreDao cachedDao;
+    private CustomCachedGenreDao cachedDao;
 
     @BeforeEach
     public void init() {
-        context.registerBean(SpringScheduledCachedGenreDao.class, jdbcGenreDao);
-        cachedDao = (SpringScheduledCachedGenreDao)context.getBean("edu.ted.web.movieland.dao.cache.SpringScheduledCachedGenreDao");
+        context.registerBean(CustomCachedGenreDao.class, jdbcGenreDao);
+        cachedDao = (CustomCachedGenreDao)context.getBean("edu.ted.web.movieland.dao.cache.CustomCachedGenreDao");
     }
 
     @Test

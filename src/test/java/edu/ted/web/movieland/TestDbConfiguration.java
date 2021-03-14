@@ -1,6 +1,5 @@
 package edu.ted.web.movieland;
 
-import edu.ted.web.movieland.service.impl.DefaultSecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;

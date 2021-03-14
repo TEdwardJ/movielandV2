@@ -17,16 +17,16 @@ public class JdbcMovieDao implements MovieDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    @Value("${allMoviesSelect}")
+    @Value("${getAllMoviesQuery}")
     private String allMoviesSelect;
 
-    @Value("${randomMoviesSelect}")
+    @Value("${getRandomMoviesQuery}")
     private String randomMoviesSelect;
 
-    @Value("${moviesByGenreSelect}")
+    @Value("${getMoviesByGenreQuery}")
     private String moviesByGenreSelect;
 
-    @Value("${movieByIdQuery}")
+    @Value("${getMovieByIdQuery}")
     private String movieByIdQuery;
 
     private final RowMapper<Movie> movieMapper = new MovieRowMapper();

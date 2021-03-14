@@ -14,19 +14,19 @@ import java.util.List;
 @Repository
 public class JdbcGenreDao implements GenreDao {
     private final JdbcTemplate jdbcTemplate;
-    private final String allGenresSelect;
+    private final String getGenresSql;
 
     private final RowMapper<Genre> genreMapper = new GenreRowMapper();
 
     @Autowired
-    public JdbcGenreDao(JdbcTemplate jdbcTemplate, @Value("${allGenresSelect}")String allGenresSelect) {
+    public JdbcGenreDao(JdbcTemplate jdbcTemplate, @Value("${getGenresQuery}")String getGenresSql) {
         this.jdbcTemplate = jdbcTemplate;
-        this.allGenresSelect = allGenresSelect;
+        this.getGenresSql = getGenresSql;
     }
 
     @Override
     public List<Genre> findAll() {
-        List<Genre> genresList = jdbcTemplate.query(allGenresSelect, genreMapper);
+        List<Genre> genresList = jdbcTemplate.query(getGenresSql, genreMapper);
         return genresList;
     }
 }

@@ -16,7 +16,7 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/v1/*" };
+        return new String[] { "/api/v1/*" };
     }
 
 

@@ -23,7 +23,7 @@ public class JdbcReviewDao implements ReviewDao {
     private String movieReviewsQuery;
     private RowMapper<Review> reviewMapper = new ReviewRowMapper();
 
-    public JdbcReviewDao(DataSource dataSource, JdbcTemplate jdbcTemplate, @Value("${movieReviewsQuery}") String movieReviewsQuery) {
+    public JdbcReviewDao(DataSource dataSource, JdbcTemplate jdbcTemplate, @Value("${getMovieReviewsQuery}") String movieReviewsQuery) {
         this.reviewInsert = new SimpleJdbcInsert(dataSource)
                 .withSchemaName("movie")
                 .withTableName("movie_Review")
