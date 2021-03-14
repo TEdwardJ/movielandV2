@@ -1,5 +1,6 @@
 package edu.ted.web.movieland.web.controller;
 
+import com.jayway.jsonpath.JsonPath;
 import edu.ted.web.movieland.FullSpringMvcTest;
 import edu.ted.web.movieland.entity.UserToken;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,8 +56,7 @@ class ReviewControllerTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        UserToken responseObject = new ObjectMapper().readValue(contentAsString, new TypeReference<UserToken>() {
-        });
-        return responseObject.getUuid().toString();
+        var uuid = (String)JsonPath.read(contentAsString, "$.uuid");
+        return uuid;
     }
 }

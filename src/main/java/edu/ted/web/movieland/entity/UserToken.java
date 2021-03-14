@@ -1,26 +1,21 @@
 package edu.ted.web.movieland.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
-import java.beans.Transient;
 import java.util.UUID;
-@AllArgsConstructor
+
+@Value
 public class UserToken {
-    @Getter
     private UUID uuid;
-    @Getter
     private String nickname;
-    @Getter
-    @Setter
     @JsonIgnore
     private transient User user;
 
-
-    public UserToken(String nickname) {
+    public UserToken(String nickname, User user) {
         this.nickname = nickname;
+        this.user = user;
         uuid = UUID.randomUUID();
     }
+
 }

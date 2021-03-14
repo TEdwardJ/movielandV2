@@ -1,15 +1,13 @@
 package edu.ted.web.movieland.web.security;
 
+import com.jayway.jsonpath.JsonPath;
 import edu.ted.web.movieland.FullSpringMvcTest;
-import edu.ted.web.movieland.entity.UserToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.type.TypeReference;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.UUID;
 
@@ -51,11 +49,10 @@ class SecurityControllerITest {
 
     @Test
     void givenExistingSessionUUID_whenStatusIsOK_thenCorrect() throws Exception {
-        String uuid = UUID.randomUUID().toString();
         var contentAsString = mockMvc.perform(post("/login").param("email", "dennis.craig82@example.com").param("password", "coldbeer"))
                 .andReturn().getResponse().getContentAsString();
-        UserToken responseObject = new ObjectMapper().readValue(contentAsString, new TypeReference<UserToken>(){});
-        mockMvc.perform(delete("/logout").param("uuid", responseObject.getUuid().toString()))
+        String uuidReturned = JsonPath.read(contentAsString, "$.uuid");
+        mockMvc.perform(delete("/logout").param("uuid", uuidReturned))
                 .andExpect(status().isOk());
     }
 }

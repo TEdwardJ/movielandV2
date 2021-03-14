@@ -7,7 +7,6 @@ import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.entity.UserToken;
 import edu.ted.web.movieland.service.SecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,6 @@ public class DefaultSecurityService implements SecurityService {
         var user = userDao.findUserByEmail(email);
         if (user != null) {
             var inputEncPassword = GeneralUtils.getEncrypted(password + user.getSole());
-            //if (inputEncPassword.equals(user.getPassword())) {
             if (userDao.isPasswordValid(user.getEmail(), inputEncPassword)) {
                 return register(user);
             }
@@ -42,12 +40,10 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     private UserToken register(User user) {
-        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname()));
-        var keyUUID = userTokenToBeReturned.getUuid().toString();
-        if (!userSessionCache.asMap().containsKey(keyUUID)) {
-            userSessionCache.put(keyUUID, userTokenToBeReturned);
+        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname(), user));
+        if (!userSessionCache.asMap().containsKey(userTokenToBeReturned.getUuid())) {
+            userSessionCache.put(userTokenToBeReturned.getUuid().toString(), userTokenToBeReturned);
         }
-        userTokenToBeReturned.setUser(user);
         return userTokenToBeReturned;
     }
 
