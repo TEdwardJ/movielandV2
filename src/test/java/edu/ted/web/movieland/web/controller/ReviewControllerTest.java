@@ -56,7 +56,6 @@ class ReviewControllerTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        var uuid = (String)JsonPath.read(contentAsString, "$.uuid");
-        return uuid;
+        return (String)JsonPath.read(contentAsString, "$.uuid");
     }
 }

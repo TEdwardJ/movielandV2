@@ -11,11 +11,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, implementationName = "DefaultMovieMapper")
 public interface MovieMapper {
-    @Mappings({
+/*    @Mappings({
             @Mapping(target="nameRussian", source="russianName"),
             @Mapping(target="nameNative", source="nativeName"),
             @Mapping(target="picturePath", source="pictureUrl")
-    })
+    })*/
     MovieDto mapToDTO(Movie movie);
 
     List<MovieDto> mapToDTOs(List<Movie> movie);

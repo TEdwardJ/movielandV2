@@ -6,11 +6,11 @@ import lombok.Data;
 public class MovieDto {
 
     private int id;
-    private String nameRussian;
-    private String nameNative;
-    private String yearOfRelease;
+    private String russianName;
+    private String nativeName;
+    private String releaseYear;
     private Double rating;
     private Double price;
-    private String picturePath;
+    private String pictureUrl;
     private String description;
 }
