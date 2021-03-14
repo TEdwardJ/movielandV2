@@ -39,23 +39,6 @@ public class DefaultSecurityService implements SecurityService {
         return null;
     }
 
-    private UserToken register(User user) {
-        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname(), user));
-        if (!userSessionCache.asMap().containsKey(userTokenToBeReturned.getUuid())) {
-            userSessionCache.put(userTokenToBeReturned.getUuid().toString(), userTokenToBeReturned);
-        }
-        return userTokenToBeReturned;
-    }
-
-    private Optional<UserToken> getUserTokenIfExists(String nickName) {
-        return userSessionCache
-                .asMap()
-                .values()
-                .stream()
-                .filter(t -> t.getNickname().equals(nickName))
-                .findFirst();
-    }
-
     @Override
     public Optional<UserToken> findUserToken(String uuid) {
         return Optional.ofNullable(userSessionCache.get(uuid, k -> null));
@@ -85,5 +68,22 @@ public class DefaultSecurityService implements SecurityService {
         this.userSessionCache = Caffeine.newBuilder()
                 .expireAfterWrite(userSessionLifeTime, TimeUnit.MILLISECONDS)
                 .build();
+    }
+
+    private UserToken register(User user) {
+        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname(), user));
+        if (!userSessionCache.asMap().containsKey(userTokenToBeReturned.getUuid().toString())) {
+            userSessionCache.put(userTokenToBeReturned.getUuid().toString(), userTokenToBeReturned);
+        }
+        return userTokenToBeReturned;
+    }
+
+    private Optional<UserToken> getUserTokenIfExists(String nickName) {
+        return userSessionCache
+                .asMap()
+                .values()
+                .stream()
+                .filter(t -> t.getNickname().equals(nickName))
+                .findFirst();
     }
 }

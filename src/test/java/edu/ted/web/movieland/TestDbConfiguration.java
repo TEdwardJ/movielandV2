@@ -3,27 +3,30 @@ package edu.ted.web.movieland;
 import edu.ted.web.movieland.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.Map;
 
 @Configuration
 @Slf4j
 public class TestDbConfiguration {
+    @Autowired
+    DataSource dataSource;
 
     @Value("${testUser.email}")
     private String testUserEmail;
 
-    @Bean(initMethod = "migrate")
-    public Flyway flyway(DataSource dataSource, String testUserPassword) {
-
+    @PostConstruct
+    public void flywayInit() {
         var sole = GeneralUtils.generateString(10);
-        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword + sole);
+        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword() + sole);
 
-        Flyway flyway = Flyway.configure(this.getClass().getClassLoader())
+        var flyway = Flyway.configure(this.getClass().getClassLoader())
                 .baselineOnMigrate(false)
                 .baselineVersion("0.0.0")
                 .placeholderReplacement(true)
@@ -38,7 +41,7 @@ public class TestDbConfiguration {
                 flyway.clean();
             }
         }
-        return flyway;
+        flyway.migrate();
     }
 
     @Bean("testUserPassword")

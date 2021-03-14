@@ -4,7 +4,7 @@ import edu.ted.web.movieland.service.MovieService;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import edu.ted.web.movieland.util.MovieMapper;
 import edu.ted.web.movieland.request.MovieRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "movies", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class MovieController {
     private final MovieService movieService;
 
@@ -20,12 +21,6 @@ public class MovieController {
 
     @Value("${movies.random.count:3}")
     private int randomMoviesCount;
-
-    @Autowired
-    public MovieController(MovieService movieService, MovieMapper mapper) {
-        this.movieService = movieService;
-        this.mapper = mapper;
-    }
 
     @GetMapping(path = "/{movieId}")
     public List<MovieDto> getMoviesById(@PathVariable int movieId) {

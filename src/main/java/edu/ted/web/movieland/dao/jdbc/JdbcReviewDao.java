@@ -17,11 +17,11 @@ import java.util.Map;
 @Repository
 public class JdbcReviewDao implements ReviewDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    private SimpleJdbcInsert reviewInsert;
-    private String movieReviewsQuery;
-    private RowMapper<Review> reviewMapper = new ReviewRowMapper();
+    private final SimpleJdbcInsert reviewInsert;
+    private final String movieReviewsQuery;
+    private final RowMapper<Review> reviewMapper = new ReviewRowMapper();
 
     public JdbcReviewDao(DataSource dataSource, JdbcTemplate jdbcTemplate, @Value("${getMovieReviewsQuery}") String movieReviewsQuery) {
         this.reviewInsert = new SimpleJdbcInsert(dataSource)

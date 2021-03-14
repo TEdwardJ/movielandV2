@@ -1,16 +1,15 @@
 package edu.ted.web.movieland.service.impl;
 
-import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.dao.ReviewDao;
 import edu.ted.web.movieland.entity.Review;
 import edu.ted.web.movieland.service.ReviewService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DefaultReviewService implements ReviewService {
 
     private final ReviewDao dao;

@@ -5,6 +5,7 @@ import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Comparator;
 
@@ -12,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @FullSpringNoMvcTest
 class JdbcReviewDaoTest {
-    private final String email = "dennis.craig82@example.com";
+    @Value("${testUser.email}")
+    private String email;
 
     @Autowired
     private JdbcReviewDao reviewDao;

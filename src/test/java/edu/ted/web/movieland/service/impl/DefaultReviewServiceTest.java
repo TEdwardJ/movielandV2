@@ -1,9 +1,7 @@
 package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.dao.ReviewDao;
-import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.Review;
-import edu.ted.web.movieland.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

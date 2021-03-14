@@ -2,7 +2,6 @@ package edu.ted.web.movieland.web.controller;
 
 import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.service.GenreService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ public class GenreController {
 
     private final GenreService genreService;
 
-    @Autowired
     public GenreController(GenreService genreService) {
         this.genreService = genreService;
     }

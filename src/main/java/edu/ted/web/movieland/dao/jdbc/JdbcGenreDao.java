@@ -26,7 +26,6 @@ public class JdbcGenreDao implements GenreDao {
 
     @Override
     public List<Genre> findAll() {
-        List<Genre> genresList = jdbcTemplate.query(getGenresSql, genreMapper);
-        return genresList;
+        return jdbcTemplate.query(getGenresSql, genreMapper);
     }
 }

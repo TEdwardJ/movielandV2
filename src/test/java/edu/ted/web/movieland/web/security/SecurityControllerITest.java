@@ -5,6 +5,7 @@ import edu.ted.web.movieland.FullSpringMvcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,6 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @FullSpringMvcTest
 class SecurityControllerITest {
 
+    @Value("${testUser.email}")
+    private String email;
+    @Autowired
+    private String testUserPassword;
+
     @Autowired
     private WebApplicationContext wac;
 
@@ -31,13 +37,13 @@ class SecurityControllerITest {
 
     @Test
     void givenExistingUserEmailAndPassword_whenSessionUUIDisReturned_thenCorrect() throws Exception {
-        mockMvc.perform(post("/login").param("email","dennis.craig82@example.com").param("password","coldbeer"))
+        mockMvc.perform(post("/login").param("email",email).param("password",testUserPassword))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.uuid", not(empty())))
                 .andExpect(jsonPath("$.nickname", not(empty())))
                 .andExpect(jsonPath("$", not(hasKey("user"))))
-                .andExpect(jsonPath("$.nickname", equalTo("Деннис Крейг")));
+                .andExpect(jsonPath("$.nickname", equalTo("testUser")));
     }
 
     @Test
@@ -49,7 +55,7 @@ class SecurityControllerITest {
 
     @Test
     void givenExistingSessionUUID_whenStatusIsOK_thenCorrect() throws Exception {
-        var contentAsString = mockMvc.perform(post("/login").param("email", "dennis.craig82@example.com").param("password", "coldbeer"))
+        var contentAsString = mockMvc.perform(post("/login").param("email", email).param("password", testUserPassword))
                 .andReturn().getResponse().getContentAsString();
         String uuidReturned = JsonPath.read(contentAsString, "$.uuid");
         mockMvc.perform(delete("/logout").param("uuid", uuidReturned))

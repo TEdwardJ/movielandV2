@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 public class DBConfiguration {
 
     @Bean
-    public DataSource dataSource(@Value("${dataSource.Url}")
+    public DataSource dataSource(@Value("${dataSource.url}")
                                          String url,
                                  @Value("${dataSource.dataSourceClassName:}")
                                          String dataSourceClassName,
@@ -29,8 +29,7 @@ public class DBConfiguration {
         hikariConfig.setUsername(userName);
         hikariConfig.setPassword(password);
         hikariConfig.setDataSourceClassName(dataSourceClassName);
-        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-        return hikariDataSource;
+        return new HikariDataSource(hikariConfig);
     }
 
     @Bean
