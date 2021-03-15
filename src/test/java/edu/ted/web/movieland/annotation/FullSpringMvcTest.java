@@ -1,6 +1,7 @@
-package edu.ted.web.movieland;
+package edu.ted.web.movieland.annotation;
 
 
+import edu.ted.web.movieland.configuration.FullSpringTestConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

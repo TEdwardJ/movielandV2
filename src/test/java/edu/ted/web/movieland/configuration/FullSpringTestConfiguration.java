@@ -1,6 +1,7 @@
-package edu.ted.web.movieland;
+package edu.ted.web.movieland.configuration;
 
 import edu.ted.web.movieland.configuration.MovieLandJavaConfiguration;
+import edu.ted.web.movieland.configuration.TestDbConfiguration;
 import edu.ted.web.movieland.web.configuration.WebMovieLandJavaConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

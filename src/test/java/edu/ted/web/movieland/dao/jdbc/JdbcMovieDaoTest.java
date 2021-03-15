@@ -1,6 +1,6 @@
 package edu.ted.web.movieland.dao.jdbc;
 
-import edu.ted.web.movieland.FullSpringNoMvcTest;
+import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.common.Sorting;

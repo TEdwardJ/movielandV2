@@ -1,32 +1,26 @@
 package edu.ted.web.movieland.dao.cache;
 
-import edu.ted.web.movieland.NoWebSpringTestConfiguration;
-import edu.ted.web.movieland.dao.jdbc.JdbcGenreDao;
+import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
+import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {NoWebSpringTestConfiguration.class})
+@FullSpringNoMvcTest
 class CustomCachedGenreDaoTest {
 
     @Autowired
     private GenericApplicationContext context;
-    @Autowired
-    private JdbcGenreDao jdbcGenreDao;
-    private CustomCachedGenreDao cachedDao;
+
+    private GenreDao cachedDao;
 
     @BeforeEach
     public void init() {
-        context.registerBean(CustomCachedGenreDao.class, jdbcGenreDao);
-        cachedDao = (CustomCachedGenreDao)context.getBean("edu.ted.web.movieland.dao.cache.CustomCachedGenreDao");
+        cachedDao = (CustomCachedGenreDao)context.getBean("testCustomCachedGenreDao");
     }
 
     @Test
@@ -41,4 +35,6 @@ class CustomCachedGenreDaoTest {
         var allGenresOneMore = cachedDao.findAll();
         assertSame(allGenres, allGenresOneMore);
     }
+
+
 }

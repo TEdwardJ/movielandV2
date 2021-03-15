@@ -20,10 +20,11 @@ public class MovieLandJavaConfiguration {
 
     @Bean
     @Primary
-    public GenreDao genreDao(GenreDao dao, @Value("${cacheType:SpringScheduledCachedGenreDao}") String cacheType){
+    public GenreDao genreDao(GenreDao jdbcGenreDao,
+                             @Value("${cacheType:CustomCachedGenreDao}") String cacheType){
         if(cacheType.endsWith("CaffeineCachedGenreDao")) {
-            return new CaffeineCachedGenreDao(dao);
+            return new CaffeineCachedGenreDao(jdbcGenreDao);
         }
-        return new CustomCachedGenreDao(dao);
+        return new CustomCachedGenreDao(jdbcGenreDao);
     }
 }

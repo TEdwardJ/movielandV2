@@ -1,6 +1,6 @@
 package edu.ted.web.movieland.dao.jdbc;
 
-import edu.ted.web.movieland.FullSpringNoMvcTest;
+import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.Review;
 import org.junit.jupiter.api.Test;

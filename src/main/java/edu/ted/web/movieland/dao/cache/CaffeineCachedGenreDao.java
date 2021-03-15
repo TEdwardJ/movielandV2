@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,16 +15,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@RequiredArgsConstructor
 public class CaffeineCachedGenreDao implements GenreDao {
     @Value("${genre.cache.lifeInMilliSeconds:14400000}")
     private long fixedRateValue;
     private LoadingCache<String, List<Genre>> genresCache;
     private final GenreDao dao;
-
-    @Autowired
-    public CaffeineCachedGenreDao(GenreDao dao) {
-        this.dao = dao;
-    }
 
     @PostConstruct
     public void init(){

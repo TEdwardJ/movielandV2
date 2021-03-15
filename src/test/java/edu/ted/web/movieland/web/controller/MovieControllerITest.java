@@ -3,7 +3,7 @@ package edu.ted.web.movieland.web.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.ted.web.movieland.FullSpringMvcTest;
+import edu.ted.web.movieland.annotation.FullSpringMvcTest;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

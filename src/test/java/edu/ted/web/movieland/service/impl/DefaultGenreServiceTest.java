@@ -1,9 +1,8 @@
 package edu.ted.web.movieland.service.impl;
 
-import edu.ted.web.movieland.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.configuration.NoWebSpringTestConfiguration;
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
-import edu.ted.web.movieland.service.impl.DefaultGenreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

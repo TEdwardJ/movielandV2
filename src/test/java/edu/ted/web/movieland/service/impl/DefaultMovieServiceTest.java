@@ -1,6 +1,6 @@
 package edu.ted.web.movieland.service.impl;
 
-import edu.ted.web.movieland.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.configuration.NoWebSpringTestConfiguration;
 import edu.ted.web.movieland.request.MovieRequest;
 import edu.ted.web.movieland.service.MovieService;
 import org.junit.jupiter.api.Test;

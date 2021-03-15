@@ -1,10 +1,13 @@
 package edu.ted.web.movieland.dao.cache;
 
-import edu.ted.web.movieland.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.configuration.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -15,7 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class CaffeineCachedGenreDaoTest {
 
     @Autowired
-    private CaffeineCachedGenreDao cachedDao;
+    private GenericApplicationContext context;
+
+    private GenreDao cachedDao;
+
+    @BeforeEach
+    public void init() {
+        cachedDao = (CaffeineCachedGenreDao)context.getBean("testCaffeineCachedGenreDao");
+    }
 
     @Test
     void findAll() {
@@ -25,8 +35,10 @@ class CaffeineCachedGenreDaoTest {
         assertThrows(UnsupportedOperationException.class, () -> allGenres.set(0, new Genre(1111,"1111")));
         var genre = allGenres.get(0);
         assertNotNull(genre.getName());
-        assertNotNull(genre.getId());
+        assertTrue(genre.getId() > 0);
         var allGenresOneMore = cachedDao.findAll();
         assertSame(allGenres, allGenresOneMore);
     }
+
+
 }
