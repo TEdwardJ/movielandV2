@@ -20,4 +20,6 @@ public class WebMovieLandJavaConfiguration  implements WebMvcConfigurer {
         resolvers.add(new MovieRequestResolver());
     }
 
+
+
 }

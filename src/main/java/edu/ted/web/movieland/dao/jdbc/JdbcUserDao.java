@@ -1,19 +1,19 @@
- package edu.ted.web.movieland.dao.jdbc;
+package edu.ted.web.movieland.dao.jdbc;
 
- import edu.ted.web.movieland.dao.UserDao;
- import edu.ted.web.movieland.dao.jdbc.mapper.UserRowMapper;
- import edu.ted.web.movieland.entity.User;
- import org.springframework.beans.factory.annotation.Value;
- import org.springframework.jdbc.core.JdbcTemplate;
- import org.springframework.jdbc.core.RowMapper;
- import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
- import org.springframework.stereotype.Repository;
+import edu.ted.web.movieland.dao.UserDao;
+import edu.ted.web.movieland.dao.jdbc.mapper.UserRowMapper;
+import edu.ted.web.movieland.entity.User;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
- import javax.sql.DataSource;
- import java.util.HashMap;
- import java.util.Map;
+import javax.sql.DataSource;
+import java.util.Map;
+import java.util.Optional;
 
- @Repository
+@Repository
 public class JdbcUserDao implements UserDao {
 
     private final String findUserQuery;
@@ -27,7 +27,7 @@ public class JdbcUserDao implements UserDao {
     public JdbcUserDao(DataSource dataSource,
                        JdbcTemplate jdbcTemplate,
                        @Value("${findUserByEmailQuery}") String findUserQuery,
-                       @Value("${checkPasswordQuery}") String checkPasswordQuery){
+                       @Value("${checkPasswordQuery}") String checkPasswordQuery) {
         this.findUserQuery = findUserQuery;
         this.checkPasswordQuery = checkPasswordQuery;
         this.jdbcTemplate = jdbcTemplate;
@@ -38,8 +38,10 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        return jdbcTemplate.queryForObject(findUserQuery, userMapper, email);
+    public Optional<User> findUserByEmail(String email) {
+        return jdbcTemplate.query(findUserQuery, userMapper, email)
+                .stream()
+                .findFirst();
     }
 
     @Override
@@ -49,11 +51,11 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public int addUser(User user) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("USR_NAME", user.getNickname());
-        parameters.put("USR_EMAIL", user.getEmail());
-        parameters.put("USR_PASSWORD_ENC", user.getPassword());
-        parameters.put("USR_SOLE", user.getSole());
+        Map<String, Object> parameters = Map.of(
+                "USR_NAME", user.getNickname(),
+                "USR_EMAIL", user.getEmail(),
+                "USR_PASSWORD_ENC", user.getPassword(),
+                "USR_SOLE", user.getSole());
         var key = userInsert.executeAndReturnKey(parameters);
         return key.intValue();
     }

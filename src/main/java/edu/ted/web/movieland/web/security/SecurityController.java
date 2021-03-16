@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 public class SecurityController {
@@ -19,24 +21,20 @@ public class SecurityController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserToken> login(@RequestParam String email, @RequestParam String password) {
-        var userToken = securityService.authorize(email, password);
-        HttpStatus status;
-        if (userToken != null) {
-            status = HttpStatus.CREATED;
-        } else {
-            status = HttpStatus.BAD_REQUEST;
-        }
-        return new ResponseEntity<>(userToken, status);
+    public ResponseEntity<UserToken> login(String email, String password) {
+        return securityService
+                .login(email, password)
+                .map(token -> new ResponseEntity<>(token, CREATED))
+                .orElseGet(() -> new ResponseEntity<>(BAD_REQUEST));
     }
 
     @DeleteMapping("/logout")
     public ResponseEntity<?> logout(String uuid) {
         HttpStatus status;
-        if (securityService.logout(uuid) != null){
-            status = HttpStatus.OK;
-        } else{
-            status = HttpStatus.BAD_REQUEST;
+        if (securityService.logout(uuid) != null) {
+            status = OK;
+        } else {
+            status = BAD_REQUEST;
         }
         return new ResponseEntity<>(null, status);
     }

@@ -28,20 +28,16 @@ public class DefaultSecurityService implements SecurityService {
         this.userSessionLifeTime = userSessionLifeTime;
     }
 
-    public UserToken authorize(String email, String password) {
-        var user = userDao.findUserByEmail(email);
-        if (user != null) {
-            var inputEncPassword = GeneralUtils.getEncrypted(password + user.getSole());
-            if (userDao.isPasswordValid(user.getEmail(), inputEncPassword)) {
-                return register(user);
-            }
-        }
-        return null;
+    public Optional<UserToken> login(String email, String password) {
+        return userDao
+                .findUserByEmail(email)
+                .filter(foundUser -> isPasswordValid(password, foundUser))
+                .map(this::register);
     }
 
     @Override
     public Optional<UserToken> findUserToken(String uuid) {
-        return Optional.ofNullable(userSessionCache.get(uuid, k -> null));
+        return Optional.ofNullable(userSessionCache.getIfPresent(uuid));
     }
 
     @Override
@@ -61,8 +57,6 @@ public class DefaultSecurityService implements SecurityService {
         return userTokenEntry.orElse(null);
     }
 
-
-
     @PostConstruct
     public void cacheInit() {
         this.userSessionCache = Caffeine.newBuilder()
@@ -72,8 +66,9 @@ public class DefaultSecurityService implements SecurityService {
 
     private UserToken register(User user) {
         var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname(), user));
-        if (!userSessionCache.asMap().containsKey(userTokenToBeReturned.getUuid().toString())) {
-            userSessionCache.put(userTokenToBeReturned.getUuid().toString(), userTokenToBeReturned);
+        var uuidKey = userTokenToBeReturned.getUuid().toString();
+        if (!userSessionCache.asMap().containsKey(uuidKey)) {
+            userSessionCache.put(uuidKey, userTokenToBeReturned);
         }
         return userTokenToBeReturned;
     }
@@ -85,5 +80,9 @@ public class DefaultSecurityService implements SecurityService {
                 .stream()
                 .filter(t -> t.getNickname().equals(nickName))
                 .findFirst();
+    }
+
+    private boolean isPasswordValid(String password, User user) {
+        return userDao.isPasswordValid(user.getEmail(), GeneralUtils.getEncrypted(password + user.getSole()));
     }
 }

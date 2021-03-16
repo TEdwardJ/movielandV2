@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface SecurityService {
 
-    UserToken authorize(String email, String password);
+    Optional<UserToken> login(String email, String password);
 
     UserToken logout(String uuid);
 

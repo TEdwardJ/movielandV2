@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.servlet.Filter;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,11 +26,17 @@ class ReviewControllerTest {
     @Autowired
     private WebApplicationContext context;
 
+    @Autowired
+    private Filter reviewSecurityFilter;
+
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .addFilters(reviewSecurityFilter)
+                .build();
     }
 
     @Test

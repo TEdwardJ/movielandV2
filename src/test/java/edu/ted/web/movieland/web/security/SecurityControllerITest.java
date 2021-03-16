@@ -37,20 +37,27 @@ class SecurityControllerITest {
 
     @Test
     void givenExistingUserEmailAndPassword_whenSessionUUIDisReturned_thenCorrect() throws Exception {
-        mockMvc.perform(post("/login").param("email",email).param("password",testUserPassword))
+        mockMvc.perform(post("/login").param("email", email).param("password", testUserPassword))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.uuid", not(empty())))
-                .andExpect(jsonPath("$.nickname", not(empty())))
                 .andExpect(jsonPath("$", not(hasKey("user"))))
+                .andExpect(jsonPath("$.uuid", not(empty())))
                 .andExpect(jsonPath("$.nickname", equalTo("testUser")));
+    }
+
+    @Test
+    void givenNonExistingUserEmailAndPassword_whenSessionUUIDisReturned_thenCorrect() throws Exception {
+        mockMvc.perform(post("/login")
+                    .param("email", email + "12")
+                    .param("password", testUserPassword + "12"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenRandomUUID_whenBadRequest_thenCorrect() throws Exception {
         String uuid = UUID.randomUUID().toString();
         mockMvc.perform(delete("/logout").param("uuid", uuid))
-        .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

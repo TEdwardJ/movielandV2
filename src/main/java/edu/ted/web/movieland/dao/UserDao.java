@@ -2,9 +2,11 @@ package edu.ted.web.movieland.dao;
 
 import edu.ted.web.movieland.entity.User;
 
+import java.util.Optional;
+
 public interface UserDao {
 
-    User findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
     boolean isPasswordValid(String email, String encryptedPassword);
 

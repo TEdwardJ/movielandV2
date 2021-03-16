@@ -26,7 +26,7 @@ class JdbcReviewDaoTest {
     void addReview() {
         var review = new Review(105, "Just new 105 Movie Review");
         var user = userDao.findUserByEmail(email);
-        review.setUser(user);
+        review.setUser(user.get());
         var result = reviewDao.addReview(review);
         assertTrue(result > 0);
 

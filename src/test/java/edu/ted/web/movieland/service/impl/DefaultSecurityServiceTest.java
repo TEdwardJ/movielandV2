@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -34,29 +36,29 @@ class DefaultSecurityServiceTest {
         user.setPassword(GeneralUtils.getEncrypted(password + user.getSole()));
         user.setNickname("TomCat");
 
-        when(dao.findUserByEmail(email)).thenReturn(user);
+        when(dao.findUserByEmail(email)).thenReturn(Optional.of(user));
         when(dao.isPasswordValid(any(), any())).thenReturn(true);
     }
 
     @Test
     void givenEmailAndPasswordOfExistingUser_whenTokenIsReturned_thenCorrect() {
-        var userToken = service.authorize(email, password);
+        var userToken = service.login(email, password).get();
         assertEquals("TomCat", userToken.getNickname());
         assertNotNull("TomCat", userToken.getUuid().toString());
     }
 
     @Test
     void givenEmailAndPasswordOfLoggedUser_whenTheSameTokenIsReturned_thenCorrect() {
-        var userToken = service.authorize(email, password);
+        var userToken = service.login(email, password).get();
         assertEquals("TomCat", userToken.getNickname());
         assertNotNull("TomCat", userToken.getUuid().toString());
-        var tokenForAlreadyLoggedInUser = service.authorize(email, password);
-        assertEquals(userToken.getUuid(), tokenForAlreadyLoggedInUser.getUuid());
+        var tokenForAlreadyLoggedInUser = service.login(email, password);
+        assertEquals(userToken.getUuid(), tokenForAlreadyLoggedInUser.get().getUuid());
     }
 
     @Test
     void givenUserHasLoggedInAndHasToken_thenTriesLogout_whenTokenReturnedAndEquals_thenCorrect() {
-        var userToken = service.authorize(email, password);
+        var userToken = service.login(email, password).get();
         assertEquals("TomCat", userToken.getNickname());
         assertNotNull("TomCat", userToken.getUuid().toString());
         var logoutResult = service.logout(userToken.getUuid().toString());
