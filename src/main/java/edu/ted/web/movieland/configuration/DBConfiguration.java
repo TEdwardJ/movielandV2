@@ -15,14 +15,10 @@ import javax.sql.DataSource;
 public class DBConfiguration {
 
     @Bean
-    public DataSource dataSource(@Value("${dataSource.url}")
-                                         String url,
-                                 @Value("${dataSource.dataSourceClassName:}")
-                                         String dataSourceClassName,
-                                 @Value("${dataSource.username}")
-                                         String userName,
-                                 @Value("${dataSource.password}")
-                                         String password) {
+    public DataSource dataSource(@Value("${dataSource.url}") String url,
+                                 @Value("${dataSource.dataSourceClassName:}") String dataSourceClassName,
+                                 @Value("${dataSource.username}") String userName,
+                                 @Value("${dataSource.password}") String password) {
         HikariConfig hikariConfig = new HikariConfig();
 
         hikariConfig.setJdbcUrl(url);

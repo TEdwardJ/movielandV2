@@ -12,9 +12,9 @@ import java.time.LocalDate;
 public class Review {
     @Getter
     @Setter
-    private int reviewId;
+    private long reviewId;
     @Getter
-    private final int movieId;
+    private final long movieId;
     @Getter
     private final String text;
     @Getter

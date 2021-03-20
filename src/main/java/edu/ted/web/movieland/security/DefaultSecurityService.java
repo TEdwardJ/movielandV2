@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.service.impl;
+package edu.ted.web.movieland.security;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

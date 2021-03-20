@@ -51,7 +51,7 @@ class ReviewControllerTest {
         mockMvc.perform(post("/review")
                 .param("movieId", "105")
                 .param("text", "test")
-                .param("uuid", uuid))
+                .header("uuid", uuid))
                 .andExpect(status().isOk());
     }
 

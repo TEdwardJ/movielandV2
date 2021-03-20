@@ -2,6 +2,7 @@ package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
+import edu.ted.web.movieland.security.DefaultSecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

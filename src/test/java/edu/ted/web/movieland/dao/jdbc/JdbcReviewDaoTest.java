@@ -33,21 +33,10 @@ class JdbcReviewDaoTest {
         var review = new Review(105, "Just the newest 105 Movie Review");
         var user = userDao.findUserByEmail(email);
         review.setUser(user.get());
-        var result = reviewDao.addReview(review);
-        assertTrue(result > 0);
+        var result = reviewDao.save(review);
+        assertTrue(result.getReviewId() > 0);
+        assertTrue(review == result);
 
     }
 
-    @Test
-    void findAllByMovieId() {
-        var reviewList = reviewDao.findAllByMovieId(105);
-        assertFalse(reviewList.isEmpty());
-        var review = reviewList.get(0);
-        assertFalse(review.getText().isEmpty());
-        assertTrue(review.getReviewId()>0);
-        assertNotNull(review.getUser());
-        assertTrue(review.getMovieId()>0);
-        assertNotNull(review.getReviewDate());
-        assertEquals(105, review.getMovieId());
-    }
 }

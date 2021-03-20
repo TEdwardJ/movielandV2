@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = {
         "edu.ted.web.movieland.service",
         "edu.ted.web.movieland.util",
+        "edu.ted.web.movieland.security",
         "edu.ted.web.movieland.dao"})
 @PropertySource("classpath:application.properties")
 @EnableScheduling
@@ -21,7 +22,7 @@ public class MovieLandJavaConfiguration {
     @Bean
     @Primary
     public GenreDao genreDao(GenreDao jdbcGenreDao,
-                             @Value("${cacheType:CustomCachedGenreDao}") String cacheType){
+                             @Value("${genre.cache.type:CustomCachedGenreDao}") String cacheType){
         if(cacheType.endsWith("CaffeineCachedGenreDao")) {
             return new CaffeineCachedGenreDao(jdbcGenreDao);
         }

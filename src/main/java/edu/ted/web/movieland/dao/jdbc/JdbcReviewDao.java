@@ -34,18 +34,15 @@ public class JdbcReviewDao implements ReviewDao {
     }
 
     @Override
-    public int addReview(Review review) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("USR_ID", review.getUser().getId());
-        parameters.put("MESSAGE", review.getText());
-        parameters.put("M_ID", review.getMovieId());
-        parameters.put("REVIEW_DATE", review.getReviewDate());
+    public Review save(Review review) {
+        Map<String, Object> parameters = Map.of(
+                "USR_ID", review.getUser().getId(),
+                "MESSAGE", review.getText(),
+                "M_ID", review.getMovieId(),
+                "REVIEW_DATE", review.getReviewDate());
         var key = reviewInsert.executeAndReturnKey(parameters);
-        return key.intValue();
+        review.setReviewId(key.intValue());
+        return review;
     }
 
-    @Override
-    public List<Review> findAllByMovieId(int movieId) {
-        return jdbcTemplate.query(movieReviewsQuery, reviewMapper, movieId);
-    }
 }

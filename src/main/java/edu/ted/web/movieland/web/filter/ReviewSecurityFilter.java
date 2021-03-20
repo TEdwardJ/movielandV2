@@ -31,13 +31,13 @@ public class ReviewSecurityFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (((HttpServletRequest) servletRequest).getPathInfo().startsWith("/review")) {
             Optional<UserToken> userToken;
-            var uuid = Optional.ofNullable(servletRequest.getParameter("uuid"));
+            var uuid = Optional.ofNullable(((HttpServletRequest) servletRequest).getHeader("uuid"));
             log.debug("UUID in request {}", uuid);
             if (uuid.isEmpty() || (userToken = securityService.findUserToken(uuid.get())).isEmpty()) {
                 ((HttpServletResponse) servletResponse).setStatus(UNAUTHORIZED.value());
                 return;
             } else {
-                servletRequest.setAttribute("movieLandUserToken", userToken.get());
+                servletRequest.setAttribute("edu.ted.web.movieland.movieLandUserToken", userToken.get());
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
