@@ -1,6 +1,5 @@
 package edu.ted.web.movieland.web.filter;
 
-import edu.ted.web.movieland.entity.UserToken;
 import edu.ted.web.movieland.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,9 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Component("reviewSecurityFilter")
 @Slf4j
@@ -29,17 +26,11 @@ public class ReviewSecurityFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if (((HttpServletRequest) servletRequest).getPathInfo().startsWith("/review")) {
-            Optional<UserToken> userToken;
-            var uuid = Optional.ofNullable(((HttpServletRequest) servletRequest).getHeader("uuid"));
-            log.debug("UUID in request {}", uuid);
-            if (uuid.isEmpty() || (userToken = securityService.findUserToken(uuid.get())).isEmpty()) {
-                ((HttpServletResponse) servletResponse).setStatus(UNAUTHORIZED.value());
-                return;
-            } else {
-                servletRequest.setAttribute("edu.ted.web.movieland.movieLandUserToken", userToken.get());
-            }
-        }
+        Optional.ofNullable(((HttpServletRequest) servletRequest).getHeader("uuid"))
+                .stream()
+                .peek(uuid -> log.debug("UUID in request {}", uuid))
+                .map(securityService::findUserToken)
+                .forEach(token -> ((HttpServletRequest) servletRequest).getSession().setAttribute("edu.ted.web.movieland.movieLandUserToken", token.get()));
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

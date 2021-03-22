@@ -2,6 +2,7 @@ package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
+import edu.ted.web.movieland.request.LoginRequest;
 import edu.ted.web.movieland.security.DefaultSecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,26 +44,26 @@ class DefaultSecurityServiceTest {
 
     @Test
     void givenEmailAndPasswordOfExistingUser_whenTokenIsReturned_thenCorrect() {
-        var userToken = service.login(email, password).get();
-        assertEquals("TomCat", userToken.getNickname());
-        assertNotNull("TomCat", userToken.getUuid().toString());
+        var userSession = service.login(new LoginRequest(email, password)).get();
+        assertEquals("TomCat", userSession.getUser().getNickname());
+        assertNotNull("TomCat", userSession.getUuid().toString());
     }
 
     @Test
     void givenEmailAndPasswordOfLoggedUser_whenTheSameTokenIsReturned_thenCorrect() {
-        var userToken = service.login(email, password).get();
-        assertEquals("TomCat", userToken.getNickname());
+        var userToken = service.login(new LoginRequest(email, password)).get();
+        assertEquals("TomCat", userToken.getUser().getNickname());
         assertNotNull("TomCat", userToken.getUuid().toString());
-        var tokenForAlreadyLoggedInUser = service.login(email, password);
+        var tokenForAlreadyLoggedInUser = service.login(new LoginRequest(email, password));
         assertEquals(userToken.getUuid(), tokenForAlreadyLoggedInUser.get().getUuid());
     }
 
     @Test
     void givenUserHasLoggedInAndHasToken_thenTriesLogout_whenTokenReturnedAndEquals_thenCorrect() {
-        var userToken = service.login(email, password).get();
-        assertEquals("TomCat", userToken.getNickname());
+        var userToken = service.login(new LoginRequest(email, password)).get();
+        assertEquals("TomCat", userToken.getUser().getNickname());
         assertNotNull("TomCat", userToken.getUuid().toString());
         var logoutResult = service.logout(userToken.getUuid().toString());
-        assertEquals(userToken.getUuid(), logoutResult.getUuid());
+        assertEquals(userToken.getUuid(), logoutResult.get().getUuid());
     }
 }

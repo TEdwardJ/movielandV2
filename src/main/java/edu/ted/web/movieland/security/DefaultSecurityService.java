@@ -4,7 +4,8 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
-import edu.ted.web.movieland.entity.UserToken;
+import edu.ted.web.movieland.entity.UserSession;
+import edu.ted.web.movieland.request.LoginRequest;
 import edu.ted.web.movieland.service.SecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -19,7 +21,7 @@ public class DefaultSecurityService implements SecurityService {
 
     private final long userSessionLifeTime;
 
-    private Cache<String, UserToken> userSessionCache;
+    private Cache<String, UserSession> userSessionCache;
 
     private final UserDao userDao;
 
@@ -28,15 +30,15 @@ public class DefaultSecurityService implements SecurityService {
         this.userSessionLifeTime = userSessionLifeTime;
     }
 
-    public Optional<UserToken> login(String email, String password) {
+    public Optional<UserSession> login(LoginRequest loginRequest) {
         return userDao
-                .findUserByEmail(email)
-                .filter(foundUser -> isPasswordValid(password, foundUser))
+                .findUserByEmail(loginRequest.getEmail())
+                .filter(foundUser -> isPasswordValid(loginRequest.getPassword(), foundUser))
                 .map(this::register);
     }
 
     @Override
-    public Optional<UserToken> findUserToken(String uuid) {
+    public Optional<UserSession> findUserToken(String uuid) {
         return Optional.ofNullable(userSessionCache.getIfPresent(uuid));
     }
 
@@ -52,9 +54,9 @@ public class DefaultSecurityService implements SecurityService {
         return 0;
     }
 
-    public UserToken logout(String uuid) {
+    public Optional<UserSession> logout(String uuid) {
         var userTokenEntry = findUserToken(uuid);
-        return userTokenEntry.orElse(null);
+        return userTokenEntry;//.orElse(null);
     }
 
     @PostConstruct
@@ -64,8 +66,8 @@ public class DefaultSecurityService implements SecurityService {
                 .build();
     }
 
-    private UserToken register(User user) {
-        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserToken(user.getNickname(), user));
+    private UserSession register(User user) {
+        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserSession(UUID.randomUUID(), user));
         var uuidKey = userTokenToBeReturned.getUuid().toString();
         if (!userSessionCache.asMap().containsKey(uuidKey)) {
             userSessionCache.put(uuidKey, userTokenToBeReturned);
@@ -73,12 +75,12 @@ public class DefaultSecurityService implements SecurityService {
         return userTokenToBeReturned;
     }
 
-    private Optional<UserToken> getUserTokenIfExists(String nickName) {
+    private Optional<UserSession> getUserTokenIfExists(String nickName) {
         return userSessionCache
                 .asMap()
                 .values()
                 .stream()
-                .filter(t -> t.getNickname().equals(nickName))
+                .filter(t -> t.getUser().getNickname().equals(nickName))
                 .findFirst();
     }
 

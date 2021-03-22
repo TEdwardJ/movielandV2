@@ -29,4 +29,6 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
         filterProxy.setTargetBeanName("reviewSecurityFilter");
         return new Filter[]{filterProxy};
     }
+
+
 }

@@ -1,17 +1,18 @@
 package edu.ted.web.movieland.service;
 
 import edu.ted.web.movieland.entity.User;
-import edu.ted.web.movieland.entity.UserToken;
+import edu.ted.web.movieland.entity.UserSession;
+import edu.ted.web.movieland.request.LoginRequest;
 
 import java.util.Optional;
 
 public interface SecurityService {
 
-    Optional<UserToken> login(String email, String password);
+    Optional<UserSession> login(LoginRequest loginRequest);
 
-    UserToken logout(String uuid);
+    Optional<UserSession> logout(String uuid);
 
-    Optional<UserToken> findUserToken(String uuid);
+    Optional<UserSession> findUserToken(String uuid);
 
     int addUser(User user);
 
