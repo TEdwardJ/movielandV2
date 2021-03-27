@@ -67,8 +67,8 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     private UserSession register(User user) {
-        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserSession(UUID.randomUUID(), user));
-        var uuidKey = userTokenToBeReturned.getToken().toString();
+        var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserSession(UUID.randomUUID().toString(), user));
+        var uuidKey = userTokenToBeReturned.getToken();
         if (!userSessionCache.asMap().containsKey(uuidKey)) {
             userSessionCache.put(uuidKey, userTokenToBeReturned);
         }
