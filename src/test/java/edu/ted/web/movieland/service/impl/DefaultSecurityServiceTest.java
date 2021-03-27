@@ -46,24 +46,24 @@ class DefaultSecurityServiceTest {
     void givenEmailAndPasswordOfExistingUser_whenTokenIsReturned_thenCorrect() {
         var userSession = service.login(new LoginRequest(email, password)).get();
         assertEquals("TomCat", userSession.getUser().getNickname());
-        assertNotNull("TomCat", userSession.getUuid().toString());
+        assertNotNull("TomCat", userSession.getToken().toString());
     }
 
     @Test
     void givenEmailAndPasswordOfLoggedUser_whenTheSameTokenIsReturned_thenCorrect() {
         var userToken = service.login(new LoginRequest(email, password)).get();
         assertEquals("TomCat", userToken.getUser().getNickname());
-        assertNotNull("TomCat", userToken.getUuid().toString());
+        assertNotNull("TomCat", userToken.getToken().toString());
         var tokenForAlreadyLoggedInUser = service.login(new LoginRequest(email, password));
-        assertEquals(userToken.getUuid(), tokenForAlreadyLoggedInUser.get().getUuid());
+        assertEquals(userToken.getToken(), tokenForAlreadyLoggedInUser.get().getToken());
     }
 
     @Test
     void givenUserHasLoggedInAndHasToken_thenTriesLogout_whenTokenReturnedAndEquals_thenCorrect() {
         var userToken = service.login(new LoginRequest(email, password)).get();
         assertEquals("TomCat", userToken.getUser().getNickname());
-        assertNotNull("TomCat", userToken.getUuid().toString());
-        var logoutResult = service.logout(userToken.getUuid().toString());
-        assertEquals(userToken.getUuid(), logoutResult.get().getUuid());
+        assertNotNull("TomCat", userToken.getToken().toString());
+        var logoutResult = service.logout(userToken.getToken().toString());
+        assertEquals(userToken.getToken(), logoutResult.get().getToken());
     }
 }

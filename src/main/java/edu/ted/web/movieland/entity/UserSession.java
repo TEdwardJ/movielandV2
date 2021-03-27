@@ -7,7 +7,7 @@ import java.util.UUID;
 @Value
 public class UserSession
 {
-    private UUID uuid;
+    private UUID token;
     private User user;
 
 }

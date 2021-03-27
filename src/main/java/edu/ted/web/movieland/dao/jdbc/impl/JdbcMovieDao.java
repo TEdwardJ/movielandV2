@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.dao.jdbc;
+package edu.ted.web.movieland.dao.jdbc.impl;
 
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.dao.jdbc.mapper.MovieRowMapper;
@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcMovieDao implements MovieDao {
@@ -50,8 +51,10 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getMovieById(int movieId) {
-        return jdbcTemplate.query(movieByIdQuery, movieMapper, movieId);
+    public Optional<Movie> getMovieById(int movieId) {
+        return jdbcTemplate.query(movieByIdQuery, movieMapper, movieId)
+                .stream()
+                .findFirst();
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Component("reviewSecurityFilter")
 @Slf4j
-public class ReviewSecurityFilter extends GenericFilterBean {
+public class ReviewSecurityFilter implements Filter {
 
     private final SecurityService securityService;
 

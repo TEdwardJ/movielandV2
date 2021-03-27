@@ -31,8 +31,4 @@ public class ReviewController {
         return new ResponseEntity<>(OK);
     }
 
-    @ExceptionHandler({ServletRequestBindingException.class})
-    private void handle(HttpServletResponse res, Exception ex){
-        res.setStatus(UNAUTHORIZED.value());
-    }
 }

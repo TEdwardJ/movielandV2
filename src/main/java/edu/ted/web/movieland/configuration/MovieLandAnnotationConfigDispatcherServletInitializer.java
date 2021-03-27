@@ -1,13 +1,14 @@
 package edu.ted.web.movieland.configuration;
 
 import edu.ted.web.movieland.web.configuration.WebMovieLandJavaConfiguration;
-import edu.ted.web.movieland.web.filter.ReviewSecurityFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 public class MovieLandAnnotationConfigDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{MovieLandJavaConfiguration.class};
@@ -18,17 +19,20 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
         return new Class[]{WebMovieLandJavaConfiguration.class};
     }
 
+
     @Override
     protected String[] getServletMappings() {
         return new String[] { "/api/v1/*" };
     }
 
-    @Override
-    protected Filter[] getServletFilters() {
-        DelegatingFilterProxy filterProxy = new DelegatingFilterProxy();
-        filterProxy.setTargetBeanName("reviewSecurityFilter");
-        return new Filter[]{filterProxy};
-    }
 
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+        DelegatingFilterProxy filterProxy = new DelegatingFilterProxy("reviewSecurityFilter");
+        filterProxy.setContextAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.dispatcher");
+        servletContext.addFilter("reviewSecurityFilter", filterProxy)
+                .addMappingForUrlPatterns(null, true, "/*");
+    }
 
 }

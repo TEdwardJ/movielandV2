@@ -4,6 +4,7 @@ import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.request.MovieRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieService {
 
@@ -13,7 +14,7 @@ public interface MovieService {
 
     List<Movie> getMoviesByGenre(int genreId, MovieRequest request);
 
-    List<Movie> getMovieById(int movieId);
+    Optional<Movie> getMovieById(int movieId);
 
 
 }

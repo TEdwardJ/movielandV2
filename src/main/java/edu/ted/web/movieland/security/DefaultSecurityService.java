@@ -56,7 +56,7 @@ public class DefaultSecurityService implements SecurityService {
 
     public Optional<UserSession> logout(String uuid) {
         var userTokenEntry = findUserToken(uuid);
-        return userTokenEntry;//.orElse(null);
+        return userTokenEntry;
     }
 
     @PostConstruct
@@ -68,7 +68,7 @@ public class DefaultSecurityService implements SecurityService {
 
     private UserSession register(User user) {
         var userTokenToBeReturned = getUserTokenIfExists(user.getNickname()).orElseGet(() -> new UserSession(UUID.randomUUID(), user));
-        var uuidKey = userTokenToBeReturned.getUuid().toString();
+        var uuidKey = userTokenToBeReturned.getToken().toString();
         if (!userSessionCache.asMap().containsKey(uuidKey)) {
             userSessionCache.put(uuidKey, userTokenToBeReturned);
         }

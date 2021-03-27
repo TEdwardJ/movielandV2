@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.dao.jdbc;
+package edu.ted.web.movieland.dao.jdbc.impl;
 
 import edu.ted.web.movieland.dao.ReviewDao;
 import edu.ted.web.movieland.dao.jdbc.mapper.ReviewRowMapper;
@@ -44,5 +44,11 @@ public class JdbcReviewDao implements ReviewDao {
         review.setReviewId(key.intValue());
         return review;
     }
+
+    @Override
+    public List<Review> getReviewsByMovieId(long id) {
+        return jdbcTemplate.query(movieReviewsQuery, reviewMapper, id);
+    }
+
 
 }

@@ -6,6 +6,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.UserDao;
+import edu.ted.web.movieland.dao.jdbc.impl.JdbcReviewDao;
 import edu.ted.web.movieland.entity.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,18 @@ class JdbcReviewDaoTest {
         assertTrue(result.getReviewId() > 0);
         assertTrue(review == result);
 
+    }
+
+    @Test
+    void givenMovieId_whenNonEmptyListOfReviewReceived_thenCorrect(){
+        var reviewList = reviewDao.getReviewsByMovieId(106);
+        assertFalse(reviewList.isEmpty());
+        for (Review review : reviewList) {
+            assertFalse(review.getText().isEmpty());
+            assertNotEquals(0, review.getMovieId());
+            assertNotEquals(0, review.getReviewId());
+            assertNotNull(review.getReviewDate());
+        }
     }
 
 }

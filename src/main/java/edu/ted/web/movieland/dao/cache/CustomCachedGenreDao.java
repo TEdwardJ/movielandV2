@@ -21,11 +21,7 @@ public class CustomCachedGenreDao implements GenreDao {
     void refresh() {
         log.info("Cache is to be refreshed");
         var genres = Collections.unmodifiableList(dao.findAll());
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         synchronized (monitor) {
             this.genres = genres;
             monitor.notifyAll();
@@ -53,6 +49,11 @@ public class CustomCachedGenreDao implements GenreDao {
         }
         log.debug("Genres Cache is to be returned regardless it is set or not, waiting time was {} ms", waitingTime);
         return genres;
+    }
+
+    @Override
+    public List<Genre> getGenreByMovieId(long id) {
+        return dao.getGenreByMovieId(id);
     }
 
 }

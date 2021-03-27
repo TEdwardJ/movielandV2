@@ -7,12 +7,16 @@ import edu.ted.web.movieland.request.MovieRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
-@RequestMapping(path = "movies", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class MovieController {
     private final MovieService movieService;
@@ -23,11 +27,14 @@ public class MovieController {
     private int randomMoviesCount;
 
     @GetMapping(path = "/{movieId}")
-    public List<MovieDto> getMoviesById(@PathVariable int movieId) {
-        return mapper.mapToDTOs(movieService.getMovieById(movieId));
+    public ResponseEntity<MovieDto> getMoviesById(@PathVariable int movieId) {
+        return movieService.getMovieById(movieId)
+                .map(movie -> mapper.mapToDTO(movie))
+                .map(movieDto -> new ResponseEntity<>(movieDto, OK))
+                .orElseGet(() -> new ResponseEntity<>(BAD_REQUEST));
     }
 
-   @GetMapping()
+    @GetMapping()
     public List<MovieDto> getAllMovies(MovieRequest request) {
         return mapper.mapToDTOs(movieService.findAll(request));
     }

@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.dao.jdbc;
+package edu.ted.web.movieland.dao.jdbc.impl;
 
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.dao.jdbc.mapper.UserRowMapper;

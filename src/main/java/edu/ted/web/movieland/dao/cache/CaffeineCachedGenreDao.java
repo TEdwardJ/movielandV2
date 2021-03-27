@@ -3,6 +3,7 @@ package edu.ted.web.movieland.dao.cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import edu.ted.web.movieland.dao.GenreDao;
+import edu.ted.web.movieland.dao.jdbc.impl.JdbcGenreDao;
 import edu.ted.web.movieland.entity.Genre;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ public class CaffeineCachedGenreDao implements GenreDao {
     private LoadingCache<String, List<Genre>> genresCache;
     private final GenreDao dao;
 
+
     @PostConstruct
     public void init(){
         this.genresCache = Caffeine.newBuilder()
@@ -34,5 +36,10 @@ public class CaffeineCachedGenreDao implements GenreDao {
     public List<Genre> findAll() {
         log.debug("Genres cache is to be used");
         return genresCache.get("genres");
+    }
+
+    @Override
+    public List<Genre> getGenreByMovieId(long id) {
+        return dao.getGenreByMovieId(id);
     }
 }

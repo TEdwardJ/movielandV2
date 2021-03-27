@@ -26,7 +26,7 @@ public class SecurityController {
     public ResponseEntity<UserToken> login(LoginRequest loginRequest) {
         return securityService
                 .login(loginRequest)
-                .map(session -> new UserToken(session.getUuid().toString(), session.getUser().getNickname()))
+                .map(session -> new UserToken(session.getToken().toString(), session.getUser().getNickname()))
                 .map(token -> new ResponseEntity<>(token, CREATED))
                 .orElseGet(() -> new ResponseEntity<>(BAD_REQUEST));
     }
