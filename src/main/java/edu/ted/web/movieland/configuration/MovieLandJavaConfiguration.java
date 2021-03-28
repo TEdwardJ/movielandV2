@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "edu.ted.web.movieland.service",
         "edu.ted.web.movieland.service.impl",
         "edu.ted.web.movieland.util",
+        //"edu.ted.web.movieland.configuration",
         "edu.ted.web.movieland.security",
         "edu.ted.web.movieland.dao"})
 @PropertySource("classpath:application.properties")

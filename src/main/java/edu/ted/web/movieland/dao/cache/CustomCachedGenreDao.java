@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +18,9 @@ public class CustomCachedGenreDao implements GenreDao {
     private final GenreDao dao;
     private volatile List<Genre> genres;
 
-    @Scheduled(fixedRateString = "${genre.cache.lifeInMilliSeconds:14400000}")
+    @PostConstruct
+    @Scheduled(fixedRateString = "${genre.cache.lifeInMilliSeconds:14400000}",
+               initialDelayString = "${genre.cache.lifeInMilliSeconds:14400000}")
     void refresh() {
         log.info("Cache is to be refreshed");
         var genres = Collections.unmodifiableList(dao.findAll());
@@ -31,23 +34,6 @@ public class CustomCachedGenreDao implements GenreDao {
 
     @Override
     public List<Genre> findAll() {
-        var waitingTime = 0L;
-        if (genres == null) {
-            synchronized (monitor) {
-                var time = System.currentTimeMillis();
-                while (genres == null && (waitingTime = System.currentTimeMillis() - time) < 10000) {
-                    try {
-                        var timeoutMillisLeft = 10000 - (System.currentTimeMillis() - time);
-                        log.info("Scheduled refresh have not been started yet, so lets wait for {}, left {} ", 10000, timeoutMillisLeft);
-                        monitor.wait(timeoutMillisLeft);
-                    } catch (InterruptedException e) {
-                        log.error("Interruption of cache refresh waiting ", e);
-                        return null;
-                    }
-                }
-            }
-        }
-        log.debug("Genres Cache is to be returned regardless it is set or not, waiting time was {} ms", waitingTime);
         return genres;
     }
 

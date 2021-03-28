@@ -1,31 +1,29 @@
 package edu.ted.web.movieland.configuration;
 
-import edu.ted.web.movieland.dao.GenreDao;
-import edu.ted.web.movieland.dao.cache.CaffeineCachedGenreDao;
-import edu.ted.web.movieland.dao.cache.CustomCachedGenreDao;
 import edu.ted.web.movieland.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 
 import javax.sql.DataSource;
 import java.util.Map;
 
-@Configuration("testDbConfiguration")
 @Slf4j
+@Configuration
 public class TestDbConfiguration {
-    @Autowired
-    DataSource dataSource;
 
-    @Value("${testUser.email}")
-    private String testUserEmail;
+    private final String testUserEmail;
 
-    @Bean(autowireCandidate = false)
-    public Flyway flyway() {
+    public TestDbConfiguration(@Value("${testUser.email}") String testUserEmail) {
+        this.testUserEmail = testUserEmail;
+    }
+
+    @Bean(autowireCandidate = false, initMethod = "migrate")
+    @Qualifier("flywayTest")
+    public Flyway flyway(DataSource dataSource) {
         var sole = GeneralUtils.generateString(10);
         var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword() + sole);
 
@@ -44,7 +42,6 @@ public class TestDbConfiguration {
                 flyway.clean();
             }
         }
-        flyway.migrate();
         return flyway;
     }
 
@@ -52,24 +49,4 @@ public class TestDbConfiguration {
     public String testUserPassword() {
         return GeneralUtils.generateString(15);
     }
-
-
-    @Bean(value = "testCustomCachedGenreDao")
-    @Lazy
-    public static GenreDao customGenreDao(GenreDao jdbcGenreDao, GenreDao cachedDao){
-        if (cachedDao instanceof CustomCachedGenreDao) {
-            return cachedDao;
-        }
-        return new CustomCachedGenreDao(jdbcGenreDao);
-    }
-
-    @Bean("testCaffeineCachedGenreDao")
-    @Lazy
-    public static GenreDao caffeineGenreDao(GenreDao jdbcGenreDao, GenreDao cachedDao){
-        if (cachedDao instanceof CaffeineCachedGenreDao) {
-            return cachedDao;
-        }
-        return new CaffeineCachedGenreDao(jdbcGenreDao);
-    }
-
 }
