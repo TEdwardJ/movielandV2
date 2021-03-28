@@ -20,12 +20,10 @@ class DefaultReviewServiceTest {
 
     private DefaultReviewService service;
 
-    private Review expectedReview;
-
     @BeforeEach
     public void init() {
         service = new DefaultReviewService(dao);
-        expectedReview  = new Review(105,"Movie 105 Review");
+        Review expectedReview = new Review(105, "Movie 105 Review");
         when(dao.save(any()))
                 .thenReturn(expectedReview);
     }

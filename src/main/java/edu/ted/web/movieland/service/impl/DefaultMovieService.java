@@ -40,7 +40,7 @@ public class DefaultMovieService implements MovieService {
         return dao
                 .getMovieById(movieId)
                 .stream()
-                .peek(m -> enrichMovie(m))
+                .peek(this::enrichMovie)
                 .findFirst();
     }
 
@@ -58,7 +58,7 @@ public class DefaultMovieService implements MovieService {
                 .thenAccept(movie::setReviews);
         var enrichFuture = CompletableFuture
                 .allOf(genresFuture, countryFuture, reviewFuture)
-                .exceptionally(e -> handleException(e))
+                .exceptionally(this::handleException)
                 .completeOnTimeout(null, 5, TimeUnit.SECONDS)
                 .join();
     }

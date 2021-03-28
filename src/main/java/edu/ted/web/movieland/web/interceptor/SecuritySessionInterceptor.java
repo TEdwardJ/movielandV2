@@ -18,7 +18,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public class SecuritySessionInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.debug("Request handler class name: {}", handler.getClass().getName());
         return Optional.of(handler)
                 .filter(objectHandler -> objectHandler instanceof HandlerMethod)

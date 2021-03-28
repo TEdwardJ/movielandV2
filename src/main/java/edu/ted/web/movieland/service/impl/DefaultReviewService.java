@@ -13,7 +13,6 @@ public class DefaultReviewService implements ReviewService {
 
     private final ReviewDao dao;
 
-
     @Override
     public Review addNewReview(AddReviewRequest reviewRequest) {
         var reviewToBeAdded = new Review(reviewRequest.getMovieId(), reviewRequest.getText());

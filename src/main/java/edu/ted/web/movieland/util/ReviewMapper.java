@@ -1,6 +1,5 @@
 package edu.ted.web.movieland.util;
 
-import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.entity.Review;
 import edu.ted.web.movieland.web.dto.ReviewDto;
 import org.mapstruct.InjectionStrategy;

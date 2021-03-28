@@ -3,7 +3,6 @@ package edu.ted.web.movieland.web.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.ted.web.movieland.entity.Country;
 import edu.ted.web.movieland.entity.Genre;
-import edu.ted.web.movieland.entity.Review;
 import lombok.Data;
 
 import java.util.List;

@@ -10,4 +10,4 @@ public interface GenreDao {
     List<Genre> findAll();
 
     List<Genre> getGenreByMovieId(long id);
-};
+}

@@ -14,7 +14,7 @@ public class JdbcCountryDao implements CountryDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final String getCountriesByMovieIdQuery;
-    private CountryRowMapper countryRowMapper = new CountryRowMapper();
+    private final CountryRowMapper countryRowMapper = new CountryRowMapper();
 
     public JdbcCountryDao(JdbcTemplate jdbcTemplate, @Value("${getCountriesByMovieIdQuery}")String getCountriesByMovieIdQuery) {
         this.jdbcTemplate = jdbcTemplate;

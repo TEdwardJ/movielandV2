@@ -29,7 +29,7 @@ public class MovieController {
     @GetMapping(path = "/{movieId}")
     public ResponseEntity<MovieDto> getMoviesById(@PathVariable int movieId) {
         return movieService.getMovieById(movieId)
-                .map(movie -> mapper.mapToDTO(movie))
+                .map(mapper::mapToDTO)
                 .map(movieDto -> new ResponseEntity<>(movieDto, OK))
                 .orElseGet(() -> new ResponseEntity<>(BAD_REQUEST));
     }

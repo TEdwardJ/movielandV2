@@ -2,9 +2,7 @@ package edu.ted.web.movieland.dao.jdbc;
 
 import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.GenreDao;
-import edu.ted.web.movieland.entity.Country;
 import edu.ted.web.movieland.entity.Genre;
-import edu.ted.web.movieland.entity.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
