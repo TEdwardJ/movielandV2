@@ -19,8 +19,6 @@ public class JdbcUserDao implements UserDao {
     private final String findUserQuery;
     private final String checkPasswordQuery;
 
-    private final SimpleJdbcInsert userInsert;
-
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<User> userMapper = new UserRowMapper();
 
@@ -31,10 +29,6 @@ public class JdbcUserDao implements UserDao {
         this.findUserQuery = findUserQuery;
         this.checkPasswordQuery = checkPasswordQuery;
         this.jdbcTemplate = jdbcTemplate;
-        this.userInsert = new SimpleJdbcInsert(dataSource)
-                .withSchemaName("movie")
-                .withTableName("user")
-                .usingGeneratedKeyColumns("usr_id");
     }
 
     @Override
@@ -49,14 +43,4 @@ public class JdbcUserDao implements UserDao {
         return jdbcTemplate.queryForObject(checkPasswordQuery, Integer.class, email, encryptedPassword) == 1;
     }
 
-    @Override
-    public int addUser(User user) {
-        Map<String, Object> parameters = Map.of(
-                "USR_NAME", user.getNickname(),
-                "USR_EMAIL", user.getEmail(),
-                "USR_PASSWORD_ENC", user.getPassword(),
-                "USR_SOLE", user.getSole());
-        var key = userInsert.executeAndReturnKey(parameters);
-        return key.intValue();
-    }
 }

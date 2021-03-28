@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.service.impl;
+package edu.ted.web.movieland.security;
 
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;

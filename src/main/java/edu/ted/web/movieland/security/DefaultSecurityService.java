@@ -47,7 +47,7 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     @PostConstruct
-    public void cacheInit() {
+    void cacheInit() {
         this.userSessionCache = Caffeine.newBuilder()
                 .expireAfterWrite(userSessionLifeTime, TimeUnit.MILLISECONDS)
                 .build();
