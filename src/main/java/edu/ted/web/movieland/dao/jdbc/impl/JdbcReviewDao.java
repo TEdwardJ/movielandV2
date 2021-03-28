@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +40,7 @@ public class JdbcReviewDao implements ReviewDao {
                 "M_ID", review.getMovieId(),
                 "REVIEW_DATE", review.getReviewDate());
         var key = reviewInsert.executeAndReturnKey(parameters);
-        review.setReviewId(key.intValue());
+        review.setId(key.intValue());
         return review;
     }
 

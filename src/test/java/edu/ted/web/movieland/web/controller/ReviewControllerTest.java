@@ -53,13 +53,6 @@ class ReviewControllerTest {
                 .param("text", "test")
                 .header("uuid", uuid))
                 .andExpect(status().isOk());
-
-        ////
-        mockMvc.perform(post("/review")
-                .param("movieId", "105")
-                .param("text", "test")
-                .header("uuid", uuid))
-                .andExpect(status().isOk());
     }
 
     private String sendAuthorizeRequest() throws Exception {

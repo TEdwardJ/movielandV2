@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class Review {
     @Getter
     @Setter
-    private long reviewId;
+    private long id;
     @Getter
     private final long movieId;
     @Getter

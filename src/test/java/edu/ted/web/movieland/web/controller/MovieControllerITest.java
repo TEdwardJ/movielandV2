@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasKey;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -48,6 +49,42 @@ public class MovieControllerITest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(greaterThan(0))));
+    }
+
+    @Test
+    public void givenMovieByIdRequest_whenMovieReturnedAndEnriched_thenCorrect() throws Exception {
+        mockMvc.perform(get("/movies/105"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", not(empty())))
+                .andExpect(jsonPath("$.id", not(empty())))
+                .andExpect(jsonPath("$.description", not(empty())))
+                .andExpect(jsonPath("$.russianName", not(empty())))
+                .andExpect(jsonPath("$.nativeName", not(empty())))
+                .andExpect(jsonPath("$.releaseYear", not(empty())))
+                .andExpect(jsonPath("$.rating", not(empty())))
+                .andExpect(jsonPath("$.price", not(empty())))
+                .andExpect(jsonPath("$.pictureUrl", not(empty())))
+                .andExpect(jsonPath("$", hasKey("genres")))
+                .andExpect(jsonPath("$", hasKey("genres")))
+                .andExpect(jsonPath("$", hasKey("countries")))
+                .andExpect(jsonPath("$", hasKey("reviews")))
+                .andExpect(jsonPath("$.genres", not(emptyArray())))
+                .andExpect(jsonPath("$.genres[0]", hasKey("id")))
+                .andExpect(jsonPath("$.genres[0]", hasKey("name")))
+                .andExpect(jsonPath("$.genres[0].id", not(empty())))
+                .andExpect(jsonPath("$.genres[0].name", not(empty())))
+                .andExpect(jsonPath("$.countries", not(emptyArray())))
+                .andExpect(jsonPath("$.countries[0]", hasKey("id")))
+                .andExpect(jsonPath("$.countries[0]", hasKey("name")))
+                .andExpect(jsonPath("$.countries[0].id", not(empty())))
+                .andExpect(jsonPath("$.countries[0].name", not(empty())))
+                .andExpect(jsonPath("$.reviews", not(emptyArray())))
+                .andExpect(jsonPath("$.reviews[0]", hasKey("id")))
+                .andExpect(jsonPath("$.reviews[0]", hasKey("text")))
+                .andExpect(jsonPath("$.reviews[0].id", not(empty())))
+                .andExpect(jsonPath("$.reviews[0].text", not(empty())))
+                .andExpect(jsonPath("$.reviews[0].user", not(empty())));
     }
 
     @Test

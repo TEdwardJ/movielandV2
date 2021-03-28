@@ -35,7 +35,7 @@ class JdbcReviewDaoTest {
         var user = userDao.findUserByEmail(email);
         review.setUser(user.get());
         var result = reviewDao.save(review);
-        assertTrue(result.getReviewId() > 0);
+        assertTrue(result.getId() > 0);
         assertTrue(review == result);
 
     }
@@ -47,7 +47,7 @@ class JdbcReviewDaoTest {
         for (Review review : reviewList) {
             assertFalse(review.getText().isEmpty());
             assertNotEquals(0, review.getMovieId());
-            assertNotEquals(0, review.getReviewId());
+            assertNotEquals(0, review.getId());
             assertNotNull(review.getReviewDate());
         }
     }

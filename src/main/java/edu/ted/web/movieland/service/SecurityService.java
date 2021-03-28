@@ -14,6 +14,4 @@ public interface SecurityService {
 
     Optional<UserSession> findUserToken(String uuid);
 
-    int addUser(User user);
-
 }

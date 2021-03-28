@@ -23,11 +23,6 @@ public class JdbcCountryDao implements CountryDao {
 
     @Override
     public List<Country> getCountriesByMovieId(long movieId) {
-        try {
-            Thread.sleep(6500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return jdbcTemplate.query(getCountriesByMovieIdQuery, countryRowMapper, Long.valueOf(movieId));
     }
 }

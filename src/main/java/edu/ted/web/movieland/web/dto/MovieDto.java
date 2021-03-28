@@ -24,5 +24,5 @@ public class MovieDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Genre> genres;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Review> reviews;
+    private List<ReviewDto> reviews;
 }

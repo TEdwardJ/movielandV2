@@ -42,21 +42,8 @@ public class DefaultSecurityService implements SecurityService {
         return Optional.ofNullable(userSessionCache.getIfPresent(uuid));
     }
 
-    @Override
-    public int addUser(User user) {
-        if (!Optional.ofNullable(user.getPassword()).orElse("").isEmpty()) {
-            if (Optional.ofNullable(user.getSole()).orElse("").isEmpty()) {
-                user.setSole(GeneralUtils.generateString(10));
-            }
-            user.setPassword(GeneralUtils.getEncrypted(user.getPassword() + user.getSole()));
-            return userDao.addUser(user);
-        }
-        return 0;
-    }
-
     public Optional<UserSession> logout(String uuid) {
-        var userTokenEntry = findUserToken(uuid);
-        return userTokenEntry;
+        return findUserToken(uuid);
     }
 
     @PostConstruct
