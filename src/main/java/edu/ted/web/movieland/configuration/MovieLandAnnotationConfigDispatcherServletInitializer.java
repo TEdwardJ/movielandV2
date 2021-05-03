@@ -35,4 +35,5 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
                 .addMappingForUrlPatterns(null, true, "/*");
     }
 
+
 }

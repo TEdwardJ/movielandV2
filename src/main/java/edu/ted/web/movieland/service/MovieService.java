@@ -1,6 +1,7 @@
 package edu.ted.web.movieland.service;
 
 import edu.ted.web.movieland.entity.Movie;
+import edu.ted.web.movieland.request.GetMovieRequest;
 import edu.ted.web.movieland.request.MovieRequest;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface MovieService {
 
     List<Movie> getMoviesByGenre(int genreId, MovieRequest request);
 
-    Optional<Movie> getMovieById(int movieId);
+    Optional<Movie> getMovieById(GetMovieRequest request);
 
 
 }

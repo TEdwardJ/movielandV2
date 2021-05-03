@@ -5,12 +5,14 @@ import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.dao.ReviewDao;
 import edu.ted.web.movieland.entity.Movie;
+import edu.ted.web.movieland.request.GetMovieRequest;
 import edu.ted.web.movieland.service.MovieService;
 import edu.ted.web.movieland.request.MovieRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -22,6 +24,8 @@ public class DefaultMovieService implements MovieService {
     private final GenreDao genreDao;
     private final CountryDao countryDao;
     private final ReviewDao reviewDao;
+
+    private final CachedCurrencyService currencyService;
 
     public List<Movie> findAll(MovieRequest request) {
         return dao.findAll(request.getSorting());
@@ -36,12 +40,18 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public Optional<Movie> getMovieById(int movieId) {
+    public Optional<Movie> getMovieById(GetMovieRequest request) {
         return dao
-                .getMovieById(movieId)
+                .getMovieById(request.getMovieId())
                 .stream()
                 .peek(this::enrichMovie)
+                .peek(movie -> convertCurrency(movie, request.getCurrency()))
                 .findFirst();
+    }
+
+    private void convertCurrency(Movie movie, Currency currency) {
+        var convertedAmount = currencyService.convert(movie.getPrice(), LocalDate.now(), currency);
+        movie.setPrice(convertedAmount);
     }
 
     private void enrichMovie(Movie movie) {

@@ -27,9 +27,13 @@ public class ReviewSecurityFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         Optional.ofNullable(((HttpServletRequest) servletRequest).getHeader("uuid"))
                 .stream()
-                .peek(uuid -> log.debug("UUID in request {}", uuid))
                 .map(securityService::findUserToken)
                 .forEach(token -> ((HttpServletRequest) servletRequest).getSession().setAttribute("edu.ted.web.movieland.movieLandUserToken", token.get()));
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    @Autowired
+    public void init(SecurityService securityService){
+        log.info("Service Object {}", securityService);
     }
 }

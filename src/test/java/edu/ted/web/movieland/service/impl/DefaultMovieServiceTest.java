@@ -1,6 +1,7 @@
 package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.configuration.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.request.GetMovieRequest;
 import edu.ted.web.movieland.request.MovieRequest;
 import edu.ted.web.movieland.service.MovieService;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,8 @@ class DefaultMovieServiceTest {
 
     @Test
     public void givenMovieId_whenMovieReceivedEnrichedWithCountriesReviewsAndGenres_thenCorrect(){
-        var movie  = service.getMovieById(105).get();
+        var getMovieRequest = new GetMovieRequest(105);
+        var movie  = service.getMovieById(getMovieRequest).get();
         assertNotNull(movie.getReviews());
         assertFalse(movie.getReviews().isEmpty());
         assertNotNull(movie.getGenres());
@@ -65,7 +67,8 @@ class DefaultMovieServiceTest {
 
     @Test
     public void givenNonExistingMovieId_when_thenCorrect(){
-        assertTrue(service.getMovieById(111105).isEmpty());
+        var getMovieRequest = new GetMovieRequest(111105);
+        assertTrue(service.getMovieById(getMovieRequest).isEmpty());
     }
 
 }

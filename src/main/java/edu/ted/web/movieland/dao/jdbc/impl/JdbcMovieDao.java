@@ -51,7 +51,7 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public Optional<Movie> getMovieById(int movieId) {
+    public Optional<Movie> getMovieById(long movieId) {
         return jdbcTemplate.query(movieByIdQuery, movieMapper, movieId)
                 .stream()
                 .findFirst();

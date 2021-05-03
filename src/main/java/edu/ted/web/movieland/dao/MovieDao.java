@@ -11,5 +11,5 @@ public interface MovieDao {
     List<Movie> findAll(Sorting sorting);
     List<Movie> getNRandomMovies(int count);
     List<Movie> getMoviesByGenre(int genreId, Sorting sorting);
-    Optional<Movie> getMovieById(int movieId);
+    Optional<Movie> getMovieById(long movieId);
 }
