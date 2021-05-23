@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
-import edu.ted.web.movieland.entity.UserSession;
 import edu.ted.web.movieland.request.LoginRequest;
 import edu.ted.web.movieland.service.SecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;

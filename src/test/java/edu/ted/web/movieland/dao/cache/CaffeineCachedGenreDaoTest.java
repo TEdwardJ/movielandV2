@@ -1,31 +1,22 @@
 package edu.ted.web.movieland.dao.cache;
 
-import edu.ted.web.movieland.configuration.NoWebSpringTestConfiguration;
+import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {NoWebSpringTestConfiguration.class})
+@FullSpringNoMvcTest
+@ActiveProfiles({"testCaffeineCachedGenreDao"})
 class CaffeineCachedGenreDaoTest {
 
     @Autowired
-    private GenericApplicationContext context;
-
+    @Qualifier("testCaffeineCachedGenreDao")
     private GenreDao cachedDao;
-
-    @BeforeEach
-    public void init() {
-        cachedDao = (CaffeineCachedGenreDao)context.getBean("testCaffeineCachedGenreDao");
-    }
 
     @Test
     void findAll() {

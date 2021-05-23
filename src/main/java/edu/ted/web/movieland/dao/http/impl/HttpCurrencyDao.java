@@ -1,8 +1,10 @@
-package edu.ted.web.movieland.dao;
+package edu.ted.web.movieland.dao.http.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import edu.ted.web.movieland.dao.http.CurrencyDao;
 import edu.ted.web.movieland.entity.ExchangeRate;
 import edu.ted.web.movieland.util.CurrencyMapper;
 import edu.ted.web.movieland.web.dto.CurrencyDto;
@@ -10,11 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,24 +24,24 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HttpCurrencyDao implements CurrencyDao {
     private static final String BASE_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date={date}&json";
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
 
     @Override
     public List<ExchangeRate> getForDate(LocalDate date) {
         String bodyJSON = sendRequestForRates(date);
         try {
             var currencyList = new ObjectMapper()
-                    .setDateFormat(new SimpleDateFormat("dd.MM.yyyy"))
+                    .registerModule(new JavaTimeModule())
                     .readValue(bodyJSON, new TypeReference<List<CurrencyDto>>() {
                     });
             return currencyList
                     .stream()
-                    .map(c -> CurrencyMapper.exchangeRateFromDto(c))
+                    .map(CurrencyMapper::exchangeRateFromDto)
                     .collect(Collectors.toList());
         } catch (JsonProcessingException e) {
-            log.error("Response from NPU parsing error: {}", bodyJSON, e);
+            log.error("Response from NBU parsing error: {}", bodyJSON, e);
         }
         return null;
     }

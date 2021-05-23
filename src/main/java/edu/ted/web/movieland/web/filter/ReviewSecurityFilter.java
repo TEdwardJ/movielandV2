@@ -1,5 +1,6 @@
 package edu.ted.web.movieland.web.filter;
 
+import edu.ted.web.movieland.security.SessionHandler;
 import edu.ted.web.movieland.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class ReviewSecurityFilter implements Filter {
         Optional.ofNullable(((HttpServletRequest) servletRequest).getHeader("uuid"))
                 .stream()
                 .map(securityService::findUserToken)
-                .forEach(token -> ((HttpServletRequest) servletRequest).getSession().setAttribute("edu.ted.web.movieland.movieLandUserToken", token.get()));
+                .forEach(token -> SessionHandler.setUserSession(token.get()));
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

@@ -2,7 +2,7 @@ package edu.ted.web.movieland.service.impl;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import edu.ted.web.movieland.dao.CurrencyDao;
+import edu.ted.web.movieland.dao.http.CurrencyDao;
 import edu.ted.web.movieland.entity.ExchangeRate;
 import edu.ted.web.movieland.service.CurrencyService;
 import edu.ted.web.movieland.util.Converters;

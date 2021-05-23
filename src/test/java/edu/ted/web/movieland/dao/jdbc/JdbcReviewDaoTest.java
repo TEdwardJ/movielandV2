@@ -36,7 +36,7 @@ class JdbcReviewDaoTest {
         review.setUser(user.get());
         var result = reviewDao.save(review);
         assertTrue(result.getId() > 0);
-        assertTrue(review == result);
+        assertSame(review, result);
 
     }
 

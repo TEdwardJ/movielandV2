@@ -7,6 +7,8 @@ import edu.ted.web.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DefaultReviewService implements ReviewService {
@@ -19,5 +21,10 @@ public class DefaultReviewService implements ReviewService {
         reviewToBeAdded.setUser(reviewRequest.getUser());
         var newReview = dao.save(reviewToBeAdded);
         return newReview;
+    }
+
+    @Override
+    public List<Review> getReviewsByMovieId(long id) {
+        return dao.getReviewsByMovieId(id);
     }
 }

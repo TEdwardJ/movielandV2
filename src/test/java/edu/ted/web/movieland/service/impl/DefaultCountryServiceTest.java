@@ -1,8 +1,8 @@
 package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.configuration.NoWebSpringTestConfiguration;
-import edu.ted.web.movieland.dao.GenreDao;
-import edu.ted.web.movieland.entity.Genre;
+import edu.ted.web.movieland.dao.CountryDao;
+import edu.ted.web.movieland.entity.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,42 +12,42 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {NoWebSpringTestConfiguration.class})
-class DefaultGenreServiceTest {
+class DefaultCountryServiceTest {
 
     @Mock
-    private GenreDao dao;
+    private CountryDao dao;
 
-    //@Autowired
     @InjectMocks
-    private DefaultGenreService service;
+    private DefaultCountryService service;
 
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        when(dao.findAll()).thenReturn(prepareGenreList());
+        when(dao.getCountriesByMovieId(anyLong()))
+                .thenReturn(prepareCountryList());
     }
 
     @Test
-    void getAllGenres() {
-        var allGenres = service.findAll();
-        assertNotNull(allGenres);
-        assertFalse(allGenres.isEmpty());
+    void getCountriesByMovieId() {
+        var countriesList = service.getCountriesByMovieId(12L);
+        assertNotNull(countriesList);
+        assertFalse(countriesList.isEmpty());
     }
 
-    private List<Genre> prepareGenreList() {
-        List<Genre> genreList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            var genre = new Genre(i, "Genre " + i);
-            genreList.add(genre);
-        }
-        return genreList;
+    private List<Country> prepareCountryList() {
+        return IntStream
+                .rangeClosed(1, 5)
+                .mapToObj(i -> new Country(i, "Country " + i))
+                .collect(toList());
     }
 }

@@ -5,9 +5,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 public class GeneralUtils {
 
-    public static String generateString(int length){
-        boolean useLetters = true;
-        boolean useNumbers = true;
+    public static String generateStringWithLettersAndNumbers(int length){
+        return generateStringWithLettersAndNumbers(length, true, true);
+    }
+
+    public static String generateStringWithLettersAndNumbers(int length, boolean useLetters, boolean useNumbers){
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
 

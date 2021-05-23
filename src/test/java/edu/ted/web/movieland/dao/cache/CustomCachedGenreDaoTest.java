@@ -3,25 +3,20 @@ package edu.ted.web.movieland.dao.cache;
 import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.GenreDao;
 import edu.ted.web.movieland.entity.Genre;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @FullSpringNoMvcTest
+@ActiveProfiles({"testCustomCachedGenreDao"})
 class CustomCachedGenreDaoTest {
 
     @Autowired
-    private GenericApplicationContext context;
-
+    @Qualifier("testCustomCachedGenreDao")
     private GenreDao cachedDao;
-
-    @BeforeEach
-    public void init() {
-        cachedDao = (CustomCachedGenreDao)context.getBean("testCustomCachedGenreDao");
-    }
 
     @Test
     void findAll() {
@@ -35,6 +30,4 @@ class CustomCachedGenreDaoTest {
         var allGenresOneMore = cachedDao.findAll();
         assertSame(allGenres, allGenresOneMore);
     }
-
-
 }

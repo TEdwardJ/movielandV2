@@ -13,7 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <lombok.version>1.18.16</lombok.version>
         <spring.version>5.3.1</spring.version>
-        <testcontainers.version>1.12.2</testcontainers.version>
+        <testcontainers.version>1.15.0</testcontainers.version>
         <flyway-core.version>7.5.3</flyway-core.version>
     </properties>
 
@@ -117,6 +117,11 @@
             <version>2.12.0</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.4.1.Final</version>
@@ -165,8 +170,8 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.6.2</version>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

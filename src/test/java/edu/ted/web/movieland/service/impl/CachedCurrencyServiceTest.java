@@ -1,7 +1,7 @@
 package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
-import edu.ted.web.movieland.dao.CurrencyDao;
+import edu.ted.web.movieland.dao.http.CurrencyDao;
 import edu.ted.web.movieland.entity.ExchangeRate;
 import edu.ted.web.movieland.util.CurrencyMapper;
 import edu.ted.web.movieland.web.dto.CurrencyDto;
@@ -35,7 +35,7 @@ class CachedCurrencyServiceTest {
         MockitoAnnotations.openMocks(this);
         List<CurrencyDto> ratesList = List.of(new CurrencyDto(840, 27, "USD"), new CurrencyDto(978, 33, "EUR"));
         List<ExchangeRate> rates = ratesList.stream()
-                .map(c -> CurrencyMapper.exchangeRateFromDto(c))
+                .map(CurrencyMapper::exchangeRateFromDto)
                 .collect(Collectors.toList());
         when(dao.getForDate(any())).thenReturn(rates);
     }

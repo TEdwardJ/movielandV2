@@ -1,45 +1,39 @@
 package edu.ted.web.movieland.web.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
+@NoArgsConstructor
 @JsonIgnoreProperties
-public class CurrencyDto {
-    @JsonProperty("r030")
+public class NBUCurrencyDto {
+    @JsonProperty("currencyCode")
     private int isoCode;
     @JsonProperty("txt")
     private String name;
-    @JsonProperty("rate")
+    @JsonProperty("Amount")
     private double rate;
-    @JsonProperty("cc")
+    @JsonProperty("currencyCodeL")
     private String shortName;
-    @JsonProperty("exchangedate")
-    @JsonFormat(pattern = "dd.MM.yyyy")
-    private LocalDate exchangeDate;
+    @JsonProperty("startDate")
+    private Date exchangeDate;
 
-    public CurrencyDto() {
-    }
-
-    public CurrencyDto(int isoCode, double rate, String shortName) {
+    public NBUCurrencyDto(int isoCode, double rate, String shortName) {
         this.isoCode = isoCode;
         this.rate = rate;
         this.shortName = shortName;
-        this.exchangeDate = LocalDate.now();
     }
 
     @JsonIgnore
     public int getIsoCode() {
         return isoCode;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public double getRate() {
@@ -50,39 +44,39 @@ public class CurrencyDto {
         return shortName;
     }
 
-    public LocalDate getExchangeDate() {
+    public Date getExchangeDate() {
         return exchangeDate;
     }
     public LocalDate getExchangeLocalDate() {
-        return exchangeDate/*.toInstant()
+        return exchangeDate.toInstant()
                 .atZone(ZoneId.systemDefault())
-                .toLocalDate()*/;
+                .toLocalDate();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CurrencyDto currency = (CurrencyDto) o;
+        NBUCurrencyDto currency = (NBUCurrencyDto) o;
         return getIsoCode() == currency.getIsoCode() &&
-                name.equals(currency.name) &&
+                //name.equals(currency.name) &&
                 shortName.equals(currency.shortName) &&
                 exchangeDate.equals(currency.exchangeDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIsoCode(), name, shortName, exchangeDate);
+        return Objects.hash(getIsoCode(), shortName, exchangeDate);
     }
 
     @Override
     public String toString() {
         return "Currency{" +
                 "isoCode=" + isoCode +
-                ", name='" + name + '\'' +
+//                ", name='" + name + '\'' +
                 ", rate=" + rate +
                 ", shortName='" + shortName + '\'' +
-                ", exchangeDate=" + exchangeDate +
+                ", excahngeDate=" + exchangeDate +
                 '}';
     }
 }

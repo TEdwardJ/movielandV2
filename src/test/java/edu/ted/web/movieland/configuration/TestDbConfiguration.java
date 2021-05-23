@@ -24,7 +24,7 @@ public class TestDbConfiguration {
     @Bean(autowireCandidate = false, initMethod = "migrate")
     @Qualifier("flywayTest")
     public Flyway flyway(DataSource dataSource) {
-        var sole = GeneralUtils.generateString(10);
+        var sole = GeneralUtils.generateStringWithLettersAndNumbers(10);
         var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword() + sole);
 
         var flyway = Flyway.configure(this.getClass().getClassLoader())
@@ -47,6 +47,6 @@ public class TestDbConfiguration {
 
     @Bean("testUserPassword")
     public String testUserPassword() {
-        return GeneralUtils.generateString(15);
+        return GeneralUtils.generateStringWithLettersAndNumbers(15);
     }
 }

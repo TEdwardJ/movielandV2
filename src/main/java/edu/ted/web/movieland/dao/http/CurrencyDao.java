@@ -1,4 +1,4 @@
-package edu.ted.web.movieland.dao;
+package edu.ted.web.movieland.dao.http;
 
 import edu.ted.web.movieland.entity.ExchangeRate;
 

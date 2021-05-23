@@ -1,6 +1,6 @@
 package edu.ted.web.movieland.service;
 
-import edu.ted.web.movieland.entity.UserSession;
+import edu.ted.web.movieland.security.UserSession;
 import edu.ted.web.movieland.request.LoginRequest;
 
 import java.util.Optional;

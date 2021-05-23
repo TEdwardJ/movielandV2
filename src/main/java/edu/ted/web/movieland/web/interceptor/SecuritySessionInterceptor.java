@@ -1,13 +1,16 @@
 package edu.ted.web.movieland.web.interceptor;
 
+import edu.ted.web.movieland.security.SessionHandler;
 import edu.ted.web.movieland.web.annotation.UserRequired;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -31,6 +34,11 @@ public class SecuritySessionInterceptor implements HandlerInterceptor {
                 .orElse(true);
     }
 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+        SessionHandler.setUserSession(null);
+    }
+
     private void setResponseStatus(HttpServletResponse response, Boolean result) {
         if (!result) {
             response.setStatus(UNAUTHORIZED.value());
@@ -38,6 +46,6 @@ public class SecuritySessionInterceptor implements HandlerInterceptor {
     }
 
     private boolean checkSecurity(HttpServletRequest request) {
-        return Optional.ofNullable(request.getSession().getAttribute("edu.ted.web.movieland.movieLandUserToken")).isPresent();
+        return !Objects.isNull(SessionHandler.getUserSession());
     }
 }

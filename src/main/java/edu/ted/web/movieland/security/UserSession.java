@@ -1,5 +1,6 @@
-package edu.ted.web.movieland.entity;
+package edu.ted.web.movieland.security;
 
+import edu.ted.web.movieland.entity.User;
 import lombok.Value;
 
 @Value

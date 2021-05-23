@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.Optional;
 
 @Repository
@@ -20,8 +19,7 @@ public class JdbcUserDao implements UserDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<User> userMapper = new UserRowMapper();
 
-    public JdbcUserDao(DataSource dataSource,
-                       JdbcTemplate jdbcTemplate,
+    public JdbcUserDao(JdbcTemplate jdbcTemplate,
                        @Value("${findUserByEmailQuery}") String findUserQuery,
                        @Value("${checkPasswordQuery}") String checkPasswordQuery) {
         this.findUserQuery = findUserQuery;
@@ -38,7 +36,7 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public boolean isPasswordValid(String email, String encryptedPassword) {
-        return jdbcTemplate.queryForObject(checkPasswordQuery, Integer.class, email, encryptedPassword) == 1;
+        return Integer.valueOf(1).equals(jdbcTemplate.queryForObject(checkPasswordQuery, Integer.class, email, encryptedPassword));
     }
 
 }

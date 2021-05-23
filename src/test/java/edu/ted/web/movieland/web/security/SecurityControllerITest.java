@@ -22,13 +22,18 @@ class SecurityControllerITest {
 
     @Value("${testUser.email}")
     private String email;
-    @Autowired
     private String testUserPassword;
 
     @Autowired
     private WebApplicationContext wac;
 
     private MockMvc mockMvc;
+
+
+    @Autowired
+    public void setTestUserPassword(String testUserPassword) {
+        this.testUserPassword = testUserPassword;
+    }
 
     @BeforeEach
     public void setup() {

@@ -17,4 +17,9 @@ public class DefaultGenreService implements GenreService {
     public List<Genre> findAll() {
         return dao.findAll();
     }
+
+    @Override
+    public List<Genre> getGenreByMovieId(long id) {
+        return dao.getGenreByMovieId(id);
+    }
 }
