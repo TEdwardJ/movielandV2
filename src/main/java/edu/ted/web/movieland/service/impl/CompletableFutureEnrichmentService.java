@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -22,28 +23,29 @@ public class CompletableFutureEnrichmentService implements EnrichmentService {
     private final CountryService countryService;
     private final ReviewService reviewService;
 
+    <T> CompletableFuture supplyWithCompletableFuture(Supplier<T> supplier, Consumer<T> consumer){
+        return CompletableFuture
+                .supplyAsync(() -> supplier.get())
+                .orTimeout(5, TimeUnit.SECONDS)
+                .thenAccept(consumer::accept);
+    }
+
     @Override
     public void enrich(Movie movie) {
         long movieId = movie.getId();
-
-        var genresFuture = CompletableFuture
-                .supplyAsync(() -> genreService.getGenreByMovieId(movieId))
-                .thenAccept(movie::setGenres);
-        var countryFuture = CompletableFuture
-                .supplyAsync(() -> countryService.getCountriesByMovieId(movieId))
-                .thenAccept(movie::setCountries);
-        var reviewFuture = CompletableFuture
-                .supplyAsync(() -> reviewService.getReviewsByMovieId(movieId))
-                .thenAccept(movie::setReviews);
-        var enrichFuture = CompletableFuture
+        var genresFuture = supplyWithCompletableFuture(() -> genreService.getGenreByMovieId(movieId), movie::setGenres);
+        var countryFuture = supplyWithCompletableFuture(() -> countryService.getCountriesByMovieId(movieId), movie::setCountries);
+        var reviewFuture = supplyWithCompletableFuture(() ->reviewService.getReviewsByMovieId(movieId), movie::setReviews);
+        log.debug("Enrichment process is about to be started for movie with id {'movieId': {}}", movieId);
+        CompletableFuture
                 .allOf(genresFuture, countryFuture, reviewFuture)
-                .exceptionally(this::handleException)
                 .completeOnTimeout(null, 5, TimeUnit.SECONDS)
+                .exceptionally(this::handleException)
                 .join();
     }
 
     private Void handleException(Throwable e) {
-        log.error("Error raised during movie enrichment process: ", e);
+        log.error("Movie can be enriched partially or not enriched at all, since the error raised during movie enrichment process: ", e);
         return null;
     }
 }

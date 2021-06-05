@@ -46,7 +46,8 @@ public class ParallelEnrichmentService implements EnrichmentService {
             for (Future<Object> future : futures) {
                 if (future.isDone() && !future.isCancelled()) {
                     try {
-                        ((Runnable) future.get()).run();
+                        var setter = (Runnable) future.get();
+                        setter.run();
                     } catch (ExecutionException e) {
                         log.error("Error during enrichment of movie with id {}", movieId, e);
                     }

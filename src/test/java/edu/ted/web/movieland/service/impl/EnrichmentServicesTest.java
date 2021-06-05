@@ -77,7 +77,7 @@ public class EnrichmentServicesTest {
     }
 
     @TestFactory
-    @DisplayName("Partial Enrichment: Checks whether parallel enrichment enriches all appropriate Movie fields except Countries due to timeouat")
+    @DisplayName("Partial Enrichment: Checks whether parallel enrichment enriches all appropriate Movie fields except Countries due to timeout")
     public Stream<DynamicTest> getEnrichmentTestsWithTimeout() {
         when(countryDao.getCountriesByMovieId(105))
                 .thenAnswer(invocationOnMock -> getCountriesWithDelay(invocationOnMock.getArgument(0)));
