@@ -17,24 +17,6 @@ import java.util.Properties;
 @PropertySource("classpath:queries.properties")
 public class DBConfiguration {
 
-    @Value("${hibernate.connection.charSet}")
-    private String charSet;
-
-    @Value("${hibernate.connection.charSetEncoding}")
-    private String charSetEncoding;
-
-    @Value("${hibernate.dialect}")
-    private String sqlDialect;
-
-    @Value("${hibernate.show_sql}")
-    private Object showSql;
-
-    @Value("${hibernate.format_sql}")
-    private Object formatSql;
-
-    @Value("${hibernate.default_schema}")
-    private Object defaultSchema;
-
     @Bean
     public DataSource dataSource(@Value("${dataSource.url}") String url,
                                  @Value("${dataSource.dataSourceClassName:}") String dataSourceClassName,
@@ -55,8 +37,20 @@ public class DBConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory(DataSource dataSource) {
-        var entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory(DataSource dataSource,
+                                                                          @Value("${hibernate.connection.charSet}")
+                                                                                  String charSet,
+                                                                          @Value("${hibernate.connection.charSetEncoding}")
+                                                                                  String charSetEncoding,
+                                                                          @Value("${hibernate.dialect}")
+                                                                                  String sqlDialect,
+                                                                          @Value("${hibernate.show_sql}")
+                                                                                  Object showSql,
+                                                                          @Value("${hibernate.format_sql}")
+                                                                                  Object formatSql,
+                                                                          @Value("${hibernate.default_schema}")
+                                                                                  Object defaultSchema) {
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setPackagesToScan("edu.ted.web.movieland.entity");
 
