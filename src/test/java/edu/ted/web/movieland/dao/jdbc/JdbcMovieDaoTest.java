@@ -50,4 +50,11 @@ class JdbcMovieDaoTest {
         assertFalse(allMovies.isEmpty());
     }
 
+    @Test
+    void getMoviesByGenreTest() {
+        List<Movie> allMovies = dao.getMoviesByGenre(63, null);
+        assertNotNull(allMovies);
+        assertFalse(allMovies.isEmpty());
+    }
+
 }

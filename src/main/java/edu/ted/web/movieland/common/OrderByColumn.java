@@ -1,8 +1,8 @@
 package edu.ted.web.movieland.common;
 
 public enum OrderByColumn {
-    RATING("RATING", "M_RATING"),
-    PRICE("PRICE", "M_PRICE");
+    RATING("rating", "M_RATING"),
+    PRICE("price", "M_PRICE");
 
     private final String dbColumnName;
     private final String name;
@@ -19,7 +19,6 @@ public enum OrderByColumn {
     public String getName() {
         return name;
     }
-
 
     public static boolean isValid(String value){
         return validateEnumAndReturn(value) != null;
