@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @FullSpringNoMvcTest
-class JdbcGenreDaoTest {
+class JpaGenreDaoTest {
 
     @Autowired
-    @Qualifier("jdbcGenreDao")
+    @Qualifier("jpaGenreDao")
     private GenreDao dao;
 
     @Test

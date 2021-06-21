@@ -1,27 +1,15 @@
 package edu.ted.web.movieland.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@RequiredArgsConstructor
-@EqualsAndHashCode
+@Data
 public class Review {
-    @Getter
-    @Setter
     private long id;
-    @Getter
     private final long movieId;
-    @Getter
     private final String text;
-    @Getter
-    @Setter
     private LocalDate reviewDate = LocalDate.now();
-    @Getter
-    @Setter
     @EqualsAndHashCode.Exclude
     private User user;
 }

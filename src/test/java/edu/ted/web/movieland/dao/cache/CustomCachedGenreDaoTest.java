@@ -26,7 +26,7 @@ class CustomCachedGenreDaoTest {
         assertThrows(UnsupportedOperationException.class, () -> allGenres.set(0, new Genre(1111,"1111")));
         var genre = allGenres.get(0);
         assertNotNull(genre.getName());
-        assertNotNull(genre.getId());
+        assertTrue(genre.getId() > 0);
         var allGenresOneMore = cachedDao.findAll();
         assertSame(allGenres, allGenresOneMore);
     }

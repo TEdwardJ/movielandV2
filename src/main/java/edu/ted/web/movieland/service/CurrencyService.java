@@ -7,7 +7,6 @@ import java.util.Currency;
 import java.util.Optional;
 
 public interface CurrencyService {
-    //List<CurrencyDto> getForDate(LocalDate date);
     Optional<ExchangeRate> getExchangeRate(LocalDate date, Currency currency);
     double convert(double amount, LocalDate date, Currency toCurrency);
 }

@@ -8,7 +8,6 @@ import edu.ted.web.movieland.entity.Country;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.service.EnrichmentService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
@@ -42,9 +41,6 @@ public class EnrichmentServicesTest {
 
     @Autowired
     List<EnrichmentService> enrichmentServices;
-    private final String getCountriesByMovieIdQuery = "SELECT distinct cntr_id, cntr_name \n" +
-                                                "FROM movie.v_all_movie_countries_ui mc, pg_sleep(6) \n" +
-                                                "WHERE m_id = ?";
 
     public void testEnrichmentServiceImplementation(EnrichmentService service) {
         var movie = getMovie(service, 106);
@@ -88,10 +84,12 @@ public class EnrichmentServicesTest {
 
     private List<Country> getCountriesWithDelay(long movieId) {
         var countryRowMapper = new CountryRowMapper();
+        String getCountriesByMovieIdQuery = "SELECT distinct cntr_id, cntr_name \n" +
+                "FROM movie.v_all_movie_countries_ui mc, pg_sleep(6) \n" +
+                "WHERE m_id = ?";
         return jdbcTemplate.query(getCountriesByMovieIdQuery, countryRowMapper, movieId);
     }
 
-    @NotNull
     private Movie getMovie(EnrichmentService service, long id) {
         var movie = dao.getMovieById(id).get();
         service.enrich(movie);

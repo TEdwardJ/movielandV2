@@ -4,6 +4,7 @@ import edu.ted.web.movieland.annotation.FullSpringNoMvcTest;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.common.Sorting;
+import edu.ted.web.movieland.request.MovieRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,6 +47,13 @@ class JdbcMovieDaoTest {
     @Test
     void getNRandomMovies() {
         List<Movie> allMovies = dao.getNRandomMovies(3);
+        assertNotNull(allMovies);
+        assertFalse(allMovies.isEmpty());
+    }
+
+    @Test
+    void getMoviesByGenreTest() {
+        List<Movie> allMovies = dao.getMoviesByGenre(63, new MovieRequest().getSorting());
         assertNotNull(allMovies);
         assertFalse(allMovies.isEmpty());
     }

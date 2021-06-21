@@ -16,20 +16,20 @@ public class NoWebSpringTestConfiguration {
 
     @Bean(value = "testCaffeineCachedGenreDao")
     @Profile("testCaffeineCachedGenreDao")
-    public CaffeineCachedGenreDao caffeineGenreDao(@Qualifier("jdbcGenreDao")GenreDao jdbcGenreDao, @Qualifier("genreDao")GenreDao cachedDao) {
+    public CaffeineCachedGenreDao caffeineGenreDao(@Qualifier("jpaGenreDao")GenreDao jpaGenreDao, @Qualifier("genreDao")GenreDao cachedDao) {
         if (cachedDao instanceof CaffeineCachedGenreDao) {
             return (CaffeineCachedGenreDao)cachedDao;
         }
-        return new CaffeineCachedGenreDao(jdbcGenreDao);
+        return new CaffeineCachedGenreDao(jpaGenreDao);
     }
 
     @Bean(value = "testCustomCachedGenreDao")
     @Profile("testCustomCachedGenreDao")
-    public CustomCachedGenreDao customGenreDao(GenreDao jdbcGenreDao, @Qualifier("genreDao")GenreDao cachedDao) {
+    public CustomCachedGenreDao customGenreDao(GenreDao jpaGenreDao, @Qualifier("genreDao")GenreDao cachedDao) {
         if (cachedDao instanceof CustomCachedGenreDao) {
             return (CustomCachedGenreDao)cachedDao;
         }
-        return new CustomCachedGenreDao(jdbcGenreDao);
+        return new CustomCachedGenreDao(jpaGenreDao);
     }
 
     @Bean("testMockCountryDao")

@@ -16,8 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,7 +46,7 @@ class GenreControllerITest {
         var resultContent = performedAction.andReturn().getResponse().getContentAsString();
         var genreList = mapResponseGenreList(resultContent);
         for (var genre : genreList) {
-            assertNotNull(genre.getId());
+            assertTrue(genre.getId() > 0);
             assertNotNull(genre.getName());
             assertFalse(genre.getName().isEmpty());
         }

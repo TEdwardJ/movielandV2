@@ -1,12 +1,11 @@
 package edu.ted.web.movieland.common;
 
-import lombok.Getter;
+import lombok.Value;
 
+@Value
 public class Sorting {
-    @Getter
-    private final OrderByColumn orderedColumn;
-    @Getter
-    private final OrderDirection orderDirection;
+    OrderByColumn orderedColumn;
+    OrderDirection orderDirection;
 
     public Sorting(String orderedColumn, String orderDirection) {
         OrderDirection orderDirectionTemp;

@@ -25,9 +25,9 @@ public class CompletableFutureEnrichmentService implements EnrichmentService {
 
     <T> CompletableFuture supplyWithCompletableFuture(Supplier<T> supplier, Consumer<T> consumer){
         return CompletableFuture
-                .supplyAsync(() -> supplier.get())
+                .supplyAsync(supplier)
                 .orTimeout(5, TimeUnit.SECONDS)
-                .thenAccept(consumer::accept);
+                .thenAccept(consumer);
     }
 
     @Override
