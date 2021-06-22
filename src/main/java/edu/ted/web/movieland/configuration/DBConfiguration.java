@@ -53,7 +53,6 @@ public class DBConfiguration {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setPackagesToScan("edu.ted.web.movieland.entity");
-
         Properties jpaProp = new Properties();
         jpaProp.put("hibernate.dialect", sqlDialect);
         jpaProp.put("hibernate.default_schema", defaultSchema);
