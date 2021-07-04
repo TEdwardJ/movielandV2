@@ -20,7 +20,6 @@ public class JpaGenreDao implements GenreDao {
     private EntityManager entityManager;
     private CriteriaQuery<Genre> findAllGenresQuery;
 
-
     @PostConstruct
     void init() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -30,14 +29,16 @@ public class JpaGenreDao implements GenreDao {
 
     @Override
     public List<Genre> findAll() {
-        TypedQuery<Genre> query = getQuery(findAllGenresQuery);
+        TypedQuery<Genre> query = getQuery(findAllGenresQuery)
+                .setHint("org.hibernate.cacheable", true);
         return query.getResultList();
     }
 
     @Override
     public List<Genre> getGenreByMovieId(long id) {
-        var movieQuery = entityManager.createQuery("SELECT m.genres FROM Movie m WHERE m.id = :id")
-                .setParameter("id", id);
+        var movieQuery = entityManager.createNativeQuery("SELECT gnr_id, gnr_name FROM movie.v_all_movie_genres_ui as m WHERE m_id = :id", Genre.class)
+                .setParameter("id", id)
+                .setHint("org.hibernate.cacheable", true);
 
         return movieQuery.getResultList();
     }

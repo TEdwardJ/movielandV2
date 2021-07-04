@@ -1,20 +1,21 @@
 package edu.ted.web.movieland.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Immutable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Value
+@Data
 @Entity
 @Table(name="genre")
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 @AllArgsConstructor
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "genres-region")
+@BatchSize(size=20)
+@Immutable
 public class Genre {
 
     @EqualsAndHashCode.Exclude
@@ -23,4 +24,5 @@ public class Genre {
     int id;
     @Column(name="gnr_name")
     String name;
+
 }

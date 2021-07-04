@@ -1,16 +1,12 @@
 package edu.ted.web.movieland.configuration;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
-import edu.ted.web.movieland.dao.GenreDao;
-import edu.ted.web.movieland.dao.cache.CaffeineCachedGenreDao;
-import edu.ted.web.movieland.dao.cache.CustomCachedGenreDao;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
 
 @Configuration()
 @ComponentScan(basePackages = {
@@ -24,16 +20,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 @Import(DBConfiguration.class)
 public class MovieLandJavaConfiguration {
-
-    @Bean
-    @Primary
-    public GenreDao genreDao(GenreDao jpaGenreDao,
-                             @Value("${genre.cache.type:CustomCachedGenreDao}") String cacheType) {
-        if (cacheType.endsWith("CaffeineCachedGenreDao")) {
-            return new CaffeineCachedGenreDao(jpaGenreDao);
-        }
-        return new CustomCachedGenreDao(jpaGenreDao);
-    }
+    @Autowired
+    private CacheManager manager;
 
     @Bean
     public CacheManager cacheManager() {
@@ -43,4 +31,5 @@ public class MovieLandJavaConfiguration {
                 .maximumSize(50));
         return cacheManager;
     }
+
 }

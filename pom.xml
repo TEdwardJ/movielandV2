@@ -15,6 +15,7 @@
         <spring.version>5.3.1</spring.version>
         <testcontainers.version>1.15.0</testcontainers.version>
         <flyway-core.version>7.5.3</flyway-core.version>
+        <hibernate.version>5.5.0.Final</hibernate.version>
     </properties>
 
     <build>
@@ -130,12 +131,27 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.5.0.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.5.0.Final</version>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -231,6 +247,5 @@
             <version>1.23.0</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>

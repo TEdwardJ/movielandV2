@@ -49,7 +49,19 @@ public class DBConfiguration {
                                                                           @Value("${hibernate.format_sql}")
                                                                                   Object formatSql,
                                                                           @Value("${hibernate.default_schema}")
-                                                                                  Object defaultSchema) {
+                                                                                  String defaultSchema,
+                                                                          @Value("${hibernate.cache.use_second_level_cache}")
+                                                                                  boolean use2ndLevelCache,
+                                                                          @Value("${hibernate.cache.use_query_cache}")
+                                                                                  boolean useQueryCache,
+                                                                          @Value("${hibernate.cache.region.factory_class}")
+                                                                                  String regionFactoryClass,
+                                                                          @Value("${hibernate.javax.cache.provider}")
+                                                                                      String cacheProvider,
+                                                                          @Value("${hibernate.javax.cache.uri}")
+                                                                                      String cacheUri,
+                                                                          @Value("${hibernate.generate_statistics:false}")
+                                                                                      String generateStatistics) {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setPackagesToScan("edu.ted.web.movieland.entity");
@@ -61,6 +73,12 @@ public class DBConfiguration {
         jpaProp.put("hibernate.connection.charSet", charSet);
         jpaProp.put("hibernate.connection.useUnicode", true);
         jpaProp.put("hibernate.connection.charSetEncoding", charSetEncoding);
+        jpaProp.put("hibernate.cache.use_second_level_cache", use2ndLevelCache);
+        jpaProp.put("hibernate.cache.use_query_cache", useQueryCache);
+        jpaProp.put("hibernate.cache.region.factory_class", regionFactoryClass);
+        jpaProp.put("hibernate.javax.cache.provider", cacheProvider);
+        jpaProp.put("hibernate.javax.cache.uri", cacheUri);
+        jpaProp.put("hibernate.generate_statistics", generateStatistics);
         entityManagerFactory.setJpaProperties(jpaProp);
         entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         return entityManagerFactory;

@@ -29,6 +29,18 @@ class DefaultMovieServiceTest {
     }
 
     @Test
+    public void givenMovieId_whenMovieReceivedEnrichedWithCountriesReviewsAndGenres_thenCorrect(){
+        var getMovieRequest = new GetMovieRequest(105);
+        var movie  = service.getMovieById(getMovieRequest).get();
+        assertNotNull(movie.getReviews());
+        assertFalse(movie.getReviews().isEmpty());
+        assertNotNull(movie.getGenres());
+        assertFalse(movie.getGenres().isEmpty());
+        assertNotNull(movie.getCountries());
+        assertFalse(movie.getCountries().isEmpty());
+    }
+
+    @Test
     void givenAllMoviesRequestedSortedByPriceAsc_whenSorted_thenCorrect() {
         var allMovies = service.findAll(new MovieRequest("price", "asc"));
         assertNotNull(allMovies);
@@ -51,18 +63,6 @@ class DefaultMovieServiceTest {
             rating = movie.getRating();
         }
         assertFalse(allMovies.isEmpty());
-    }
-
-    @Test
-    public void givenMovieId_whenMovieReceivedEnrichedWithCountriesReviewsAndGenres_thenCorrect(){
-        var getMovieRequest = new GetMovieRequest(105);
-        var movie  = service.getMovieById(getMovieRequest).get();
-        assertNotNull(movie.getReviews());
-        assertFalse(movie.getReviews().isEmpty());
-        assertNotNull(movie.getGenres());
-        assertFalse(movie.getGenres().isEmpty());
-        assertNotNull(movie.getCountries());
-        assertFalse(movie.getCountries().isEmpty());
     }
 
     @Test
