@@ -8,9 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import static org.springframework.http.HttpStatus.OK;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/review")
@@ -24,7 +21,8 @@ public class ReviewController {
         var userFromSession = SessionHandler.getUserSession().getUser();
         review.setUser(userFromSession);
         var addedReview = reviewService.addNewReview(review);
-        return new ResponseEntity<>(OK);
+
+        return ResponseEntity.ok().build();
     }
 
 }

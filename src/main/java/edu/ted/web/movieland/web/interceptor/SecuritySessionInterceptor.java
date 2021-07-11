@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-
 @Component
 @Slf4j
 public class SecuritySessionInterceptor implements HandlerInterceptor {

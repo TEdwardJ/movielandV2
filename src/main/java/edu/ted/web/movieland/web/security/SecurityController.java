@@ -17,8 +17,8 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class SecurityController {
 
-    private final static ResponseEntity<Object> BAD_REQUEST_RESPONSE = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    private final static ResponseEntity<Object> OK_RESPONSE = new ResponseEntity<>(HttpStatus.OK);
+    private final static ResponseEntity<Object> BAD_REQUEST_RESPONSE = ResponseEntity.badRequest().build();
+    private final static ResponseEntity<Object> OK_RESPONSE = ResponseEntity.ok().build();
 
     private final SecurityService securityService;
 
@@ -28,7 +28,7 @@ public class SecurityController {
                 .login(loginRequest)
                 .map(session -> new UserToken(session.getToken(), session.getUser().getNickname()))
                 .map(token -> new ResponseEntity<>(token, CREATED))
-                .orElseGet(() -> new ResponseEntity<>(BAD_REQUEST));
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/logout")

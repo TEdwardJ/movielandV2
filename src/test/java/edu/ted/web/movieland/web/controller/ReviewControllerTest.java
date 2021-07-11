@@ -56,7 +56,9 @@ class ReviewControllerTest {
     }
 
     private String sendAuthorizeRequest() throws Exception {
-        var contentAsString = mockMvc.perform(post("/login").param("email", testUserEmail).param("password", testUserPassword))
+        var contentAsString = mockMvc.perform(post("/login")
+                .param("email", testUserEmail)
+                .param("password", testUserPassword))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
