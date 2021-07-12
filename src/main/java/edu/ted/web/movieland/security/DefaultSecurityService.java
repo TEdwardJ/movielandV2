@@ -6,8 +6,9 @@ import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.request.LoginRequest;
 import edu.ted.web.movieland.service.SecurityService;
-import edu.ted.web.movieland.util.GeneralUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +24,8 @@ public class DefaultSecurityService implements SecurityService {
     private Cache<String, UserSession> userSessionCache;
 
     private final UserDao userDao;
+
+    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public DefaultSecurityService(UserDao userDao, @Value("${user.session.cache.lifeInMilliSeconds:7200000}") long userSessionLifeTime) {
         this.userDao = userDao;
@@ -71,6 +74,6 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     private boolean isPasswordValid(String password, User user) {
-        return userDao.isPasswordValid(user.getEmail(), GeneralUtils.getEncrypted(password + user.getSole()));
+        return encoder.matches(password + user.getSalt(), user.getPassword());
     }
 }

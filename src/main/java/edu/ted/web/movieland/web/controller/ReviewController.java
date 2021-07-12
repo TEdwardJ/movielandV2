@@ -1,11 +1,12 @@
 package edu.ted.web.movieland.web.controller;
 
+import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.security.SessionHandler;
 import edu.ted.web.movieland.request.AddReviewRequest;
 import edu.ted.web.movieland.service.ReviewService;
-import edu.ted.web.movieland.web.annotation.UserRequired;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +16,10 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @UserRequired
+    //@UserRequired
     @PostMapping
     public ResponseEntity<?> addReview(AddReviewRequest review) {
-        var userFromSession = SessionHandler.getUserSession().getUser();
+        var userFromSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
         review.setUser(userFromSession);
         var addedReview = reviewService.addNewReview(review);
 

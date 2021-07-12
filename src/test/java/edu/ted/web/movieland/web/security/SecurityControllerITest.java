@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @FullSpringMvcTest
-class SecurityControllerITest {
+class passwordSecurityControllerITest {
 
     @Value("${testUser.email}")
     private String email;

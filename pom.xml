@@ -13,6 +13,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <lombok.version>1.18.16</lombok.version>
         <spring.version>5.3.1</spring.version>
+        <spring.security.version>5.5.1</spring.security.version>
+        <jsonwebtoken.version>0.8.0</jsonwebtoken.version>
         <testcontainers.version>1.15.0</testcontainers.version>
         <flyway-core.version>7.5.3</flyway-core.version>
         <hibernate.version>5.5.0.Final</hibernate.version>
@@ -182,6 +184,21 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jsonwebtoken.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

@@ -16,7 +16,7 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebMovieLandJavaConfiguration.class};
+        return new Class[]{WebMovieLandJavaConfiguration.class, SecurityConfiguration.class};
     }
 
 

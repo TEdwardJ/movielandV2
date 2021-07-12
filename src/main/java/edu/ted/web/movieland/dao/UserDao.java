@@ -9,4 +9,5 @@ public interface UserDao {
     Optional<User> findUserByEmail(String email);
 
     boolean isPasswordValid(String email, String encryptedPassword);
+
 }

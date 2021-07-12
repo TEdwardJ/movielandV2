@@ -3,7 +3,6 @@ package edu.ted.web.movieland.security;
 import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.request.LoginRequest;
-import edu.ted.web.movieland.security.DefaultSecurityService;
 import edu.ted.web.movieland.util.GeneralUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,9 +32,9 @@ class DefaultSecurityServiceTest {
         service.cacheInit();
         User user = new User();
         user.setEmail(email);
-        user.setSole("justSole");
+        user.setSalt("justSole");
         user.setId(12);
-        user.setPassword(GeneralUtils.getEncrypted(password + user.getSole()));
+        user.setPassword(GeneralUtils.getEncrypted(password + user.getSalt()));
         user.setNickname("TomCat");
 
         when(dao.findUserByEmail(email)).thenReturn(Optional.of(user));
