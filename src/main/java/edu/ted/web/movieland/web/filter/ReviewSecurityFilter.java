@@ -1,21 +1,18 @@
 package edu.ted.web.movieland.web.filter;
 
 import edu.ted.web.movieland.security.jwt.JwtTokenProvider;
-import edu.ted.web.movieland.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-
-@Component("reviewSecurityFilter")
 @Slf4j
-public class ReviewSecurityFilter implements Filter {
+public class ReviewSecurityFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
 

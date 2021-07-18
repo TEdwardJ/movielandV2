@@ -1,7 +1,6 @@
 package edu.ted.web.movieland.web.controller;
 
 import edu.ted.web.movieland.entity.User;
-import edu.ted.web.movieland.security.SessionHandler;
 import edu.ted.web.movieland.request.AddReviewRequest;
 import edu.ted.web.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ public class ReviewController {
 
     //@UserRequired
     @PostMapping
-    public ResponseEntity<?> addReview(AddReviewRequest review) {
+    public ResponseEntity<?> addReview(@RequestBody AddReviewRequest review) {
         var userFromSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
         review.setUser(userFromSession);
         var addedReview = reviewService.addNewReview(review);

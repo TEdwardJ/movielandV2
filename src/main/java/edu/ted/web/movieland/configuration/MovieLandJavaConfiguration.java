@@ -18,7 +18,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @PropertySource("classpath:application.properties")
 @EnableScheduling
 @EnableCaching
-@Import(DBConfiguration.class)
+@Import({DBConfiguration.class, SecurityConfiguration.class})
 public class MovieLandJavaConfiguration {
     @Autowired
     private CacheManager manager;

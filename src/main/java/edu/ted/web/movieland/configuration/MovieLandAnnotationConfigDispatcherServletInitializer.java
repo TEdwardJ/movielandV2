@@ -16,7 +16,7 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebMovieLandJavaConfiguration.class, SecurityConfiguration.class};
+        return new Class[]{WebMovieLandJavaConfiguration.class};
     }
 
 
@@ -25,13 +25,12 @@ public class MovieLandAnnotationConfigDispatcherServletInitializer extends Abstr
         return new String[] { "/api/v1/*" };
     }
 
-
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
-        DelegatingFilterProxy filterProxy = new DelegatingFilterProxy("reviewSecurityFilter");
+        DelegatingFilterProxy filterProxy = new DelegatingFilterProxy("springSecurityFilterChain");
         filterProxy.setContextAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.dispatcher");
-        servletContext.addFilter("reviewSecurityFilter", filterProxy)
+        servletContext.addFilter("springSecurityFilterChain", filterProxy)
                 .addMappingForUrlPatterns(null, true, "/*");
     }
 
