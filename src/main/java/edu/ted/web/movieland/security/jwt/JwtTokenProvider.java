@@ -1,5 +1,6 @@
 package edu.ted.web.movieland.security.jwt;
 
+import edu.ted.web.movieland.common.SecurityConstants;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +55,8 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
-            return bearerToken.substring(7, bearerToken.length());
+        if (bearerToken != null && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+            return bearerToken.replace(SecurityConstants.TOKEN_PREFIX, "");
         }
         return null;
     }

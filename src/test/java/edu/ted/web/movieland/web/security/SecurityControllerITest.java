@@ -6,13 +6,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Map;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,20 +48,30 @@ class passwordSecurityControllerITest {
 
     @Test
     void givenExistingUserEmailAndPassword_whenSessionUUIDisReturned_thenCorrect() throws Exception {
-        mockMvc.perform(post("/login").param("email", email).param("password", testUserPassword))
+        String loginRequestBodyJson = getLoginRequestBody(email, testUserPassword);
+        mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginRequestBodyJson))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$", not(hasKey("user"))))
-                .andExpect(jsonPath("$.uuid", not(empty())))
-                .andExpect(jsonPath("$.nickname", equalTo("testUser")));
+                .andExpect(jsonPath("$.token", not(empty())))
+                .andExpect(jsonPath("$.username", equalTo("test_user@gmail.com")));
+    }
+
+    private String getLoginRequestBody(String email, String testUserPassword) throws JsonProcessingException {
+        var loginRequest = Map.of("email", email, "password", testUserPassword);
+        String json = new ObjectMapper().writeValueAsString(loginRequest);
+        return json;
     }
 
     @Test
     void givenNonExistingUserEmailAndPassword_whenSessionUUIDisReturned_thenCorrect() throws Exception {
+        String loginRequestBodyJson = getLoginRequestBody(email + "12", testUserPassword + "12");
         mockMvc.perform(post("/login")
-                    .param("email", email + "12")
-                    .param("password", testUserPassword + "12"))
-                .andExpect(status().isBadRequest());
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginRequestBodyJson))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -67,10 +83,15 @@ class passwordSecurityControllerITest {
 
     @Test
     void givenExistingSessionUUID_whenStatusIsOK_thenCorrect() throws Exception {
-        var contentAsString = mockMvc.perform(post("/login").param("email", email).param("password", testUserPassword))
-                .andReturn().getResponse().getContentAsString();
-        String uuidReturned = JsonPath.read(contentAsString, "$.uuid");
-        mockMvc.perform(delete("/logout").param("uuid", uuidReturned))
+        String loginRequestBodyJson = getLoginRequestBody(email,  testUserPassword);
+        var contentAsString = mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginRequestBodyJson))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        String tokenReturned = JsonPath.read(contentAsString, "$.token");
+        mockMvc.perform(delete("/logout").param("token", tokenReturned))
                 .andExpect(status().isOk());
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -23,16 +24,16 @@ public class TestDbConfiguration {
 
     @Bean(autowireCandidate = false, initMethod = "migrate")
     @Qualifier("flywayTest")
-    public Flyway flyway(DataSource dataSource) {
+    public Flyway flyway(DataSource dataSource, PasswordEncoder encoder) {
         var sole = GeneralUtils.generateStringWithLettersAndNumbers(10);
-        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword() + sole);
+        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword(encoder) + sole);
 
         var flyway = Flyway.configure(this.getClass().getClassLoader())
                 .baselineOnMigrate(false)
                 .baselineVersion("0.0.0")
                 .placeholderReplacement(true)
                 .dataSource(dataSource)
-                .placeholders(Map.of("email", testUserEmail, "sole", sole, "password", encryptedPassword))
+                .placeholders(Map.of("email", testUserEmail, "salt", sole, "password", encryptedPassword))
                 .schemas("movie")
                 .locations("filesystem:db/migration", "classpath:db/migration")
                 .load();
@@ -46,7 +47,8 @@ public class TestDbConfiguration {
     }
 
     @Bean("testUserPassword")
-    public String testUserPassword() {
+    public String testUserPassword(PasswordEncoder encoder) {
+        GeneralUtils.setPasswordEncoder(encoder);
         return GeneralUtils.generateStringWithLettersAndNumbers(15);
     }
 }

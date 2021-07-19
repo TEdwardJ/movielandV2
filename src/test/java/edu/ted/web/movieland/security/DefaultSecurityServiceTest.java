@@ -4,11 +4,13 @@ import edu.ted.web.movieland.dao.UserDao;
 import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.request.LoginRequest;
 import edu.ted.web.movieland.util.GeneralUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -26,6 +28,11 @@ class DefaultSecurityServiceTest {
 
     private DefaultSecurityService service;
 
+    @BeforeAll
+    public static void initAll(){
+        GeneralUtils.setPasswordEncoder(new BCryptPasswordEncoder());
+    }
+
     @BeforeEach
     public void init() {
         service = new DefaultSecurityService(dao, 7200000);
@@ -38,7 +45,6 @@ class DefaultSecurityServiceTest {
         user.setNickname("TomCat");
 
         when(dao.findUserByEmail(email)).thenReturn(Optional.of(user));
-        when(dao.isPasswordValid(any(), any())).thenReturn(true);
     }
 
     @Test

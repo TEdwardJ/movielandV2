@@ -1,9 +1,11 @@
 package edu.ted.web.movieland.util;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class GeneralUtils {
+
+    private static PasswordEncoder ENCODER;
 
     public static String generateStringWithLettersAndNumbers(int length){
         return generateStringWithLettersAndNumbers(length, true, true);
@@ -14,6 +16,10 @@ public class GeneralUtils {
     }
 
     public static String getEncrypted(String text) {
-        return DigestUtils.md5Hex(text);
+        return ENCODER.encode(text);
+    }
+
+    public static void setPasswordEncoder(PasswordEncoder encoder){
+        ENCODER = encoder;
     }
 }
