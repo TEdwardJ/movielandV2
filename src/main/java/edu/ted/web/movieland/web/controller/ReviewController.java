@@ -15,7 +15,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    //@UserRequired
     @PostMapping
     public ResponseEntity<?> addReview(@RequestBody AddReviewRequest review) {
         var userFromSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -4,6 +4,7 @@ import edu.ted.web.movieland.common.SecurityConstants;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,9 +22,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private String secret = "testJWT";
+    @Value("${jwt.token.secret:testJWT}")
+    private String secret;
 
-    private int validityInMilliseconds=120000;
+    @Value("${jwt.token.expired:120000}")
+    private int validityInMilliseconds;
 
     private final UserDetailsService userDetailsService;
 

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackageClasses = {SecurityController.class})
 class LoginControllerExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity handleConflict(WebRequest webRequest, HttpServletResponse request, Exception exception) {

@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Slf4j
-public class ReviewSecurityFilter extends GenericFilterBean {
+public class JwtSecurityFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public ReviewSecurityFilter(JwtTokenProvider jwtTokenProvider) {
+    public JwtSecurityFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
         System.out.println("ReviewSecurityFilter creation");
     }

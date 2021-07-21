@@ -39,7 +39,7 @@ class DefaultSecurityServiceTest {
         service.cacheInit();
         User user = new User();
         user.setEmail(email);
-        user.setSalt("justSole");
+        user.setSalt("justSalt");
         user.setId(12);
         user.setPassword(GeneralUtils.getEncrypted(password + user.getSalt()));
         user.setNickname("TomCat");

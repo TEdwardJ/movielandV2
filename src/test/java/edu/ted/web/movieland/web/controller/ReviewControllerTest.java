@@ -50,7 +50,7 @@ class ReviewControllerTest {
     void givenNewReviewWithNoToken_whenNotAuthorizedCode_thenCorrect() throws Exception {
         String json = getReviewJson();
 
-        mockMvc.perform(post("/api/v1/review")
+        mockMvc.perform(post("/review")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isForbidden());

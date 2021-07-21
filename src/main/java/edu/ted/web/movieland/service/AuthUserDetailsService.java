@@ -18,6 +18,7 @@ public class AuthUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return userDao
                 .findUserByEmail(s)
+                .map(userDao::enrichUserWithRoles)
                 .orElse(null);
     }
 }

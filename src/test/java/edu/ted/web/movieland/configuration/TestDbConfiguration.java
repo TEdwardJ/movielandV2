@@ -25,15 +25,15 @@ public class TestDbConfiguration {
     @Bean(autowireCandidate = false, initMethod = "migrate")
     @Qualifier("flywayTest")
     public Flyway flyway(DataSource dataSource, PasswordEncoder encoder) {
-        var sole = GeneralUtils.generateStringWithLettersAndNumbers(10);
-        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword(encoder) + sole);
+        var salt = GeneralUtils.generateStringWithLettersAndNumbers(10);
+        var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword(encoder) + salt);
 
         var flyway = Flyway.configure(this.getClass().getClassLoader())
                 .baselineOnMigrate(false)
                 .baselineVersion("0.0.0")
                 .placeholderReplacement(true)
                 .dataSource(dataSource)
-                .placeholders(Map.of("email", testUserEmail, "salt", sole, "password", encryptedPassword))
+                .placeholders(Map.of("email", testUserEmail, "salt", salt, "password", encryptedPassword, "role", "2"))
                 .schemas("movie")
                 .locations("filesystem:db/migration", "classpath:db/migration")
                 .load();
