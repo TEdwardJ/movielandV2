@@ -8,8 +8,6 @@ public interface UserDao {
 
     Optional<User> findUserByEmail(String email);
 
-    User enrichUserWithRoles(User user);
-
     boolean isPasswordValid(String email, String encryptedPassword);
 
 }

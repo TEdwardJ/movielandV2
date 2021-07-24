@@ -14,7 +14,7 @@
         <lombok.version>1.18.16</lombok.version>
         <spring.version>5.3.1</spring.version>
         <spring.security.version>5.5.1</spring.security.version>
-        <jsonwebtoken.version>0.8.0</jsonwebtoken.version>
+        <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
         <testcontainers.version>1.15.0</testcontainers.version>
         <flyway-core.version>7.5.3</flyway-core.version>
         <hibernate.version>5.5.0.Final</hibernate.version>
@@ -207,10 +207,25 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
+            <artifactId>jjwt-api</artifactId>
             <version>${jsonwebtoken.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

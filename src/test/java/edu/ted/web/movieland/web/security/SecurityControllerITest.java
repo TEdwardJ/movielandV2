@@ -74,12 +74,12 @@ class passwordSecurityControllerITest {
                 .andExpect(status().isForbidden());
     }
 
-    @Test
+/*    @Test
     void givenRandomUUID_whenBadRequest_thenCorrect() throws Exception {
         String uuid = UUID.randomUUID().toString();
         mockMvc.perform(delete("/logout").param("uuid", uuid))
                 .andExpect(status().isBadRequest());
-    }
+    }*/
 
     @Test
     void givenExistingSessionUUID_whenStatusIsOK_thenCorrect() throws Exception {

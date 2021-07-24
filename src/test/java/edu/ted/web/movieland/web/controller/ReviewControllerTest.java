@@ -60,7 +60,6 @@ class ReviewControllerTest {
     void givenNewReviewWithExistingToken_whenOKCode_thenCorrect() throws Exception {
         String uuid = sendAuthorizeRequest();
         String json = getReviewJson();
-
         mockMvc.perform(post("/review")
                 .header("Authorization", SecurityConstants.TOKEN_PREFIX + uuid)
                 .contentType(MediaType.APPLICATION_JSON)

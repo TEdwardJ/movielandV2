@@ -2,6 +2,7 @@ package edu.ted.web.movieland.security.jwt;
 
 import edu.ted.web.movieland.common.SecurityConstants;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,13 +25,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${jwt.token.secret:testJWT}")
-    private String secret;
+    private SecretKey secretKey;
 
     @Value("${jwt.token.expired:120000}")
     private int validityInMilliseconds;
 
     private final UserDetailsService userDetailsService;
+
+    @PostConstruct
+    public void init(){
+        secretKey =  Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
     public String createToken(String username/*, List<Role> roles*/) {
 
@@ -42,7 +49,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(secretKey)
                 .compact();
     }
 
@@ -66,7 +73,11 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jws<Claims> claims = Jwts
+                    .parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
 
             if (claims.getBody().getExpiration().before(new Date())) {
                 return false;
@@ -86,8 +97,9 @@ public class JwtTokenProvider {
 
     public String getUsername(String token) {
         return Jwts
-                .parser()
-                .setSigningKey(secret)
+                .parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

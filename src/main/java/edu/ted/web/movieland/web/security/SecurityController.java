@@ -3,7 +3,6 @@ package edu.ted.web.movieland.web.security;
 import edu.ted.web.movieland.entity.User;
 import edu.ted.web.movieland.request.LoginRequest;
 import edu.ted.web.movieland.security.jwt.JwtTokenProvider;
-import edu.ted.web.movieland.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -30,9 +29,7 @@ public class SecurityController {
     private final static ResponseEntity<Object> BAD_REQUEST_RESPONSE = ResponseEntity.badRequest().build();
     private final static ResponseEntity<Object> OK_RESPONSE = ResponseEntity.ok().build();
 
-
     private final AuthenticationManager authenticationManager;
-    private final SecurityService securityService;
     private final UserDetailsService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -58,11 +55,11 @@ public class SecurityController {
         }
     }
 
-    @DeleteMapping("/logout")
+/*    @DeleteMapping("/logout")
     public ResponseEntity<?> logout(String uuid) {
         return securityService
                 .logout(uuid)
                 .map(token -> OK_RESPONSE)
                 .orElse(BAD_REQUEST_RESPONSE);
-    }
+    }*/
 }
