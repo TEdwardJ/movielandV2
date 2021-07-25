@@ -61,7 +61,7 @@ class ReviewControllerTest {
         String uuid = sendAuthorizeRequest();
         String json = getReviewJson();
         mockMvc.perform(post("/review")
-                .header("Authorization", SecurityConstants.TOKEN_PREFIX + uuid)
+                .header(SecurityConstants.AUTHORIZATION_HEADER_NAME,SecurityConstants.TOKEN_PREFIX + uuid)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk());

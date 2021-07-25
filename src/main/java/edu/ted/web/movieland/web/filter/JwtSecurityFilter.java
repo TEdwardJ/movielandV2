@@ -19,7 +19,7 @@ public class JwtSecurityFilter extends GenericFilterBean {
     @Autowired
     public JwtSecurityFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
-        System.out.println("ReviewSecurityFilter creation");
+        System.out.println("JwtSecurityFilter creation");
     }
 
     @Override

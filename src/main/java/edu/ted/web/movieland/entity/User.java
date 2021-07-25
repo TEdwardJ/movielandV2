@@ -20,14 +20,18 @@ public class User implements UserDetails {
     @Id
     @Column(name = "usr_id")
     private int id;
+
     @Column(name = "usr_email")
     private String email;
+
     @Column(name = "usr_sole")
     @EqualsAndHashCode.Exclude
     private String salt;
+
     @Column(name = "usr_password_enc")
     @EqualsAndHashCode.Exclude
     private String password;
+
     @Column(name = "usr_name")
     private String nickname;
 
@@ -36,13 +40,14 @@ public class User implements UserDetails {
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "usr_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<UserRoleHolder> roles;
+    private List<UserRole> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().getName())
-                ).collect(Collectors.toList());
+        return roles
+                .stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().name()))
+                .collect(Collectors.toList());
     }
 
     @Override

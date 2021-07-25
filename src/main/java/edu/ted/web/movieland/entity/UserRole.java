@@ -1,37 +1,20 @@
 package edu.ted.web.movieland.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
-public enum UserRole {
+@Data
+@Entity
+@Table(name="role")
+public class UserRole {
 
-    ADMIN("ADMIN"),
-    USER("USER");
-
-    UserRole(String name) {
-        this.name = name;
-    }
+    @Id
+    @Column(name="role_id")
+    private int id;
 
     @Column(name="role_name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private UserRoleName role;
 
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public static UserRole fromCode(String code) {
-        if (  "ADMIN".equalsIgnoreCase(code)) {
-            return ADMIN;
-        }
-        if (  "USER".equalsIgnoreCase(code)) {
-            return USER;
-        }
-        throw new UnsupportedOperationException(
-                "The code " + code + " is not supported!"
-        );
-    }
 }

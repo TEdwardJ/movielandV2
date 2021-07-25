@@ -1,19 +1,12 @@
 package edu.ted.web.movieland.dao.jpa;
 
 import edu.ted.web.movieland.dao.UserDao;
-import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.User;
-import edu.ted.web.movieland.entity.UserRole;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -45,11 +38,9 @@ public class JpaUserDao implements UserDao {
                 "        WHERE mu.usr_email = :email \n" +
                 "        AND usr_password_enc = :enc_password")
                 .setParameter("email", email)
-                .setParameter("enc_password", encryptedPassword)
-                /*
-                .setHint("org.hibernate.cacheable", true)*/;
+                .setParameter("enc_password", encryptedPassword);
 
-        return Integer.valueOf(1).equals((Integer) checkQuery.getSingleResult());
+        return Integer.valueOf(1).equals(checkQuery.getSingleResult());
     }
 
 

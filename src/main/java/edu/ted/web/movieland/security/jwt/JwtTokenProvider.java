@@ -1,12 +1,12 @@
 package edu.ted.web.movieland.security.jwt;
 
 import edu.ted.web.movieland.common.SecurityConstants;
+import edu.ted.web.movieland.entity.UserRole;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,10 +37,10 @@ public class JwtTokenProvider {
         secretKey =  Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
-    public String createToken(String username/*, List<Role> roles*/) {
+    public String createToken(String username, List<UserRole> roles) {
 
         Claims claims = Jwts.claims().setSubject(username);
-        //claims.put("roles", getRoleNames(roles));
+        claims.put("roles", getRoleNames(roles));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -53,18 +53,17 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    private List<String> getRoleNames(List<Role> userRoles) {
+    private List<String> getRoleNames(List<UserRole> userRoles) {
         List<String> result = new ArrayList<>();
-/*
         userRoles.forEach(role -> {
-            result.add(role.getName());
-        });*/
+            result.add(role.getRole().name());
+        });
 
         return result;
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER_NAME);
         if (bearerToken != null && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             return bearerToken.replace(SecurityConstants.TOKEN_PREFIX, "");
         }

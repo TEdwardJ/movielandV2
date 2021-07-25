@@ -1,7 +1,6 @@
 package edu.ted.web.movieland.security;
 
 import edu.ted.web.movieland.security.jwt.JwtTokenProvider;
-import edu.ted.web.movieland.web.filter.JwtSecurityFilter;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
