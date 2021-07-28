@@ -33,8 +33,8 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
-    public void init(){
-        secretKey =  Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    public void init() {
+        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public String createToken(String username, List<UserRole> roles) {

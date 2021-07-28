@@ -23,8 +23,8 @@ public class JpaUserDao implements UserDao {
                 "                        WHERE u.email = :email", User.class)
                 .setParameter("email", email);
         try {
-            var result = userQuery.getSingleResult();
-            return Optional.ofNullable(result);
+            var singleUser = userQuery.getSingleResult();
+            return Optional.ofNullable(singleUser);
         } catch (Exception e) {
             log.debug("Error while finding user with email {}", email, e);
             return Optional.empty();

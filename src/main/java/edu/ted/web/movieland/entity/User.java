@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private String nickname;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany//(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "usr_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})

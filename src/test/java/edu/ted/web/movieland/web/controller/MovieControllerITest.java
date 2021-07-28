@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.hasKey;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

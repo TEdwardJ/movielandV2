@@ -1,6 +1,5 @@
 package edu.ted.web.movieland.configuration;
 
-import edu.ted.web.movieland.security.JwtConfigurator;
 import edu.ted.web.movieland.security.jwt.JwtTokenProvider;
 import edu.ted.web.movieland.service.AuthUserDetailsService;
 import edu.ted.web.movieland.web.filter.JwtSecurityFilter;
@@ -24,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AuthUserDetailsService authUserDetailsService;
-    private final JwtConfigurator jwtConfigurator;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
@@ -47,12 +45,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/review").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new JwtSecurityFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .apply(jwtConfigurator);
+                .addFilterBefore(new JwtSecurityFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 

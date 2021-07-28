@@ -1,6 +1,5 @@
 package edu.ted.web.movieland.web.security;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,17 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
 @RestControllerAdvice(basePackageClasses = {SecurityController.class})
 class LoginControllerExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity handleConflict(WebRequest webRequest, HttpServletResponse request, Exception exception) {
         var info =
                 Map.of("timestamp", LocalDateTime.now().toString(),
-                        "statusCode", HttpStatus.FORBIDDEN.value(),
-                        "statusMessage", HttpStatus.FORBIDDEN.getReasonPhrase(),
+                        "statusCode", FORBIDDEN.value(),
+                        "statusMessage", FORBIDDEN.getReasonPhrase(),
                         "message", exception.getMessage(),
                         "path", ((ServletWebRequest) webRequest).getRequest().getRequestURI());
-        var exceptionalResponse = new ResponseEntity(info, HttpStatus.FORBIDDEN);
+        var exceptionalResponse = new ResponseEntity(info, FORBIDDEN);
         return exceptionalResponse;
     }
 }
