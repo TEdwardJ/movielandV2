@@ -16,6 +16,6 @@ CREATE OR REPLACE VIEW movie.v_user_roles
      JOIN movie.user_role ur ON u.usr_id = ur.usr_id
      JOIN movie.role r ON r.role_id = ur.role_id;
 
-/*ALTER TABLE movie.v_user_roles
-    OWNER TO postgres;*/
+ALTER TABLE movie.v_user_roles
+    OWNER TO postgres;
 

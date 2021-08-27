@@ -6,6 +6,8 @@ import edu.ted.web.movieland.request.GetMovieRequest;
 import edu.ted.web.movieland.service.EnrichmentService;
 import edu.ted.web.movieland.service.MovieService;
 import edu.ted.web.movieland.request.MovieRequest;
+import edu.ted.web.movieland.util.MovieMapper;
+import edu.ted.web.movieland.web.dto.ChangeMovieDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.concurrent.*;
 public class DefaultMovieService implements MovieService {
 
     private final EnrichmentService enrichmentService;
+    private final MovieMapper movieMapper;
     private final MovieDao dao;
 
     private final EnrichmentService enrichService;
@@ -48,6 +51,11 @@ public class DefaultMovieService implements MovieService {
                 .peek(movie -> convertCurrency(movie, request.getCurrency()))
                 .peek(this::enrichMovie)
                 .findFirst();
+    }
+
+    @Override
+    public Movie saveOrUpdate(ChangeMovieDto movie) {
+        return dao.saveOrUpdate(movieMapper.mapChangeMovieDtoToMovie(movie));
     }
 
     private void convertCurrency(Movie movie, Currency currency) {

@@ -2,14 +2,12 @@ package edu.ted.web.movieland.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.ted.web.movieland.entity.Country;
-import edu.ted.web.movieland.entity.Genre;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class MovieDto {
+public class ChangeMovieDto {
 
     private int id;
     @JsonAlias("nameRussian")
@@ -26,10 +24,8 @@ public class MovieDto {
     @JsonAlias("description")
     private String description;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Country> countries;
+    private List<Long> countries;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Genre> genres;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<ReviewDto> reviews;
+    private List<Long> genres;
 
 }

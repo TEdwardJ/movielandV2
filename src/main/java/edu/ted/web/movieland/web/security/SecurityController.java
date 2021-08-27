@@ -37,7 +37,8 @@ public class SecurityController {
         var user = userHolder.get();
         user.setPassword(loginRequest.getPassword());
         try {
-            var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword() + user.getSalt()));
+            UsernamePasswordAuthenticationToken preparedAuth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword() + user.getSalt());
+            var authentication = authenticationManager.authenticate(preparedAuth);
             String token = jwtTokenProvider.createToken(user.getEmail(), user.getRoles());
             Map<Object, Object> response = Map.of(
                     "username", user.getEmail(),

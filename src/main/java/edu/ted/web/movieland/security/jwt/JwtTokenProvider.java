@@ -27,7 +27,7 @@ public class JwtTokenProvider {
 
     private SecretKey secretKey;
 
-    @Value("${jwt.token.expired:120000}")
+    @Value("${jwt.token.expired:300000}")
     private int validityInMilliseconds;
 
     private final UserDetailsService userDetailsService;

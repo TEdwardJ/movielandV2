@@ -5,9 +5,10 @@ import edu.ted.web.movieland.common.Sorting;
 import edu.ted.web.movieland.dao.MovieDao;
 import edu.ted.web.movieland.entity.Genre;
 import edu.ted.web.movieland.entity.Movie;
+import edu.ted.web.movieland.util.MovieMapper;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +33,10 @@ public class JpaMovieDao implements MovieDao {
     private CriteriaQuery<Movie> randomMovieQuery;
     private ParameterExpression<Integer> genreIdParameter;
 
+    private JpaMovieDaoHelper jpaMovieDaoHelper = new JpaMovieDaoHelper();
+
     @Autowired
-    private JpaMovieDaoHelper jpaMovieDaoHelper;
+    private MovieMapper mapper;
 
     @PostConstruct
     void init() {
@@ -70,11 +74,18 @@ public class JpaMovieDao implements MovieDao {
         return Optional.ofNullable(entityManager.find(Movie.class, movieId));
     }
 
+    @Override
+    @Transactional
+    public Movie saveOrUpdate(Movie movie) {
+        Session session = entityManager.unwrap(Session.class);
+        session.saveOrUpdate(movie);
+        return movie;
+    }
+
     TypedQuery<Movie> getQuery(CriteriaQuery<Movie> movieQuery) {
         return entityManager.createQuery(movieQuery);
     }
 
-    @Component
     protected class JpaMovieDaoHelper {
 
         @Cacheable(cacheNames = "findMoviesByGenreQueriesCache")

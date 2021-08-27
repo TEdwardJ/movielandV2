@@ -21,7 +21,7 @@ public class Genre {
     @EqualsAndHashCode.Exclude
     @Id
     @Column(name="gnr_id")
-    int id;
+    long id;
     @Column(name="gnr_name")
     String name;
 
