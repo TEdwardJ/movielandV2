@@ -1,14 +1,14 @@
 package edu.ted.web.movieland.service.impl;
 
 import edu.ted.web.movieland.entity.Movie;
-import edu.ted.web.movieland.service.CountryService;
 import edu.ted.web.movieland.service.EnrichmentService;
-import edu.ted.web.movieland.service.GenreService;
 import edu.ted.web.movieland.service.ReviewService;
+import edu.ted.web.movieland.util.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -19,9 +19,8 @@ import java.util.function.Supplier;
 @Slf4j
 public class CompletableFutureEnrichmentService implements EnrichmentService {
 
-    private final GenreService genreService;
-    private final CountryService countryService;
     private final ReviewService reviewService;
+    private final ReviewMapper reviewMapper;
 
     <T> CompletableFuture supplyWithCompletableFuture(Supplier<T> supplier, Consumer<T> consumer){
         return CompletableFuture
@@ -33,9 +32,9 @@ public class CompletableFutureEnrichmentService implements EnrichmentService {
     @Override
     public void enrich(Movie movie) {
         long movieId = movie.getId();
-        var genresFuture = supplyWithCompletableFuture(() -> genreService.getGenreByMovieId(movieId), movie::setGenres);
-        var countryFuture = supplyWithCompletableFuture(() -> countryService.getCountriesByMovieId(movieId), movie::setCountries);
-        var reviewFuture = supplyWithCompletableFuture(() ->reviewService.getReviewsByMovieId(movieId), movie::setReviews);
+        var genresFuture = supplyWithCompletableFuture(() ->  new ArrayList<>(movie.getGenres()), movie::setGenres);
+        var countryFuture = supplyWithCompletableFuture(() ->  new ArrayList<>(movie.getCountries()), movie::setCountries);
+        var reviewFuture = supplyWithCompletableFuture(() -> reviewService.getReviewsByMovieId(movieId), movie::setReviews);
         log.debug("Enrichment process is about to be started for movie with id {'movieId': {}}", movieId);
         CompletableFuture
                 .allOf(genresFuture, countryFuture, reviewFuture)

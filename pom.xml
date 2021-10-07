@@ -13,6 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <lombok.version>1.18.16</lombok.version>
         <spring.version>5.3.1</spring.version>
+        <spring.data.version>2.5.5</spring.data.version>
         <spring.security.version>5.5.1</spring.security.version>
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
         <testcontainers.version>1.15.0</testcontainers.version>
@@ -171,6 +172,11 @@
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
+<!--        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
@@ -191,6 +197,12 @@
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
         </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework/spring-core &ndash;&gt;
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -291,5 +303,12 @@
             <version>1.23.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring.security.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

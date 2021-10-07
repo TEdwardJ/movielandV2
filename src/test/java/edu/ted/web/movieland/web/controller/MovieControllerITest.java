@@ -4,11 +4,20 @@ package edu.ted.web.movieland.web.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ted.web.movieland.annotation.FullSpringMvcTest;
+import edu.ted.web.movieland.dao.CountryDao;
+import edu.ted.web.movieland.dao.jdbc.mapper.CountryRowMapper;
+import edu.ted.web.movieland.entity.Country;
+import edu.ted.web.movieland.service.impl.DefaultCountryService;
+import edu.ted.web.movieland.service.impl.ParallelEnrichmentService;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,19 +28,34 @@ import java.util.Objects;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @FullSpringMvcTest
 public class MovieControllerITest {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Mock
+    private CountryDao countryDao;
+
     @Autowired
     private WebApplicationContext wac;
+
+    @InjectMocks
+    private DefaultCountryService countryService;
+
+    @Autowired
+    private ParallelEnrichmentService enrichService;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -48,6 +72,52 @@ public class MovieControllerITest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(greaterThan(0))));
+    }
+
+    private List<Country> getCountriesWithDelay(long movieId) {
+        var countryRowMapper = new CountryRowMapper();
+        String getCountriesByMovieIdQuery = "SELECT distinct cntr_id, cntr_name \n" +
+                "FROM movie.v_all_movie_countries_ui mc, pg_sleep(6) \n" +
+                "WHERE m_id = ?";
+        return jdbcTemplate.query(getCountriesByMovieIdQuery, countryRowMapper, movieId);
+    }
+
+    @Test
+    public void givenMovieByIdRequest_whenMovieReturnedAndEnrichedWithDelay_thenCorrect() throws Exception {
+                when(countryDao.getCountriesByMovieId(105))
+                .thenAnswer(invocationOnMock -> getCountriesWithDelay(invocationOnMock.getArgument(0)));
+        mockMvc.perform(get("/movies/105"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", not(empty())))
+                .andExpect(jsonPath("$.id", not(empty())))
+                .andExpect(jsonPath("$.description", not(empty())))
+                .andExpect(jsonPath("$.russianName", not(empty())))
+                .andExpect(jsonPath("$.nativeName", not(empty())))
+                .andExpect(jsonPath("$.releaseYear", not(empty())))
+                .andExpect(jsonPath("$.rating", not(empty())))
+                .andExpect(jsonPath("$.price", not(empty())))
+                .andExpect(jsonPath("$.pictureUrl", not(empty())))
+                .andExpect(jsonPath("$", hasKey("genres")))
+                .andExpect(jsonPath("$", hasKey("genres")))
+                .andExpect(jsonPath("$", hasKey("countries")))
+                .andExpect(jsonPath("$", hasKey("reviews")))
+                .andExpect(jsonPath("$.genres", not(emptyArray())))
+                .andExpect(jsonPath("$.genres[0]", hasKey("id")))
+                .andExpect(jsonPath("$.genres[0]", hasKey("name")))
+                .andExpect(jsonPath("$.genres[0].id", not(empty())))
+                .andExpect(jsonPath("$.genres[0].name", not(empty())))
+                .andExpect(jsonPath("$.countries", not(emptyArray())))
+                .andExpect(jsonPath("$.countries[0]", hasKey("id")))
+                .andExpect(jsonPath("$.countries[0]", hasKey("name")))
+                .andExpect(jsonPath("$.countries[0].id", not(empty())))
+                .andExpect(jsonPath("$.countries[0].name", not(empty())))
+                .andExpect(jsonPath("$.reviews", not(emptyArray())))
+                .andExpect(jsonPath("$.reviews[0]", hasKey("id")))
+                .andExpect(jsonPath("$.reviews[0]", hasKey("text")))
+                .andExpect(jsonPath("$.reviews[0].id", not(empty())))
+                .andExpect(jsonPath("$.reviews[0].text", not(empty())))
+                .andExpect(jsonPath("$.reviews[0].user", not(empty())));
     }
 
     @Test

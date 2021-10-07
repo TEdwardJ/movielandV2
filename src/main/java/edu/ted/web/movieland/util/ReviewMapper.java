@@ -9,6 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, implementationName = "DefaultReviewMapper")
 public interface ReviewMapper {
+
     ReviewDto mapToDTO(Review review);
     List<ReviewDto> mapToDTOs(List<Review> movie);
+    List<Review> mapToReview(List<ReviewDto> movie);
+
 }

@@ -4,11 +4,15 @@ import edu.ted.web.movieland.entity.Movie;
 import edu.ted.web.movieland.request.GetMovieRequest;
 import edu.ted.web.movieland.request.MovieRequest;
 import edu.ted.web.movieland.web.dto.ChangeMovieDto;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface MovieService {
+
+    @Autowired
+    void setEnrichmentService(EnrichmentService enrichmentService);
 
     List<Movie> findAll(MovieRequest request);
 
@@ -18,5 +22,5 @@ public interface MovieService {
 
     Optional<Movie> getMovieById(GetMovieRequest request);
 
-    Movie saveOrUpdate(ChangeMovieDto movie);
+    ChangeMovieDto saveOrUpdate(ChangeMovieDto movie);
 }

@@ -9,6 +9,8 @@ import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @FullSpringNoMvcTest
+@TestPropertySource({/*"application.properties", */"classpath:application-cachetest.properties"})
 class JpaGenreDaoTest {
 
     @PersistenceContext
@@ -48,29 +51,28 @@ class JpaGenreDaoTest {
         statistics.clear();
         assertEquals(0, statistics.getQueryCacheHitCount());
         assertEquals(0, statistics.getQueryCachePutCount());
-        assertFalse(secondLevelCache.containsEntity(Genre.class, 63));
+        assertFalse(secondLevelCache.containsEntity(Genre.class, 65L));
         getGenresTest();
         assertEquals(0, statistics.getQueryCacheHitCount());
         assertEquals(1, statistics.getQueryCachePutCount());
-        assertTrue(secondLevelCache.containsEntity(Genre.class, 63));
+        assertTrue(secondLevelCache.containsEntity(Genre.class, 65L));
         getGenresTest();
         assertEquals(1, statistics.getQueryCacheHitCount());
         assertEquals(1, statistics.getQueryCachePutCount());
-        assertTrue(secondLevelCache.containsEntity(Genre.class, 63));
+        assertTrue(secondLevelCache.contains(Genre.class, 65L));
     }
 
     void getGenresTest(){
         var allGenres = dao.findAll();
         assertNotNull(allGenres);
         assertFalse(allGenres.isEmpty());
-
     }
 
     @Test
     void givenMovieId_whenListOfGenresIsReceived_thenCorrect() {
         var allGenres = dao.getGenreByMovieId(103);
         assertFalse(allGenres.isEmpty());
-        assertTrue(allGenres.contains(new Genre(0, "фэнтези")));
+        assertTrue(allGenres.contains(new Genre(65, "фэнтези")));
         assertTrue(containsGenre(allGenres, "фэнтези"));
         assertTrue(containsGenre(allGenres, "драма"));
         for (Genre genre : allGenres) {

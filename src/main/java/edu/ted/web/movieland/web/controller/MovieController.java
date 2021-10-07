@@ -33,7 +33,7 @@ public class MovieController {
     public ResponseEntity<MovieDto> getMoviesById(GetMovieRequest request) {
         log.info("currency in request: {}", request);
         return movieService.getMovieById(request)
-                .map(mapper::mapToDTO)
+                .map(mapper::mapToDto)
                 .map(movieDto -> new ResponseEntity<>(movieDto, OK))
                 .orElseGet(() -> new ResponseEntity<>(BAD_REQUEST));
     }

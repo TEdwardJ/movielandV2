@@ -5,6 +5,7 @@ import edu.ted.web.movieland.request.AddReviewRequest;
 import edu.ted.web.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<?> addReview(@RequestBody AddReviewRequest review) {
         var userFromSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

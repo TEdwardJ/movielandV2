@@ -31,7 +31,7 @@ public class JpaMovieDao implements MovieDao {
     private CriteriaBuilder criteriaBuilder;
 
     private CriteriaQuery<Movie> randomMovieQuery;
-    private ParameterExpression<Integer> genreIdParameter;
+    private ParameterExpression<Long> genreIdParameter;
 
     private JpaMovieDaoHelper jpaMovieDaoHelper = new JpaMovieDaoHelper();
 
@@ -41,7 +41,7 @@ public class JpaMovieDao implements MovieDao {
     @PostConstruct
     void init() {
         criteriaBuilder = entityManager.getCriteriaBuilder();
-        genreIdParameter = criteriaBuilder.parameter(Integer.class);
+        genreIdParameter = criteriaBuilder.parameter(Long.class);
 
         randomMovieQuery = criteriaBuilder.createQuery(Movie.class);
         Root<Movie> randomMovieQueryRoot = randomMovieQuery.from(Movie.class);
@@ -63,7 +63,7 @@ public class JpaMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getMoviesByGenre(int genreId, Sorting sorting) {
+    public List<Movie> getMoviesByGenre(long genreId, Sorting sorting) {
         return getQuery(jpaMovieDaoHelper.createMoviesByGenreQuery(sorting))
                 .setParameter(genreIdParameter, genreId)
                 .getResultList();

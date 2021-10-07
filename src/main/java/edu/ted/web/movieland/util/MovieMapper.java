@@ -7,25 +7,18 @@ import edu.ted.web.movieland.web.dto.ChangeMovieDto;
 import edu.ted.web.movieland.web.dto.MovieDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.stream.Collectors.toList;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, implementationName = "DefaultMovieMapper")
 public interface MovieMapper {
-    MovieDto mapToDTO(Movie movie);
-
-    Movie mapToMovie(MovieDto movie);
+    MovieDto mapToDto(Movie movie);
 
     Movie mapChangeMovieDtoToMovie(ChangeMovieDto movie);
 
     ChangeMovieDto mapMovieToChangeMovieDto(Movie movieDto);
-
-    List<Long> mapCountryListToIdList(List<Country> value);
-
-    List<Long> mapGenreListToIdList(List<Genre> value);
 
     default Long mapCountryToId(Country value) {
         return value.getId();
@@ -35,25 +28,19 @@ public interface MovieMapper {
         return value.getId();
     }
 
-    default List<Country> mapToCountryList(List<Long> countries) {
-        if (Objects.isNull(countries)) {
-            return List.of();
-        }
-        return countries
-                .stream()
-                .map(id -> new Country(id, null))
-                .collect(toList());
-    }
+    @Mappings(@Mapping(target = "id", source = "countryId"))
+    Country longToCountry(Long countryId);
 
-    default List<Genre> mapToGenreList(List<Long> genres) {
-        if (Objects.isNull(genres)) {
-            return List.of();
-        }
-        return genres
-                .stream()
-                .map(id -> new Genre(id.intValue(), null))
-                .collect(toList());
-    }
+    @Mappings(@Mapping(target = "id", source = "genreId"))
+    Genre longToGenre(Long genreId);
+
+    List<Country> mapToCountryList(List<Long> countries);
+
+    List<Genre> mapToGenreList(List<Long> genres);
+
+    List<Long> mapCountryListToIdList(List<Country> value);
+
+    List<Long> mapGenreListToIdList(List<Genre> value);
 
     List<MovieDto> mapToDTOs(List<Movie> movie);
 }

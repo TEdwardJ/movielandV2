@@ -27,4 +27,5 @@ public class DefaultReviewService implements ReviewService {
     public List<Review> getReviewsByMovieId(long id) {
         return dao.getReviewsByMovieId(id);
     }
+
 }

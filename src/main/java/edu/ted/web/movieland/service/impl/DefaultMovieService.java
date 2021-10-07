@@ -10,7 +10,9 @@ import edu.ted.web.movieland.util.MovieMapper;
 import edu.ted.web.movieland.web.dto.ChangeMovieDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -21,15 +23,19 @@ import java.util.concurrent.*;
 @RequiredArgsConstructor
 public class DefaultMovieService implements MovieService {
 
-    private final EnrichmentService enrichmentService;
+    private EnrichmentService enrichmentService;
+
     private final MovieMapper movieMapper;
     private final MovieDao dao;
-
-    private final EnrichmentService enrichService;
-
     private final ExecutorService executors = Executors.newCachedThreadPool();
 
     private final CachedCurrencyService currencyService;
+
+    @Override
+    @Autowired
+    public void setEnrichmentService(EnrichmentService enrichmentService) {
+        this.enrichmentService = enrichmentService;
+    }
 
     public List<Movie> findAll(MovieRequest request) {
         return dao.findAll(request.getSorting());
@@ -44,6 +50,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @Transactional(value="transactionManager", readOnly = true)
     public Optional<Movie> getMovieById(GetMovieRequest request) {
         return dao
                 .getMovieById(request.getMovieId())
@@ -54,8 +61,8 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public Movie saveOrUpdate(ChangeMovieDto movie) {
-        return dao.saveOrUpdate(movieMapper.mapChangeMovieDtoToMovie(movie));
+    public ChangeMovieDto saveOrUpdate(ChangeMovieDto movie) {
+        return movieMapper.mapMovieToChangeMovieDto(dao.saveOrUpdate(movieMapper.mapChangeMovieDtoToMovie(movie)));
     }
 
     private void convertCurrency(Movie movie, Currency currency) {
