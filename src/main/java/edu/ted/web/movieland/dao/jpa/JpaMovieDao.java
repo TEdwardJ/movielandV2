@@ -36,6 +36,9 @@ public class JpaMovieDao implements MovieDao {
     private JpaMovieDaoHelper jpaMovieDaoHelper = new JpaMovieDaoHelper();
 
     @Autowired
+    private MovieDao movieDao;
+
+    @Autowired
     private MovieMapper mapper;
 
     @PostConstruct
@@ -50,8 +53,20 @@ public class JpaMovieDao implements MovieDao {
     }
 
     @Override
+    @Cacheable(cacheNames = "findMoviesByGenreQueriesCache")
+    public CriteriaQuery<Movie> createMoviesByGenreQuery(Sorting sorting) {
+        return jpaMovieDaoHelper.createMoviesByGenreQuery(sorting);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "findAllMoviesQueriesCache")
+    public CriteriaQuery<Movie> createFindAllMoviesQuery(Sorting sorting) {
+        return jpaMovieDaoHelper.createFindAllMoviesQuery(sorting);
+    }
+
+    @Override
     public List<Movie> findAll(Sorting sorting) {
-        return getQuery(jpaMovieDaoHelper.createFindAllMoviesQuery(sorting))
+        return getQuery(movieDao.createFindAllMoviesQuery(sorting))
                 .getResultList();
     }
 
@@ -64,7 +79,7 @@ public class JpaMovieDao implements MovieDao {
 
     @Override
     public List<Movie> getMoviesByGenre(long genreId, Sorting sorting) {
-        return getQuery(jpaMovieDaoHelper.createMoviesByGenreQuery(sorting))
+        return getQuery(movieDao.createMoviesByGenreQuery(sorting))
                 .setParameter(genreIdParameter, genreId)
                 .getResultList();
     }
@@ -86,9 +101,8 @@ public class JpaMovieDao implements MovieDao {
         return entityManager.createQuery(movieQuery);
     }
 
-    protected class JpaMovieDaoHelper {
+    public class JpaMovieDaoHelper {
 
-        @Cacheable(cacheNames = "findMoviesByGenreQueriesCache")
         public CriteriaQuery<Movie> createMoviesByGenreQuery(Sorting sorting) {
             CriteriaQuery<Movie> findMoviesByGenreQuery = criteriaBuilder.createQuery(Movie.class);
             Root<Movie> findMoviesByGenreRoot = findMoviesByGenreQuery.from(Movie.class);
@@ -98,7 +112,6 @@ public class JpaMovieDao implements MovieDao {
             return findMoviesByGenreQuery.where(criteriaBuilder.equal(genresJoin.get("id"), genreIdParameter));
         }
 
-        @Cacheable(cacheNames = "findAllMoviesQueriesCache")
         public CriteriaQuery<Movie> createFindAllMoviesQuery(Sorting sorting) {
             CriteriaQuery<Movie> findAllMoviesQuery = criteriaBuilder.createQuery(Movie.class);
             Root<Movie> findAllMoviesRoot = findAllMoviesQuery.from(Movie.class);

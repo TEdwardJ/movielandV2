@@ -27,7 +27,6 @@ public class DefaultMovieService implements MovieService {
 
     private final MovieMapper movieMapper;
     private final MovieDao dao;
-    private final ExecutorService executors = Executors.newCachedThreadPool();
 
     private final CachedCurrencyService currencyService;
 
