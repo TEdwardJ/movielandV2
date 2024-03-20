@@ -12,7 +12,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
-@Configuration()
+@Configuration
 @ComponentScan(basePackages = {
         "edu.ted.web.movieland.service",
         "edu.ted.web.movieland.service.impl",
@@ -22,7 +22,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @PropertySource("classpath:application.properties")
 @EnableScheduling
 @EnableCaching
-@Import(DBConfiguration.class)
 public class MovieLandJavaConfiguration {
 
     @Bean

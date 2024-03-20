@@ -13,7 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <lombok.version>1.18.16</lombok.version>
         <spring.version>5.3.1</spring.version>
-        <testcontainers.version>1.15.0</testcontainers.version>
+        <testcontainers.version>1.19.7</testcontainers.version>
         <flyway-core.version>7.5.3</flyway-core.version>
     </properties>
 

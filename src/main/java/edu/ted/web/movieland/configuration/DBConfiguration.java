@@ -18,11 +18,16 @@ import java.util.Properties;
 public class DBConfiguration {
 
     @Bean
+    public HikariConfig config() {
+        return new HikariConfig();
+    }
+
+    @Bean
     public DataSource dataSource(@Value("${dataSource.url}") String url,
                                  @Value("${dataSource.dataSourceClassName:}") String dataSourceClassName,
                                  @Value("${dataSource.username}") String userName,
-                                 @Value("${dataSource.password}") String password) {
-        HikariConfig hikariConfig = new HikariConfig();
+                                 @Value("${dataSource.password}") String password,
+                                 HikariConfig hikariConfig) {
 
         hikariConfig.setJdbcUrl(url);
         hikariConfig.setUsername(userName);

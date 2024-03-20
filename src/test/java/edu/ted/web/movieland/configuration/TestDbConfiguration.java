@@ -5,14 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 
 import javax.sql.DataSource;
 import java.util.Map;
 
 @Slf4j
 @Configuration
+@Import(DBConfiguration.class)
 public class TestDbConfiguration {
 
     private final String testUserEmail;
@@ -22,7 +22,7 @@ public class TestDbConfiguration {
     }
 
     @Bean(autowireCandidate = false, initMethod = "migrate")
-    @Qualifier("flywayTest")
+    @Qualifier("flyway")
     public Flyway flyway(DataSource dataSource) {
         var sole = GeneralUtils.generateStringWithLettersAndNumbers(10);
         var encryptedPassword = GeneralUtils.getEncrypted(testUserPassword() + sole);
